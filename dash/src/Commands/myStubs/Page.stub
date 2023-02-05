@@ -1,0 +1,51 @@
+<?php
+namespace {{namespace}};
+//use App\Models\ModelName;
+use Dash\Pages;
+
+class {{name}} extends Pages {
+
+	//public static $model    = ModelName::class ;
+	public static $icon     = '<i class="fa fa-file"></i>';
+	public static $position = 'top';// top|bottom
+
+
+	/**
+	 * Rule List array
+	 * @return array
+	 */ 
+	public static function rule() {
+		return [
+			//'name' => 'required|string',
+		];
+	}
+
+	/**
+	 * Nicename Fields
+	 * @return array
+	 */ 
+	public static function attribute() {
+		return [
+			//'name' => 'Name',
+		];
+	}
+
+	/**
+	 * custom page name 
+	 * @return string 
+	 */
+	public static function pageName() {
+		return '{{name}}';
+	}
+
+	/**
+	 * custom content page 
+	 * @return you can ini view method to render blade file 
+	 */ 
+	public static function content() {
+		return view('{{name}}', [
+				'title'    => static ::pageName(),
+				//'{{name}}' => ModelName::find(1),
+			]);
+	}
+}

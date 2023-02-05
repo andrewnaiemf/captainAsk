@@ -1,0 +1,45 @@
+@if($field['show_rules']['showInUpdate'])
+@php
+if(isset($field['valueWhenUpdate'])){
+$value = $field['valueWhenUpdate'];
+}elseif(isset($field['value'])){
+$value = $field['value'];
+}else{
+$value = $model->{$field['attribute']};
+}
+
+@endphp
+@if(isset($field['translatable']) && count($field['translatable']) > 0)
+ @include('dash::resource.renderElements.text.update_translatable')
+@else
+<div class="col-{{ isset($field['columnWhenUpdate'])?$field['columnWhenUpdate']:$field['column'] }}">
+	<div class="form-group my-3 box_{{ $field['attribute'] }}">
+		<label for="{{ $field['attribute'] }}"
+		class="text-dark text-capitalize">{{ $field['name'] }}
+		@if(isset($field['rule']) && in_array('required',$field['rule']) || isset($field['ruleWhenUpdate']) && in_array('required',$field['ruleWhenUpdate']))
+		<span class="text-danger text-sm">*</span>
+		@endif
+		</label>
+		<input type="text"
+		name="{{ $field['attribute'] }}"
+		placeholder="{{ isset($field['placeholder'])?$field['placeholder']:$field['name'] }}"
+		{{ isset($field['textAlign'])?'style="text-align:'.$field['textAlign'].'"':'' }}
+		{{ isset($field['readonly'])?'readonly':'' }}
+		{{ isset($field['disabled'])?'disabled':'' }}
+
+		{{ isset($field['disabledIf']) && $field['disabledIf']?'disabled':'' }}
+		{{ isset($field['readOnlyIf']) && $field['readOnlyIf']?'readonly':'' }}
+
+
+		class="form-control border p-2
+		{{ isset($field['hideIf']) && $field['hideIf']?'d-none':'' }}
+		 {{ $field['attribute'] }} {{ $errors->has($field['attribute'])?'is-invalid':'' }}"
+		id="{{ $field['attribute'] }}"
+		value="{{ $value }}" />
+		@error($field['attribute'])
+		<p class="invalid-feedback">{{ $message }}</p>
+		@enderror
+	</div>
+</div>
+@endif
+@endif

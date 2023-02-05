@@ -1,0 +1,7 @@
+<?php
+namespace {{namespace}};
+use Dash\Policies\Policy;
+
+class {{name}} extends Policy {
+	protected $resource = '{{resource}}';
+}

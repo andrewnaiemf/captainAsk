@@ -1,0 +1,45 @@
+<script type="text/javascript">
+$(document).ready(function(){
+ $(document).on('click','.deleteRow{{ $resourceName }}',function(){
+   $('.rowDeleteForm{{ $resourceName }}').attr('action',$(this).attr('action'));
+   $('.rowselect_data{{ $resourceName }}')
+   .html('{{ __('dash::dash.ask_delete') }} '+$(this).attr('rowid')+'');
+  $('#rowDelete{{ $resourceName }}').modal('show');
+  return false;
+ });
+});
+</script>
+<div class="modal fade" id="rowDelete{{ $resourceName }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i data-bs-dismiss="modal"  style="cursor: pointer;" class="fa fa-times"></i>
+      </div>
+      <div class="modal-body">
+        <form role="from" class="text-start rowDeleteForm{{ $resourceName }}"  method="post">
+          <div class="input-group input-group-outline my-3">
+            <span class="rowselect_data{{ $resourceName }}"></span>
+          </div>
+          <div class="text-center">
+            <div class="row">
+              <div class="col-8">
+                <button type="submit" class="btn btn-danger">{{__('dash::dash.delete')}}</button>
+                <button type="button"  data-bs-dismiss="modal" class="btn btn-default">{{__('dash::dash.cancel')}}</button>
+              </div>
+              <div class="col-4">
+                @if($pagesRules['forceDelete'] && method_exists($resource['model'],'trashed'))
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" name="forceDelete" value="yes" id="forceDelete">
+                  <label class="form-check-label mb-0 ms-3" for="forceDelete">{{ __('dash::dash.forceDelete') }}</label>
+                </div>
+                @endif
+              </div>
+            </div>
+          </div>
+          @csrf
+          <input type="hidden" name="_method" value="delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

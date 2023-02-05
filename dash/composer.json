@@ -1,0 +1,37 @@
+{
+    "name": "phpanonymous/dash",
+    "description": "On-demand operation",
+     "keywords": ["api","dashboard", "laravel","generate","auto","automatic","dash"],
+      "authors":[
+    {
+        "name":"Mahmoud Ibrahim",
+        "email":"php.anonymous1@gmail.com",
+        "homepage":"https://github.com/arabnewscms"
+    }
+    ],"require": {
+         "jeremeamia/superclosure": "^2.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dash\\": "src/"
+        },
+        "files":[
+            "src/Helper.php"
+        ]
+    },
+  "extra": {
+    "branch-alias": {
+            "dev-master": "1.0.19.x-dev"
+    },
+    "laravel": {
+        "providers": [
+         "Dash\\PublishAndCommandsProvider"
+        ],
+        "aliases": {
+          
+        }
+    }
+  },
+  "version":"1.0.19" 
+}
