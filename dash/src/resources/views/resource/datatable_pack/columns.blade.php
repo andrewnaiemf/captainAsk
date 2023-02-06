@@ -14,7 +14,7 @@
       },
 @endif
 
-    @foreach($fields as $field)
+    @foreach($fields as $index => $field)
     @if($field['show_rules']['showInIndex'])
       @if($field['type'] == 'image')
       {
@@ -23,16 +23,16 @@
         searchable:false,
         render: function(data,type,full,meta){
           var imageCol  = data.{{ $field['attribute'] }};
-
+          var image_last_10_chars = imageCol.substr(imageCol.length-10);
           if(Object.keys(imageCol.trim()).length > 0){
             var imageLink = getImageURL(imageCol);
-            modalImage(imageLink,data.id);
+            modalImage(imageLink,{{$index}});
             return `
             <img class="img-fluid rounded-circle img-thumbnail"
              src="`+imageLink+`" alt="image"
              style="cursor: pointer;width:48px;height:48px"
              data-bs-toggle="modal"
-             data-bs-target="#avatar_image{{ $resourceName }}`+data.id+`">
+             data-bs-target="#avatar_image{{ $resourceName }}`+{{$index}}+`">
             `;
           }else{
             return '-';

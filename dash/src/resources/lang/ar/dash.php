@@ -47,7 +47,7 @@ return [
 	"search_not_found"                    => "لا يوجد نتائج",
 	"Show_All_Notifications"              => "عرض كل الاشعارات",
 	"choose_from_list"                    => "اختر من القائمة",
-	"id"                                  => "معرف",
+	"id"                                  => "الرقم",
 	// create method from resource
 	'add_new'             => 'اضافة جديدة',
 	'add'                 => 'اضافة ',
@@ -88,4 +88,5 @@ return [
 	'none_data'                      => 'اضف بطاقة إلى فئة لوحة القيادة الخاصة بك',
 	'attention'                      => 'انتبه',
 	'need_permission_to_access_page' => 'تحتاج الى اذن من للوصول لهذه الصفحة او ان الصفحة غير موجودة',
+
 ];

@@ -155,7 +155,7 @@
                 </a>
               </li>
 
-              @if(!empty($DASHBOARD_LANGUAGES) && count($DASHBOARD_LANGUAGES) > 1)
+              {{--  @if(!empty($DASHBOARD_LANGUAGES) && count($DASHBOARD_LANGUAGES) > 1)
           <!-- DASHBOARD_LANGUAGES -->
           <li class="nav-item dropdown px-2 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -178,7 +178,7 @@
             </ul>
           </li>
           <!-- DASHBOARD_LANGUAGES End -->
-          @endif
+          @endif  --}}
 
               <li class="nav-item dropdown px-2 d-flex align-items-center">
                 <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -242,7 +242,7 @@
       <div class="container-fluid" style="display: block">
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-lg-12 mb-lg-0 mb-4">
-            <div class="copyright text-center text-sm text-muted {{ app()->getLocale() == 'ar'?'text-lg-end':'text-lg-start' }}">
+            {{--  <div class="copyright text-center text-sm text-muted {{ app()->getLocale() == 'ar'?'text-lg-end':'text-lg-start' }}">
               @if(!empty(config('dash.copyright')))
 
               <a href="{{config('dash.copyright.link')}}" class="font-weight-bold" target="_blank">{!! config('dash.copyright.copyright_text') !!}</a>
@@ -252,7 +252,7 @@
               Dashboard <i class="fa fa-heart"></i> by
               <a href="https://phpdash.com/page/team" class="font-weight-bold" target="_blank">Dash , Mahmoud Ibrahim , Ahmed Mostafa , Hussein Mostafa , Enas ELlithy (V{{ Composer\InstalledVersions::getVersion('phpanonymous/dash') }})</a>
               @endif
-            </div>
+            </div>  --}}
           </div>
           <div class="col-lg-12">
             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
@@ -315,3 +315,4 @@ $('.{{ $rk }}').val('{{ $rv }}').trigger('change');
 @stack('js')
 </body>
 </html>
+

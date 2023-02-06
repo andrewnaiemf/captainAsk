@@ -5,7 +5,7 @@
     </a>
     <a class="navbar-brand m-0" href="{{ url($DASHBOARD_PATH) }}" >
       @if(!empty($DASHBOARD_ICON))
-      <img src="{{ $DASHBOARD_ICON??url('dashboard//assets/img/logo-ct.png') }}" class="navbar-brand-img h-100" alt="main_logo">
+      <img src="{{asset('dashboard//assets/img/captainAsk.png')}}" class="navbar-brand-img h-100" alt="main_logo">
       @else
       <i class="fa fa-dashboard text-white {{ request()->segment(2) == 'dashboard'?'opacity-10':'opacity-5' }}"></i>
       @endif
