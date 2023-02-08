@@ -72,11 +72,11 @@
                       <a href="{{ url('dashboard') }}/pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                     </p> --}}
               @if(!empty($DASHBOARD_LANGUAGES) && count($DASHBOARD_LANGUAGES) > 1)
-              @foreach($DASHBOARD_LANGUAGES as $key=>$value)
+              {{--  @foreach($DASHBOARD_LANGUAGES as $key=>$value)
                <a href="{{ url($DASHBOARD_PATH.'/change/language/'.$key) }}">
                   <small>{{ $value }}</small>
                 </a>,
-              @endforeach
+              @endforeach  --}}
               @endif
                   </form>
                 </div>
@@ -98,7 +98,7 @@
               <a href="{{config('dash.copyright.link')}}" class="font-weight-bold" target="_blank">{!! config('dash.copyright.copyright_text') !!}</a>
 
               @else
-                    <a href="https://phpdash.com" class="nav-link text-white" target="_blank">By Mahmoud Ibrahim - dash    </a>
+                    {{--  <a href="https://phpdash.com" class="nav-link text-white" target="_blank">By Mahmoud Ibrahim - dash    </a>  --}}
               @endif
                   </li>
                 </ul>

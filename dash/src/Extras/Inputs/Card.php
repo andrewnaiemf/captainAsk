@@ -2,6 +2,7 @@
 namespace Dash\Extras\Inputs;
 
 class Card {
+	protected static $link     = '';
 	protected static $title     = '';
 	protected static $style     = '';
 	protected static $footer    = '';
@@ -9,6 +10,11 @@ class Card {
 	protected static $content   = '';
 	protected static $iconColor = '';
 	protected static $column    = '3';
+
+    public static function link($link) {
+		static ::$link = !is_object($link)?$link:$link();
+		return new static ;
+	}
 
 	public static function title($title) {
 		static ::$title = !is_object($title)?$title:$title();
@@ -27,7 +33,7 @@ class Card {
 
 	public static function color($iconColor) {
 		$iconColor          = !is_object($iconColor)?$iconColor:$iconColor();
-		static ::$iconColor = in_array($iconColor, ['primary', 'success', 'dark', 'info'])?$iconColor:'info';
+		static ::$iconColor = in_array($iconColor, ['primary', 'success', 'dark', 'info','warning'])?$iconColor:'info';
 		return new static ;
 	}
 
@@ -50,6 +56,7 @@ class Card {
 
 	public static function render() {
 		return view('dash::cards.'.static ::$style.'_card', [
+				'link'     => static ::$link,
 				'title'     => static ::$title,
 				'footer'    => static ::$footer,
 				'icon'      => static ::$icon,

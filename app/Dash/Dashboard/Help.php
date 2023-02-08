@@ -43,7 +43,7 @@ class Help extends Resource {
 					return '<i class="fas fa-shipping-fast"></i>';
 				})
 				->content(function () {
-					return 0;
+					return User::where('account_type', 'captain')->count();
 				})
 				->color(function () {
 					return 'primary';

@@ -7,6 +7,8 @@ use App\Dash\Resources\AdminGroups;
 use App\Dash\Resources\Admins;
 use App\Dash\Resources\Users;
 use App\Dash\Resources\Advertisements;
+use App\Dash\Resources\Generalization;
+use App\Dash\Resources\Captains;
 use Dash\DashServiceProviderInit;
 
 class DashServiceProvider extends DashServiceProviderInit {
@@ -28,7 +30,9 @@ class DashServiceProvider extends DashServiceProviderInit {
 	public function resources() {
 		return [
 			Users::class,
-            Advertisements::class
+            Captains::class,
+            Advertisements::class,
+            Generalization::class,
 			// Admins::class,
 			// AdminGroups::class,
 			// AdminGroupRoles::class,

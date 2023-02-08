@@ -17,7 +17,7 @@
            <hr />
           <div class="row">
             <div class="col-2">
-            @if($pagesRules['create'])
+            @if($pagesRules['create'] &&( !in_array($resourceName ,['Captains','Users'])))
              <a href="{{ url(app('dash')['DASHBOARD_PATH'].'/resource/'.$resourceName.'/new') }}" class="btn btn-info"><i class="fa fa-plus"></i> {{ __('dash::dash.create') }}</a>
             @endif
           </div>

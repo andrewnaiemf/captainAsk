@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
        App\Providers\DashServiceProvider::class ,
+       Yajra\DataTables\DataTablesServiceProvider::class,
+
 
 
     ],

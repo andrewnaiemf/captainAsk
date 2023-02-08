@@ -155,7 +155,7 @@
                 </a>
               </li>
 
-              {{--  @if(!empty($DASHBOARD_LANGUAGES) && count($DASHBOARD_LANGUAGES) > 1)
+              @if(!empty($DASHBOARD_LANGUAGES) && count($DASHBOARD_LANGUAGES) > 1)
           <!-- DASHBOARD_LANGUAGES -->
           <li class="nav-item dropdown px-2 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -178,7 +178,7 @@
             </ul>
           </li>
           <!-- DASHBOARD_LANGUAGES End -->
-          @endif  --}}
+          @endif
 
               <li class="nav-item dropdown px-2 d-flex align-items-center">
                 <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
