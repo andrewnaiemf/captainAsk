@@ -46,25 +46,25 @@ class CaptainController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request ,$type)
-    {
+    // public function show(Request $request ,$type)
+    // {
 
-        if ($request->ajax()) {
-            $data = Captain::where('account_type','captain');
-            return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
+    //     if ($request->ajax()) {
+    //         $data = Captain::where('account_type','captain');
+    //         return Datatables::of($data)
+    //                 ->addIndexColumn()
+    //                 ->addColumn('action', function($row){
 
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+    //                        $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
 
-                            return '';
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-        }
+    //                         return '';
+    //                 })
+    //                 ->rawColumns(['action'])
+    //                 ->make(true);
+    //     }
 
-        return view('Dashboard.Captain.index',compact('type'));
-    }
+    //     return view('Dashboard.Captain.index',compact('type'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

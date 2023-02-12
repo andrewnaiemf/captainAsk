@@ -3,7 +3,8 @@ namespace App\Dash\Resources;
 use Dash\Resource;
 use Dash\Extras\Inputs\Card;
 use Illuminate\Validation\Rule;
-
+use App\Dash\Resources\CaptainDocument;
+use App\Dash\Filters\CaptainType;
 class Captains extends Resource {
 
 	/**
@@ -88,7 +89,7 @@ class Captains extends Resource {
             ->column(3)
             ->icon('<i class="fa fa-shipping-fast"></i>')
             ->content(function () {
-                return static:: $model::where('account_type', 'captain')->count();
+                return static:: $model::where(['account_type' => 'captain' , 'status' => 'New'])->count();
             })
             ->color('primary') // primary,success,dark,info,
             ->render(),
@@ -99,7 +100,7 @@ class Captains extends Resource {
             ->column(3)
             ->icon('<i class="fa fa-shipping-fast"></i>')
             ->content(function () {
-                return static:: $model::where('account_type', 'captain')->count();
+                return static:: $model::where(['account_type' => 'captain' , 'status' => 'Accepted'])->count();
             })
             ->color('success') // primary,success,dark,info,
             ->render(),
@@ -109,7 +110,7 @@ class Captains extends Resource {
             ->column(3)
             ->icon('<i class="fa fa-shipping-fast"></i>')
             ->content(function () {
-                return static:: $model::where('account_type', 'captain')->count();
+                return static:: $model::where(['account_type' => 'captain' , 'status' => 'Rejected'])->count();
             })
             ->color('dark') // primary,success,dark,info,
             ->render(),
@@ -119,7 +120,7 @@ class Captains extends Resource {
             ->column(3)
             ->icon('<i class="fa fa-shipping-fast"></i>')
             ->content(function () {
-                return static:: $model::where('account_type', 'captain')->count();
+                return static:: $model::where(['account_type' => 'captain' , 'status' => 'Pending'])->count();
             })
             ->color('warning') // primary,success,dark,info,
             ->render(),
@@ -134,23 +135,41 @@ class Captains extends Resource {
 	 */
 	public function fields() {
 		return [
-            id()   ->make('ID', 'id')->showInShow(),
-			text() ->make('User Name', 'name')
-			       ->ruleWhenCreate('string', 'min:4')
-			       ->ruleWhenUpdate('string', 'min:4')
-			       ->columnWhenCreate(6)
-			       ->showInShow(),
-			email()->make('Email Address', 'email')
-			       ->ruleWhenUpdate(['required',
-					'email' => [Rule::unique('users')->ignore($this->id)],
-					// 'unique:users,email,'.$this->id,
+            id()
+                ->make('#', 'id')
+                ->showInShow(),
+			text()
+                ->make(__('dash.name'), 'name')
+                ->ruleWhenCreate('string', 'min:4')
+                ->ruleWhenUpdate('string', 'min:4')
+                ->columnWhenCreate(6)
+                ->showInShow(),
+			email()
+                ->make(__('dash.Email_Address'), 'email')
+                ->ruleWhenUpdate(['required',
+                'email' => [Rule::unique('users')->ignore($this->id)],
+                // 'unique:users,email,'.$this->id,
 
 				])->ruleWhenCreate('unique:users', 'email'),
 			password()
-			->make('Password', 'password')
-			->hideInUpdate()
-			->hideInShow()
-			->hideInIndex(),		];
+                ->make('Password', 'password')
+                ->hideInUpdate()
+                ->hideInShow()
+                ->hideInIndex(),
+            hasMany()
+                ->make(__('dash.captains.Captain_Document'), 'documents', CaptainDocument::class)
+                ->hideInIndex(),
+                select()
+                    ->make('الحالة','status')
+                    ->options([
+                        'New'    => __('dash.captains.New_Captain'),
+                        'Pending'    => __('dash.captains.Pending_Captain'),
+                        'Accepted'=> __('dash.captains.Accepted_Captain'),
+                        'Rejected'=>__('dash.captains.Refused_Captain'),
+
+                    ]),
+
+        ];
 	}
 
 	/**
@@ -169,7 +188,7 @@ class Captains extends Resource {
 	 */
 	public function filters() {
 		return [
-            // App\Dash\Filters\CaptainType::class
+            CaptainType::class
         ];
 	}
 

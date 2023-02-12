@@ -27,6 +27,7 @@ class Captain extends Authenticatable {
 		'created_at',
 		'updated_at',
 		'deleted_at',
+        'status'
 	];
 
 	protected $deleted_at = 'deleted_at';
@@ -70,7 +71,54 @@ class Captain extends Authenticatable {
 		return $this->belongsTo(AdminGroup::class, 'admin_group_id');
 	}
 
-    public function captainDetails(){
-        return $this->hasOne(CaptainDetails::class);
+    public function documents(){
+        return $this->hasMany(CaptainDocument::class);
     }
+
+
+    public function getStatusAttribute()
+    {
+
+        if($this->attributes['status'] == 'Accepted'){
+            return 'Accepted' ;
+        }
+
+        $documents = $this->documents()->pluck('status','type');
+
+        // Initialize a counter for each status value
+        $acceptedCount = 0;
+        $rejectedCount = 0;
+
+
+        // Loop through the related rows and count the occurrences of each status value
+        foreach ($documents as $document) {
+            switch ($document) {
+                case 'Accepted' :
+                    $acceptedCount++ ;
+                break;
+
+                case 'Rejected' :
+                    $rejectedCount++ ;
+                break;
+            }
+        }
+
+        $status = 'Pending' ;
+
+
+        if (   $acceptedCount == 6 && $rejectedCount == 0 ) {
+            $status = 'Accepted' ;
+        }
+        elseif ( $rejectedCount > 0 )
+        {
+            $status = 'Rejected' ;
+
+        }
+        $this->attributes['status'] =  $status ;
+
+        $this->save() ;
+
+        return $status ;
+    }
+
 }

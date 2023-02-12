@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('dash.auth')->group(
-    function () {
-        Route::get('captainAsk/resource/Captains/{type}', [CaptainController::class, 'show']);
-});
+// Route::middleware('dash.auth')->group(
+//     function () {
+//         Route::get('captainAsk/resource/Captains/{type}', [CaptainController::class, 'show']);
+// });
 
