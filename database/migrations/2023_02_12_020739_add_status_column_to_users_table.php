@@ -15,6 +15,7 @@ class AddStatusColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->enum('status',['New','Pending','Rejected','Accepted'])->default('New')->after('account_type');
+            $table->longText('device_token')->after('id');
         });
     }
 
@@ -27,6 +28,7 @@ class AddStatusColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropColumn('device_token');
         });
     }
 }

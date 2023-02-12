@@ -1,31 +1,30 @@
 <?php
 namespace Dash\Controllers\Traits\ControllerMethods;
 use Dash\RenderableElements\Element;
-
+use App\Models\Captain;
 trait StoreCreateMethods {
 
+    use GeneralizationNotification;
 	/**
 	 * create method to render Elements And relationship from resource
 	 * @return view renderable
 	 */
-	public
-
-function create() {
-		$admin    = auth()->guard('dash')->user();
-		$elements = (new Element($this->fields(), app($this->resource['model']), 'create'))->render();
-		return view('dash::resource.create.create', [
-				'resource'          => $this->resource,
-				'resourceName'      => $this->resource['resourceName'],
-				'title'             => $this->title.' / '.__('dash::dash.add_new'),
-				'relationTypes'     => $this->relationTypes,
-				'relationManyTypes' => $this->relationManyTypes,
-				'relationOneTypes'  => $this->relationOneTypes,
-				'pagesRules'        => $this->pagesRules($admin),
-				'fields'            => $elements,
-				'filters'           => $this->prepare_filters(),
-				'actions'           => $this->prepare_actions(),
-				'breadcrumb'        => $this->bread(),
-			]);
+	public function create() {
+        $admin    = auth()->guard('dash')->user();
+        $elements = (new Element($this->fields(), app($this->resource['model']), 'create'))->render();
+        return view('dash::resource.create.create', [
+            'resource'          => $this->resource,
+            'resourceName'      => $this->resource['resourceName'],
+            'title'             => $this->title.' / '.__('dash::dash.add_new'),
+            'relationTypes'     => $this->relationTypes,
+            'relationManyTypes' => $this->relationManyTypes,
+            'relationOneTypes'  => $this->relationOneTypes,
+            'pagesRules'        => $this->pagesRules($admin),
+            'fields'            => $elements,
+            'filters'           => $this->prepare_filters(),
+            'actions'           => $this->prepare_actions(),
+            'breadcrumb'        => $this->bread(),
+        ]);
 	}
 
 	public function store() {
@@ -53,6 +52,11 @@ function create() {
 
 		$model = $this->beforeStore($model);
 
+        if( $this->resource['model'] == 'App\Models\Generalization' )
+        {
+            $captains = Captain::where(['status'=>'Accepted','account_type'=>'captain'])->pluck('device_token');
+            $this->sendNotification($captains);
+        }
 		// dropzone
 		// rename or move files from tempfile Folder after Add record
 		if (request("dz_type") == "create") {
