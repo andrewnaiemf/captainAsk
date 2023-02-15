@@ -53,7 +53,7 @@ class CaptainDocument extends Resource {
 	 * @param static property array
 	 */
 	public static $search = [
-		'id',
+		'id','name'
 	];
 
 	/**
@@ -62,7 +62,7 @@ class CaptainDocument extends Resource {
 	 * 	Example: method=> 'invoices'  => columns=>['title'],
 	 * @param static array
 	 */
-	public static $searchWithRelation = [];
+	public static $searchWithRelation = ['captain'=>['name']];
 
 	/**
 	 * if you need to custom resource name in menu navigation
@@ -98,7 +98,7 @@ class CaptainDocument extends Resource {
             select()
                 ->make(__('dash.status'),'status')
                     ->options([
-                        'Panding'=>__('dash.captains.Pending_Captain'),
+                        'Pending'=>__('dash.captains.Pending_Captain'),
                         'Accepted'=> __('dash.captains.Accepted_Captain'),
                         'Rejected'=>__('dash.captains.Refused_Captain'),
                         'New'    => __('dash.captains.New_Captain'),

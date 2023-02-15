@@ -13,7 +13,7 @@ class DocumentStatus extends Action {
 		//Example
 		return [
 			'status' => [
-                'Panding'=>['Panding' => ['success'=>'updated sccessfully']],
+                'Pending'=>['Pending' => ['success'=>'updated sccessfully']],
                 'Accepted'=>['Accepted' => ['success'=>'updated sccessfully']],
                 'Rejected'=>['Rejected' => ['success'=>'updated sccessfully']],
 			],

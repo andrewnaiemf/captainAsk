@@ -99,9 +99,9 @@ class Captain extends Authenticatable  implements JWTSubject{
     public function getStatusAttribute()
     {
 
-        if($this->attributes['status'] == 'Accepted'){
-            return 'Accepted' ;
-        }
+         if($this->attributes['status'] == 'Accepted'){
+             return 'Accepted' ;
+         }
 
         $documents = $this->documents()->pluck('status','type');
 
@@ -122,16 +122,19 @@ class Captain extends Authenticatable  implements JWTSubject{
                 break;
             }
         }
-
         $status = 'Pending' ;
 
 
         if (   $acceptedCount == 6 && $rejectedCount == 0 ) {
             $status = 'Accepted' ;
         }
-        elseif ( $rejectedCount > 0 )
+        elseif ( $rejectedCount == 6 )
         {
             $status = 'Rejected' ;
+
+        }elseif($rejectedCount < 6)
+        {
+            $status = 'Pending' ;
 
         }
         $this->attributes['status'] =  $status ;
