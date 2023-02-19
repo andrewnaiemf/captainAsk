@@ -17,7 +17,7 @@ class GetUpdates extends Command {
 	protected $url = 'https://phpdash.com';
 	protected $checking = 'updates/check';
 	protected $access_key;
-	protected $current_version;
+	protected $current_version = 1;
 	/**
 	 * The console command description.
 	 *
@@ -32,8 +32,8 @@ class GetUpdates extends Command {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->access_key = config('dash.DASH_ACCESS_KEY');
-		$this->current_version = substr(InstalledVersions::getVersion('phpanonymous/dash'), 0, -2);
+		$this->access_key = '';
+		$this->current_version = 1 ;
 	}
 
 	public function statusConnect() {
