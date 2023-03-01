@@ -19,8 +19,11 @@ class User extends Authenticatable implements JWTSubject{
 	 */
 	protected $fillable = [
 		'id',
-		'name',
+		'f_name',
+		'l_name',
 		'email',
+        'phone',
+        'verified',
 		'password',
 		'account_type', // admin | user
 		'admin_group_id', // admin_group_id
@@ -28,6 +31,9 @@ class User extends Authenticatable implements JWTSubject{
 		'updated_at',
 		'deleted_at',
 	];
+
+    protected $visible = ['id', 'f_name', 'l_name', 'phone','captainDetail'];
+
 
 	protected $deleted_at = 'deleted_at';
 
@@ -90,5 +96,10 @@ class User extends Authenticatable implements JWTSubject{
 	public function admingroup() {
 		return $this->belongsTo(AdminGroup::class, 'admin_group_id');
 	}
+
+
+    public function captainDetail(){
+        return $this->hasOne(CaptainDetails::class, 'user_id');
+    }
 
 }
