@@ -3,27 +3,19 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Captain;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Traits\GeneralTrait;
 use App\Models\User;
 use App\Models\CaptainDetails;
-use Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class AuthController extends Controller
 {
     use GeneralTrait;
-
-     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
-    }
 
 
     public function register(Request $request)
@@ -39,30 +31,43 @@ class AuthController extends Controller
            return response()->json(['error'=>$validator->errors()], 401);
         }
 
-        $user=User::create([
-            'f_name' => $request->f_name,
-            'l_name' => $request->l_name,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-
-        ]);
-
-
         if ( $request->earn_area ) {
+
+            $user=Captain::create([
+                'f_name' => $request->f_name,
+                'l_name' => $request->l_name,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+
+            ]);
+
             $user->update(['account_type'=>'captain' ]);
 
             $captainDetail = CaptainDetails::create([
                 'earn_area' => $request->earn_area,
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'service_id' => 0
             ]);
-            $user['captainDetail'] =  $captainDetail ;
+
+            $user->load('captainDetail');
+            $user = $user->toArray();
+        }else{
+
+            $user=User::create([
+                'f_name' => $request->f_name,
+                'l_name' => $request->l_name,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+
+            ]);
+
         }
 
         $credentials = $request->only(['phone','password']) ;
 
         $token= JWTAuth::attempt($credentials);
         if (!$token) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return $this->unauthorized();
         }
         // Mail::to($customer->email)->send(new SignupWelcome($customer,$lang));
       return  $this->respondWithToken($token,$user);
@@ -85,10 +90,15 @@ class AuthController extends Controller
         $credentials = request(['phone', 'password']);
 
         if (! $token = JWTAuth::attempt($credentials)) {
-
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return $this->unauthorized();
         }
+
         $user = auth()->user();
+
+        if (auth()->user()->account_type == 'captain') {
+            $user = Captain::find($user->id);
+            $user->load('captainDetail');
+        }
 
         return $this->respondWithToken($token ,$user );
     }
@@ -100,7 +110,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return $this->returnData(['user', auth()->user()]);
     }
 
     /**
@@ -122,7 +132,8 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        $user=User::find(auth()->user()->id);
+        return $this->respondWithToken( $user->refresh(), $user);
     }
 
     /**
@@ -134,11 +145,7 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token,$user)
     {
-        return response()->json([
-            'user'=>$user,
-            'access_token' => $token,
-            // 'token_type' => 'bearer',
-            // 'expires_in' => auth()->factory()->getTTL() * 60,
-        ]);
+        return $this->returnData(['user' => $user , 'access_token' => $token]);
     }
+
 }

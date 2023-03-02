@@ -24,6 +24,8 @@ class User extends Authenticatable implements JWTSubject{
 		'email',
         'phone',
         'verified',
+        'status',
+        'online',
 		'password',
 		'account_type', // admin | user
 		'admin_group_id', // admin_group_id
@@ -32,10 +34,18 @@ class User extends Authenticatable implements JWTSubject{
 		'deleted_at',
 	];
 
-    protected $visible = ['id', 'f_name', 'l_name', 'phone','captainDetail'];
+    protected $visible = ['id', 'f_name', 'l_name', 'verified', 'online' ,'phone'];
 
 
 	protected $deleted_at = 'deleted_at';
+
+    //to arrange the user aattribute and push the id to the beginning of the array
+    public function toArray()
+    {
+        $userArray = parent::toArray();
+        $userArray = array_merge(['id' => $this->id], $userArray);
+        return $userArray;
+    }
 
 	/**
 	 * The attributes that should be hidden for serialization.
@@ -98,8 +108,6 @@ class User extends Authenticatable implements JWTSubject{
 	}
 
 
-    public function captainDetail(){
-        return $this->hasOne(CaptainDetails::class, 'user_id');
-    }
+
 
 }

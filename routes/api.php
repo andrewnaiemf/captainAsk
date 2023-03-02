@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\AdvertisementController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,18 +22,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+
 Route::group([
 
-    'middleware' => 'api',
     'prefix' => 'auth'
 
-], function ($router) {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('logout',  [AuthController::class, 'logout']);
-    Route::post('refresh',  [AuthController::class, 'refresh']);
-    Route::post('me' ,  [AuthController::class, 'me']);
+], function () {
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 });
+
+
 
 Route::group([
 
@@ -40,5 +41,13 @@ Route::group([
     'prefix' => 'auth'
 
 ], function () {
+
+    Route::post('logout',  [AuthController::class, 'logout']);
+    Route::post('refresh',  [AuthController::class, 'refresh']);
+    Route::get('me' ,  [AuthController::class, 'me']);
+
+
+    Route::post('update' ,  [UserController::class, 'update']);
+
     Route::get('advertisements',  [AdvertisementController::class, 'index']);
 });

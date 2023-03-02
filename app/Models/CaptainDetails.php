@@ -9,11 +9,14 @@ class CaptainDetails extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['service_id','earn_area','user_id'];
+    protected $fillable = ['service_id', 'earn_area', 'user_id'];
 
-    public $table = 'captain_details';
+    protected $table = 'captain_details';
+
+    protected $visible = ['id', 'service_id', 'earn_area', 'user_id'];
+
 
     public function user() {
-		return $this->belongsTo(User::class, 'id');
+		return $this->belongsTo(Captain::class, 'id');
 	}
 }

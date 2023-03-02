@@ -18,9 +18,10 @@ class App
      */
     public function handle(Request $request, Closure $next)
     {
-        $lang=$request->header('locale');
-        // \App::setlocale($lang);
-
-        return $next($request);
+        if ( $request->is('api/*') ) {
+            $lang = $request->header('locale') ;
+            app()->setLocale( $lang ) ;
+        }
+        return $next($request) ;
     }
 }

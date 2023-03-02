@@ -13,7 +13,7 @@ class CaptainDocument extends Model
     public $fillable = ['id','name','path','type','status'];
 
     public function captain(){
-        return $this->belongsTo(Captain::Class );
+        return $this->belongsTo(Captain::class );
     }
 
 
