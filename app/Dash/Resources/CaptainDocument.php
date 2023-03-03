@@ -62,7 +62,7 @@ class CaptainDocument extends Resource {
 	 * 	Example: method=> 'invoices'  => columns=>['title'],
 	 * @param static array
 	 */
-	public static $searchWithRelation = ['captain'=>['name']];
+	public static $searchWithRelation = ['captain'=>['f_name']];
 
 	/**
 	 * if you need to custom resource name in menu navigation
@@ -91,7 +91,7 @@ class CaptainDocument extends Resource {
             text()
                 ->make(__('dash.name'),'name'),
             belongsTo()
-                ->make('Captain','captain',Captains::class),
+                ->make(__('dash.Captains'),'captain',Captains::class),
 
             // text()
             //     ->make('status','status'),
@@ -105,7 +105,10 @@ class CaptainDocument extends Resource {
                     ]),
             image()
                 ->make(__('dash.Documents'),'path')
-                ->path('captainDocument/{id}')
+                ->path(function ($model)
+                {
+                    return 'captainDocument/'.$model->captain_id;
+                })
                 ->accept('image/*')
                 ->rule('required','image'),
 		];

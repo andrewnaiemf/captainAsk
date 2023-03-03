@@ -16,6 +16,7 @@ class Captains extends Resource {
 	public function query($model) {
 		return $model->where('account_type', 'captain');
 	}
+	public static $title         = 'f_name';
 
 	/**
 	 * Policy Permission can handel
@@ -50,7 +51,7 @@ class Captains extends Resource {
 	 * title static property to labels in Rows,Show,Forms
 	 * @param static property string
 	 */
-	public static $title = 'name';
+	// public static $title = 'name';
 
 	/**
 	 * defining column name to enable or disable search in main resource page
@@ -58,7 +59,8 @@ class Captains extends Resource {
 	 */
 	public static $search = [
 		'id',
-		'name',
+		'f_name',
+		'l_name',
 	];
 
 	/**
@@ -139,34 +141,42 @@ class Captains extends Resource {
                 ->make('#', 'id')
                 ->showInShow(),
 			text()
-                ->make(__('dash.name'), 'name')
+                ->make(__('dash.fisrtName'), 'f_name')
                 ->ruleWhenCreate('string', 'min:4')
                 ->ruleWhenUpdate('string', 'min:4')
                 ->columnWhenCreate(6)
                 ->showInShow(),
-			email()
-                ->make(__('dash.Email_Address'), 'email')
-                ->ruleWhenUpdate(['required',
-                'email' => [Rule::unique('users')->ignore($this->id)],
-                // 'unique:users,email,'.$this->id,
+            text()
+                ->make(__('dash.lastName'), 'l_name')
+                ->ruleWhenCreate('string', 'min:4')
+                ->ruleWhenUpdate('string', 'min:4')
+                ->columnWhenCreate(6)
+                ->showInShow(),
 
+            number()
+                ->make(__('dash.phone'), 'phone')
+                ->ruleWhenUpdate(['required',
+                'phone' => [Rule::unique('users')->ignore($this->id)],
+                'unique:users,phone,'.$this->id,
 				])->ruleWhenCreate('unique:users', 'email'),
+
 			password()
                 ->make('Password', 'password')
                 ->hideInUpdate()
                 ->hideInShow()
                 ->hideInIndex(),
+
             hasMany()
                 ->make(__('dash.captains.Captain_Document'), 'documents', CaptainDocument::class)
                 ->hideInIndex(),
-                select()
-                    ->make('الحالة','status')
+
+            select()
+                    ->make(__('dash.status'),'status')
                     ->options([
                         'New'    => __('dash.captains.New_Captain'),
                         'Pending'    => __('dash.captains.Pending_Captain'),
                         'Accepted'=> __('dash.captains.Accepted_Captain'),
                         'Rejected'=>__('dash.captains.Refused_Captain'),
-
                     ]),
 
         ];

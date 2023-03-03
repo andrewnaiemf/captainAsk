@@ -4,8 +4,12 @@ return [
 	'admin_groups' => 'مجموعات المشرفين',
 	'admin_group_roles' => 'صلاحيات المجموعات',
     'Advertisements'=> 'الاعلانات',
-    'Captains'=> 'الكابتن',
+    'Captains' => 'الكابتن',
+    'fisrtName' => 'الاسم الاول',
+    'lastName' => 'الاسم الاخير',
+    'phone' => 'رقم الموبايل',
     'status' => 'الحالة',
+    'title' => 'العنوان',
     'Email_Address' => 'البريد الالكتروني' ,
     'name' => ' الاسم' ,
     'advertisements' => [

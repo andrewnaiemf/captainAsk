@@ -10,10 +10,11 @@ class Users extends Resource {
 	public static $group         = 'users';
 	public static $displayInMenu = true;
 	public static $icon          = '<i class="fa fa-users"></i>';
-	public static $title         = 'name';
+	public static $title         = 'fullname';
 	public static $search        = [
 		'id',
-		'name',
+		'f_name',
+		'l_name',
 		'email',
 	];
 	public static $searchWithRelation = [];
@@ -34,18 +35,33 @@ class Users extends Resource {
 
 	public function fields() {
 		return [
-			id()   ->make('ID', 'id')->showInShow(),
-			text() ->make('User Name', 'name')
-			       ->ruleWhenCreate('string', 'min:4')
-			       ->ruleWhenUpdate('string', 'min:4')
-			       ->columnWhenCreate(6)
-			       ->showInShow(),
-			email()->make('Email Address', 'email')
-			       ->ruleWhenUpdate(['required',
-					'email' => [Rule::unique('users')->ignore($this->id)],
-					// 'unique:users,email,'.$this->id,
+			id()->make('ID', 'id')->showInShow(),
+			text()
+                ->make(__('dash.fisrtName'), 'f_name')
+                ->ruleWhenCreate('string', 'min:4')
+                ->ruleWhenUpdate('string', 'min:4')
+                ->columnWhenCreate(6)
+                ->showInShow(),
+            text()
+                ->make(__('dash.lastName'), 'l_name')
+                ->ruleWhenCreate('string', 'min:4')
+                ->ruleWhenUpdate('string', 'min:4')
+                ->columnWhenCreate(6)
+                ->showInShow(),
 
+            number()
+                ->make(__('dash.phone'), 'phone')
+                ->ruleWhenUpdate(['required',
+                'phone' => [Rule::unique('users')->ignore($this->id)],
+                'unique:users,phone,'.$this->id,
 				])->ruleWhenCreate('unique:users', 'email'),
+
+			// email()->make('Email Address', 'email')
+			//        ->ruleWhenUpdate(['required',
+			// 		'email' => [Rule::unique('users')->ignore($this->id)],
+			// 		// 'unique:users,email,'.$this->id,
+
+			// 	])->ruleWhenCreate('unique:users', 'email'),
 			password()
 			->make('Password', 'password')
 			->hideInUpdate()

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\AdvertisementController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\CardController;
+use App\Http\Controllers\API\GeneralizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +52,10 @@ Route::group([
     Route::post('update' ,  [UserController::class, 'update']);
 
     Route::get('advertisements',  [AdvertisementController::class, 'index']);
+
+    Route::resource('card', CardController::class);
+
+    Route::get('generalizations', [GeneralizationController::class, 'index']);
+    Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);
+
 });

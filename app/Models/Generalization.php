@@ -10,5 +10,15 @@ class Generalization extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public $fillable=['content'];
+    public $fillable=['title', 'content'];
+
+    protected $visible= ['id', 'title', 'content'];
+
+
+    public static  function getIdAndTitle()
+    {
+        return self::select('id', 'title')->get();
+    }
+
+
 }

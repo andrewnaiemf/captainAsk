@@ -51,7 +51,7 @@ class Generalization extends Resource {
 	 * @param static property array
 	 */
 	public static $search = [
-		'id','content'
+		'id','content','title'
 	];
 
 	/**
@@ -85,6 +85,9 @@ class Generalization extends Resource {
 	public function fields() {
 		return [
 			id()->make(__('dash::dash.id'), 'id'),
+            text()
+                ->make(__('dash.title'), 'title')
+                ->ruleWhenCreate('string'),
 			ckeditor()->make(__('dash.generalization.content'), 'content'),
 		];
 	}

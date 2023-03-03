@@ -46,6 +46,7 @@ class User extends Authenticatable implements JWTSubject{
         $userArray = array_merge(['id' => $this->id], $userArray);
         return $userArray;
     }
+    protected $appends = ['fullname'];
 
 	/**
 	 * The attributes that should be hidden for serialization.
@@ -103,11 +104,13 @@ class User extends Authenticatable implements JWTSubject{
 		return empty($date) ? null : date('Y-m-d', strtotime($date));
 	}
 
+    public function getFullNameAttribute()
+    {
+        return $this->f_name . ' ' . $this->l_name;
+    }
+
 	public function admingroup() {
 		return $this->belongsTo(AdminGroup::class, 'admin_group_id');
 	}
-
-
-
 
 }
