@@ -112,7 +112,6 @@ class UserController extends Controller
                     'path' =>$full_path
                 ]);
             }
-
         }
     }
 

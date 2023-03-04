@@ -110,7 +110,14 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return $this->returnData(['user', auth()->user()]);
+        $user_type = auth()->user()->account_type;
+        $user = Captain::find(auth()->user());
+        if ( $user_type == 'captain' ) {
+            $user->load('captainDetail' );
+            return $this->returnData(['user', $user ]);
+
+        }
+
     }
 
     /**

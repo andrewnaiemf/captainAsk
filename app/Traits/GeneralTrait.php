@@ -14,7 +14,7 @@ trait GeneralTrait
     {
         return response()->json([
             'status' => false,
-            'msg' => $msg
+            'msg' => implode(', ', $msg)
         ],422);
     }
 
