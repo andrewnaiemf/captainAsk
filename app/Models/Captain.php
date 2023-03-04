@@ -126,6 +126,10 @@ class Captain extends Authenticatable  implements JWTSubject{
 
         $documents = $this->documents()->pluck('status','type');
 
+        if(count($documents) == 0){
+            return 'New' ;
+        }
+
         // Initialize a counter for each status value
         $acceptedCount = 0;
         $rejectedCount = 0;

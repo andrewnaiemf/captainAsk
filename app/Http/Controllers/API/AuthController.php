@@ -38,7 +38,9 @@ class AuthController extends Controller
                 'l_name' => $request->l_name,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-
+                'status' => 'New',
+                'online' => 1,
+                'verified' => 0
             ]);
 
             $user->update(['account_type'=>'captain' ]);
@@ -50,6 +52,7 @@ class AuthController extends Controller
             ]);
 
             $user->load('captainDetail');
+            $user->load('documents');
             $user = $user->toArray();
         }else{
 
@@ -102,6 +105,7 @@ class AuthController extends Controller
         if (auth()->user()->account_type == 'captain') {
             $user = Captain::find($user->id);
             $user->load('captainDetail');
+            $user->load('documents');
         }
 
         return $this->respondWithToken($token ,$user );
@@ -115,9 +119,10 @@ class AuthController extends Controller
     public function me()
     {
         $user_type = auth()->user()->account_type;
-        $user = Captain::find(auth()->user());
+        $user = Captain::find(auth()->user()->id);
         if ( $user_type == 'captain' ) {
             $user->load('captainDetail' );
+            $user->load('documents');
             return $this->returnData(['user', $user ]);
 
         }
