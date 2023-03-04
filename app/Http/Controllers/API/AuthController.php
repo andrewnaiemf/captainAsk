@@ -28,7 +28,7 @@ class AuthController extends Controller
                     'earn_area' => 'required|string',
                  ]);
         if ($validator->fails()) {
-           return response()->json(['error'=>$validator->errors()], 401);
+            return $this->returnValidationError(401,$validator->errors()->all());
         }
 
         if ( $request->earn_area ) {
@@ -82,10 +82,14 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'phone' => 'required|numeric',
             'password' => 'required|string|min:6',
         ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
 
         $credentials = request(['phone', 'password']);
 

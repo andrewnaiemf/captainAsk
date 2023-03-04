@@ -83,7 +83,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->returnValidationError(401,$validator->errors());
+            return $this->returnValidationError(401,$validator->errors()->all());
         }
     }
 
