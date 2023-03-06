@@ -19,7 +19,7 @@ class CreateCaptainDocumentsTable extends Migration
             $table->string('name');
             $table->enum('type',['Profile','Car_license_front','Car_license_back','Captain_license','Car_form','Insurance_documentation'])->default('Profile');
             $table->string('path');
-            $table->enum('status',['Pending','Rejected','Accepted'])->default('Pending');
+            $table->enum('status',['New','Pending','Rejected','Accepted'])->default('New');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
+use App\Models\CaptainDocument;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Traits\GeneralTrait;
@@ -50,6 +51,18 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'service_id' => 0
             ]);
+
+            $documents = ['Profile','Car_form','Car_license_front','Car_license_back','Captain_license','Insurance_documentation'];
+            foreach ( $documents as $document ) {
+                CaptainDocument::create([
+                    'captain_id' => $user->id,
+                    'name' => $document,
+                    'type' => $document,
+                    'path' => '',
+                    'status' => 'New'
+                ]);
+            }
+
 
             $user->load('captainDetail');
             $user->load('documents');

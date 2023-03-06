@@ -10,7 +10,7 @@ class CaptainDocument extends Model
 {
     use HasFactory,SoftDeletes;
 
-    public $fillable = ['id','name','path','type','status'];
+    public $fillable = ['id','name','path','type','status','captain_id'];
 
     public $visible = ['id','path','type','status'];
 

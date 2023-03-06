@@ -41,7 +41,7 @@ trait GeneralTrait
             'status' => $code >= 200 && $code < 300,
             'code' => $code,
             'data' => $data,
-            'message' => $message,
+            'msg' => $message,
         ];
 
         return response()->json($response, $code);
