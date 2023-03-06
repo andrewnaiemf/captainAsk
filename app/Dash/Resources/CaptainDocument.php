@@ -12,6 +12,9 @@ class CaptainDocument extends Resource {
 	 */
 	public static $model = \App\Models\CaptainDocument::class ;
 
+	public function query($model) {
+		return $model->where('status','!=', 'New');
+	}
 
 	/**
 	 * Policy Permission can handel

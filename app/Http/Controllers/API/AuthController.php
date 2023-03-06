@@ -63,7 +63,6 @@ class AuthController extends Controller
                 ]);
             }
 
-
             $user->load('captainDetail');
             $user->load('documents');
             $user = $user->toArray();
