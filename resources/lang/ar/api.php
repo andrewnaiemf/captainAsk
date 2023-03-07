@@ -3,5 +3,9 @@
 return [
     "user'sdataUpdatedSuccessfully" => 'تم تعديل بيانات المستخدم بنجاح',
     "card_created_successfully" => 'تم حفظ البطاقة بنجاح',
+    "card_deleted_successfully" => 'تم حذف البطاقة بنجاح',
     "The_action_ran_successfully" =>'لقد تمت العملية بنجاح',
+    "Not_found" => 'غير موجود',
+    'The_current_password_is_incorrect' => 'الرقم السري الحالي غير صحيح',
+    'Password_updated_successfully' => 'تم تغيير الرقم السري بنجاح',
 ];

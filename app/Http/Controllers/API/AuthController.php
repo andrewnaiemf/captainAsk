@@ -153,6 +153,34 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+
+    public function changePassword(Request $request)
+    {
+        $user = auth()->user();
+        $currentPassword = $request->current_password;
+        $newPassword = $request->new_password;
+        $confirmedPassword = $request->confirmed_password;
+
+        if (!Hash::check($currentPassword, $user->password)) {
+            return $this->returnError(trans('api.The_current_password_is_incorrect'));
+        }
+
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|different:current_password|same:confirmed_password',
+            'confirmed_password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+
+        $user->update([
+            'password' => Hash::make($newPassword),
+        ]);
+        return $this->returnSuccessMessage( trans("api.Password_updated_successfully") );
+    }
+
     /**
      * Refresh a token.
      *

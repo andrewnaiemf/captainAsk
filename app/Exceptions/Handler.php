@@ -4,9 +4,25 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Traits\GeneralTrait;
 
 class Handler extends ExceptionHandler
 {
+
+    use GeneralTrait;
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+            return $this->returnError( trans('api.Not_found') ,  404);
+        }
+
+        return parent::render($request, $exception);
+    }
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -38,4 +54,5 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
 }

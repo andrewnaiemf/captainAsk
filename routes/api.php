@@ -47,6 +47,7 @@ Route::group([
     Route::post('logout',  [AuthController::class, 'logout']);
     Route::post('refresh',  [AuthController::class, 'refresh']);
     Route::get('me' ,  [AuthController::class, 'me']);
+    Route::post('password/update' ,  [AuthController::class, 'changePassword']);
 
 
     Route::post('update' ,  [UserController::class, 'update']);

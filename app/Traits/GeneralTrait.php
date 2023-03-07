@@ -10,12 +10,12 @@ trait GeneralTrait
         return app()->getLocale();
     }
 
-    public function returnError($errNum, $msg)
+    public function returnError( $msg ,$code = 422)
     {
         return response()->json([
             'status' => false,
-            'msg' => implode(', ', $msg)
-        ],422);
+            'msg' => is_array($msg) ? implode(', ', $msg) : $msg
+        ],$code);
     }
 
     public function unauthorized()
@@ -52,7 +52,7 @@ trait GeneralTrait
     //////////////////
     public function returnValidationError($code = "E001", $validator)
     {
-        return $this->returnError($code, $validator);
+        return $this->returnError( $validator);
     }
 
 

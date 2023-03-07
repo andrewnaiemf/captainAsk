@@ -104,6 +104,7 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $card = CaptainCard::findOrFail($id)->delete();
+        return $this->returnSuccessMessage( trans("api.card_deleted_successfully") );
     }
 }
