@@ -132,11 +132,11 @@ class AuthController extends Controller
     {
         $user_type = auth()->user()->account_type;
         $user = Captain::find(auth()->user()->id);
+
         if ( $user_type == 'captain' ) {
             $user->load('captainDetail' );
             $user->load('documents');
-            return $this->returnData(['user', $user ]);
-
+            return $this->returnData(['user' => $user ]);
         }
 
     }
