@@ -34,7 +34,7 @@ class UserController extends Controller
         $user->update([
             'online' => boolval( $request['is_online'] ),
             'verified' => boolval( $request['verified'] ),
-            'phone' => $request->phone,
+            'phone' => $request->phone ?? $user->phone,
             'f_name' => $request['f_name'],
             'l_name' => $request['l_name'],
         ]);
@@ -42,9 +42,12 @@ class UserController extends Controller
         if ( $user->account_type == 'captain' ){
 
             $user = Captain::find($user->id);
-            $user->captainDetail->Update([
-                'service_id' => $request['service_id']
-            ]);
+            if( $request->service_id ){
+                $user->captainDetail->Update([
+                    'service_id' => $request->service_id
+                ]);
+            }
+
 
             $documents = $request->file('documents', []);
             $this->userDocuments(  $documents, $user );
@@ -69,17 +72,15 @@ class UserController extends Controller
     public function validateUserData ( $request ) {
 
         $validator=Validator::make($request->all(), [
-            'online' => 'nullable|boolean',
-            'verified' => 'nullable|in:true,false',
+            'online' => 'boolean',
+            'verified' => 'in:true,false',
             'phone' => [
-                'nullable',
-                'regex:/^[0-9]{10}$/',
                 Rule::unique('users')->ignore(auth()->user()->id)
             ],
-            'f_name' => 'nullable|string|max:255',
-            'l_name' => 'nullable|string|max:255',
-            'service_id' => 'nullable|in:1,2,3,4,5',
-            'documents.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'f_name' => 'string|max:255',
+            'l_name' => 'string|max:255',
+            'service_id' => 'in:1,2,3,4,5',
+            'documents.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validator->fails()) {
