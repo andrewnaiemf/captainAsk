@@ -23,7 +23,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
 
-       $validation =  $this->validateUserData( $request );
+        $validation =  $this->validateUserData( $request );
 
         if ( $validation) {
             return $validation;
@@ -32,12 +32,9 @@ class UserController extends Controller
         $user = User::find(auth()->user()->id);
 
         $user->update([
-            'online' => boolval( $request['is_online'] ),
-            'verified' => boolval( $request['verified'] ),
-            'phone' => $request->phone ?? $user->phone,
-            'f_name' => $request['f_name'],
-            'l_name' => $request['l_name'],
-        ]);
+            'online' => intval($request['is_online'] ?? $user->online),
+            'verified' => intval($request['verified'] ?? $user->verified),
+        ] + $request->except(['online', 'verified']));
 
         if ( $user->account_type == 'captain' ){
 
@@ -73,7 +70,7 @@ class UserController extends Controller
 
         $validator=Validator::make($request->all(), [
             'online' => 'boolean',
-            'verified' => 'in:true,false',
+            'verified' => 'in:true,false,0,1',
             'phone' => [
                 Rule::unique('users')->ignore(auth()->user()->id)
             ],
