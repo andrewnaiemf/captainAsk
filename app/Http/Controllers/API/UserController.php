@@ -91,7 +91,11 @@ class UserController extends Controller
 
         foreach ($documents as $type=>$doc) {
 
-            $document = $user->documents()->where('type', $type)->first();
+            $document = $user->documents()
+            ->where('type' , $type )
+            ->where('path' ,'!=', '' )
+            ->first();
+
             if ( $document ) {
 
                 $segments = explode('/', $document->path);
