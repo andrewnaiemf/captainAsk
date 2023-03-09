@@ -8,4 +8,5 @@ return [
     "Not_found" => 'غير موجود',
     'The_current_password_is_incorrect' => 'الرقم السري الحالي غير صحيح',
     'Password_updated_successfully' => 'تم تغيير الرقم السري بنجاح',
+    'Request_sent_successfully' => 'تم ارسال الطلب بنجاح',
 ];

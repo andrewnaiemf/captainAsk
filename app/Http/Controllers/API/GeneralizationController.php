@@ -16,9 +16,11 @@ class GeneralizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $generalizations =Generalization::getIdAndTitle();
+        $perPage = $request->header('per_page', 10);
+        $generalizations = Generalization::getIdAndTitle();
+        $generalizations =  $generalizations->simplePaginate($perPage);
 
         return $this->returnData ( ['generalizations' => $generalizations] );
     }

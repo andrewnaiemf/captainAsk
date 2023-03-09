@@ -11,9 +11,10 @@ class AdvertisementController extends Controller
 {
     use GeneralTrait;
 
-    public function index(){
+    public function index(Request $request){
 
-        $advertisements = Advertisement::all();
+        $perPage = $request->header('per_page', 10);
+        $advertisements = Advertisement::simplePaginate($perPage);
 
         return $this->returnData([ 'advertisements' => $advertisements ]);
 

@@ -17,7 +17,7 @@ class Generalization extends Model
 
     public static  function getIdAndTitle()
     {
-        return self::select('id', 'title')->get();
+        return self::select('id', 'title');
     }
 
 

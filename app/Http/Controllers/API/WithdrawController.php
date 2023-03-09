@@ -5,10 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
+use Illuminate\Validation\Rule;
+use App\Models\Withdraw;
 use Illuminate\Support\Facades\Validator;
-use App\Models\CaptainCard;
 
-class CardController extends Controller
+class WithdrawController extends Controller
 {
     use GeneralTrait;
 
@@ -20,10 +21,10 @@ class CardController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->header('per_page', 10);
-        $cards = CaptainCard::with('captain')->where('captain_id' , auth()->user()->id)->simplePaginate($perPage);
 
-        return $this->returnData ( $cards );
+        $withdraws = Withdraw::with('card')->where('user_id',auth()->user()->id)->simplePaginate($perPage);
 
+        return $this->returnData([ 'withdraws' => $withdraws ]);
     }
 
     /**
@@ -44,22 +45,28 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator=Validator::make($request->all(), [
-            'card_name' => 'string|required',
-            'card_number' => 'numeric|required|unique:captain_cards,number',
+            'amount' => 'required|numeric',
+            'card_id' => [
+                'required',
+                'integer',
+                Rule::exists('captain_cards', 'id')
+            ]
         ]);
 
         if ($validator->fails()) {
             return $this->returnValidationError(401,$validator->errors()->all());
         }
 
-        $card = CaptainCard::create([
-            'captain_id' => auth()->user()->id,
-            'name' => $request->card_name,
-            'number' => $request->card_number,
+        Withdraw::create([
+            'card_id' => $request->card_id,
+            'user_id' => auth()->user()->id,
+            'amount' => $request->amount
         ]);
 
-        return $this->returnSuccessMessage( trans("api.card_created_successfully") );
+        return $this->returnSuccessMessage( trans("api.Request_sent_successfully") );
+
 
     }
 
@@ -105,7 +112,6 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
-        $card = CaptainCard::findOrFail($id)->delete();
-        return $this->returnSuccessMessage( trans("api.card_deleted_successfully") );
+        //
     }
 }

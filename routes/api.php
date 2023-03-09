@@ -7,7 +7,7 @@ use App\Http\Controllers\API\AdvertisementController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CardController;
 use App\Http\Controllers\API\GeneralizationController;
-
+use App\Http\Controllers\API\WithdrawController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -55,6 +55,8 @@ Route::group([
     Route::get('advertisements',  [AdvertisementController::class, 'index']);
 
     Route::resource('card', CardController::class);
+
+    Route::resource('withdraw', WithdrawController::class);
 
     Route::get('generalizations', [GeneralizationController::class, 'index']);
     Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);
