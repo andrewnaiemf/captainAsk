@@ -9,5 +9,6 @@ return [
     'The_current_password_is_incorrect' => 'The current password is incorrect',
     'Password_updated_successfully' => 'Password updated successfully',
     'Request_sent_successfully' => 'Request sent successfully',
-
+    'dataIsPending' => "We're Reviewing your documents",
+    'dataIsRejected' => 'Your documents is rejected',
 ];

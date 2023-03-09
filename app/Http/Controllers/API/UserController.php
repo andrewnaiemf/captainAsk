@@ -100,8 +100,13 @@ class UserController extends Controller
                 $segments = explode('/', $document->path);
                 $imageName = $segments[2];
                 $doc->storeAs($path,$imageName);
-            } else {
 
+                if( in_array($document->status , ['Accepted' , 'Rejected'])  ){
+                    $document->update([
+                        'status' => 'Pending'
+                    ]);
+                }
+            } else {
                 $imageName = $doc->hashName();
                 $doc->storeAs($path,$imageName);
                 $full_path = $path.$imageName;

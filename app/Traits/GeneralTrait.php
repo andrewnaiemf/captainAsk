@@ -35,13 +35,13 @@ trait GeneralTrait
         ];
     }
 
-    public function returnData ( $data, $code = 200 )
+    public function returnData ( $data, $msg =null ,$code = 200 )
     {
         $response = [
             'status' => $code >= 200 && $code < 300,
             'code' => $code,
             'data' => $data,
-            'msg' => trans('api.The_action_ran_successfully'),
+            'msg' => $msg ??  trans('api.The_action_ran_successfully'),
         ];
 
         return response()->json($response, $code);

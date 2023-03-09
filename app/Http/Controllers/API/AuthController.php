@@ -136,7 +136,9 @@ class AuthController extends Controller
         if ( $user_type == 'captain' ) {
             $user->load('captainDetail' );
             $user->load('documents');
-            return $this->returnData(['user' => $user ]);
+
+            $msg = $user->status == 'Pending' ? "dataIsPending" : "dataIsRejected";
+            return $this->returnData(['user' => $user ] ,trans("api.". $msg));
         }
 
     }
