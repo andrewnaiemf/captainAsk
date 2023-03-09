@@ -97,21 +97,22 @@ class UserController extends Controller
             ->first();
 
             if ( $document ) {
-
                 $segments = explode('/', $document->path);
                 $imageName = $segments[2];
                 $doc->storeAs($path,$imageName);
-
             } else {
 
                 $imageName = $doc->hashName();
                 $doc->storeAs($path,$imageName);
                 $full_path = $path.$imageName;
-                $user->documents()->create([
+                $document = $user->documents()->where('type' , $type)->first();
+
+                $document->update([
                     'captain_id' => $user->id,
                     'name' => $type,
                     'type' => $type,
-                    'path' =>$full_path
+                    'path' => $full_path,
+                    'status' => 'Pending'
                 ]);
             }
         }
