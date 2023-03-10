@@ -174,5 +174,9 @@ class Captain extends Authenticatable  implements JWTSubject{
         return $this->hasOne(CaptainDetails::class, 'user_id');
     }
 
+    public function cards()
+    {
+        return $this->hasMany(CaptainCard::class);
 
+    }
 }

@@ -9,11 +9,11 @@ class CaptainDetails extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['service_id', 'earn_area', 'user_id'];
+    protected $fillable = ['service_id', 'earn_area', 'user_id', 'wallet'];
 
     protected $table = 'captain_details';
 
-    protected $visible = ['id', 'service_id', 'earn_area', 'user_id'];
+    protected $visible = ['id', 'service_id', 'earn_area', 'user_id', 'wallet'];
 
 
     public function user() {
