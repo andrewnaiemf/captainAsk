@@ -13,4 +13,5 @@ return [
     'dataIsRejected' => 'لقد تم رفض مستنداتك',
     'Chat_opend_successfully' => 'تم فتح الشات بنجاح',
     'user_blocked_successfully' => 'تم حظر العميل بنجاح',
+    'logged_out_successfully' => 'تم تسجيل الخروج بنجاح',
 ];

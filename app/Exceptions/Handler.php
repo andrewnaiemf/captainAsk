@@ -7,7 +7,9 @@ use Throwable;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use App\Traits\GeneralTrait;
+
 
 class Handler extends ExceptionHandler
 {
@@ -18,6 +20,9 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
             return $this->returnError( trans('api.Not_found') ,  404);
+        }
+        if ( $request->is('api/*') &&  $exception instanceof RouteNotFoundException) {
+            return $this->unauthorized();
         }
 
         return parent::render($request, $exception);
