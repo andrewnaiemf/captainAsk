@@ -9,6 +9,7 @@ use App\Http\Controllers\API\CardController;
 use App\Http\Controllers\API\GeneralizationController;
 use App\Http\Controllers\API\WithdrawController;
 use App\Http\Controllers\API\WalletController;
+use App\Http\Controllers\API\ChatController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -60,6 +61,8 @@ Route::group([
     Route::resource('withdraw', WithdrawController::class);
 
     Route::resource('wallet', WalletController::class);
+
+    Route::resource('chat', ChatController::class);
 
     Route::get('generalizations', [GeneralizationController::class, 'index']);
     Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);

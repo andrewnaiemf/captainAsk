@@ -11,4 +11,6 @@ return [
     'Request_sent_successfully' => 'تم ارسال الطلب بنجاح',
     'dataIsPending' => 'يتم مراجعة المستندات',
     'dataIsRejected' => 'لقد تم رفض مستنداتك',
+    'Chat_opend_successfully' => 'تم فتح الشات بنجاح',
+    'user_blocked_successfully' => 'تم حظر العميل بنجاح',
 ];

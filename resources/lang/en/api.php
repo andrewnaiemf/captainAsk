@@ -11,4 +11,6 @@ return [
     'Request_sent_successfully' => 'Request sent successfully',
     'dataIsPending' => "We're Reviewing your documents",
     'dataIsRejected' => 'Your documents is rejected',
+    'Chat_opend_successfully' => 'Chat opend successfully',
+    'user_blocked_successfully' => 'User blocked successfully',
 ];

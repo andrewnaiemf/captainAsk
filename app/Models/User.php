@@ -113,4 +113,10 @@ class User extends Authenticatable implements JWTSubject{
 		return $this->belongsTo(AdminGroup::class, 'admin_group_id');
 	}
 
+
+    public function chats()
+    {
+        return $this->hasOne(Chat::class, 'user_id');
+
+    }
 }
