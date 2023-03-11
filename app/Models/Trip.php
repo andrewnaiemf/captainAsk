@@ -13,6 +13,11 @@ class Trip extends Model
 
     protected $hidden = ['rating'];
 
+    public function getCreatedAtAttribute($value)
+{
+    return \Carbon\Carbon::parse($value)->format('d/m/Y h:i A');
+}
+
     public function rating()
     {
         return $this->hasOne(Rating::class, 'trip_id');
