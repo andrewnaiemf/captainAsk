@@ -9,6 +9,8 @@ class Trip extends Model
 {
     use HasFactory;
 
+    protected $fillable =['status','paymentMethod' , 'captain_id'];
+
     protected $appends = ['rating_customer',
                         'rating_captain',
                         'service_name',

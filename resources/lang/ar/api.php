@@ -14,4 +14,8 @@ return [
     'Chat_opend_successfully' => 'تم فتح الشات بنجاح',
     'user_blocked_successfully' => 'تم حظر العميل بنجاح',
     'logged_out_successfully' => 'تم تسجيل الخروج بنجاح',
+    'tripFinishedSuccessfully' => ' تم انهاء الرحلة بنجاح',
+    'tripRejectedSuccessfully' => ' تم الغاء الرحلة بنجاح',
+    'tripAcceptedSuccessfully' => 'تم قبول الرحلة بنجاح',
+    'InvalidData' => ' البيانات غير صحيحة',
 ];

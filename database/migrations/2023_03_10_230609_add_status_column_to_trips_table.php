@@ -14,7 +14,7 @@ class AddStatusColumnToTripsTable extends Migration
     public function up()
     {
         Schema::table('trips', function (Blueprint $table) {
-            $table->enum('status',['New','Pending','Rejected','Accepted'])->default('New')->after('cost');
+            $table->enum('status',['Pending','Rejected','Accepted','Finished'])->default('Pending')->after('cost');
         });
     }
 

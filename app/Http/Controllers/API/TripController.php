@@ -21,9 +21,18 @@ class TripController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->header('per_page', 10);
+        $user_type = auth()->user()->account_type ;
+        if ( $user_type == 'captain') {
+
+            $trips = Trip::where('status', 'Pending')
+            ->with(['customer','captain'])
+            ->simplePaginate($perPage);
+
+            return $this->returnData ( ['trips' => $trips] );
+        }
     }
 
     /**
@@ -67,12 +76,12 @@ class TripController extends Controller
             $captain = Captain::find(auth()->user()->id);
 
             if ( $status == 'new' ) {
-                $trips = $captain->trips()->with(['customer','captain'])->where('status' , 'Pending')->simplePaginate($perPage);
+                $trips = $captain->trips()->with(['customer','captain'])->where('status' , 'Accepted')->simplePaginate($perPage);
                 return $this->returnData ( ['trips' => $trips] );
             }else if ( $status == 'old' ){
                 $trips = $captain->trips()
                 ->with(['customer','captain'])
-                ->whereNotIn('status', ['Pending','New'])
+                ->where('status','!=', 'Accepted')
                 ->simplePaginate($perPage);
                 return $this->returnData ( ['trips' => $trips] );
             }
@@ -99,7 +108,56 @@ class TripController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $validator=Validator::make($request->all(), [
+            'status' => 'required|in:Accepted,Rejected,Finished',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+
+
+        $trip = Trip::find($id);
+        $captain = Captain::find(auth()->user()->id) ;
+
+        if ( $trip &&  !in_array($trip->status , ['Finished','Rejected'])  && $captain->account_type == 'captain') {
+
+            if ( $trip->captain_id == $captain->id ) {
+
+                if ( $request->status == 'Finished' &&  $trip->status == 'Accepted' ) {
+
+                    $trip->update(['status' => $request->status]);
+
+                    if ( $trip->paymentMethod == 'card') {
+                        $captain_wallet =  $trip->cost + $captain->captainDetail->wallet ;
+                        $captain->captainDetail()->update(['wallet' => $captain_wallet]);
+                    }
+                    $message = trans("api.tripFinishedSuccessfully") ;
+
+                }else if ( $request->status == 'Rejected'  &&  $trip->status == 'Accepted' ) {
+
+                    $trip->update(['status' => $request->status]);
+                    $message = trans("api.tripRejectedSuccessfully") ;
+
+                }else{
+                    $message = trans("api.InvalidData") ;
+                }
+
+            }
+
+            if (  $request->status == 'Accepted'  &&  $trip->status == 'Pending' ) {
+
+                $trip->update(['status' => $request->status , 'captain_id' => $captain->id]);
+                $message = trans("api.tripAcceptedSuccessfully") ;
+
+            }
+
+            return $this->returnSuccessMessage( $message  );
+
+        }
+
+        return $this->returnError( trans("api.InvalidData"));
     }
 
     /**
