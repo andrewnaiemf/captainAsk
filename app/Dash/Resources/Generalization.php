@@ -87,7 +87,8 @@ class Generalization extends Resource {
 			id()->make(__('dash::dash.id'), 'id'),
             text()
                 ->make(__('dash.title'), 'title')
-                ->ruleWhenCreate('string'),
+                ->ruleWhenCreate(['string','required'])
+                ->ruleWhenUpdate(['string','required']),
 			ckeditor()->make(__('dash.generalization.content'), 'content'),
 		];
 	}

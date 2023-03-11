@@ -58,19 +58,22 @@ class TripController extends Controller
         //
     }
 
-    public function tripBystatus($status)
+    public function tripBystatus(Request $request , $status)
     {
+        $perPage = $request->header('per_page', 10);
         $user_type = auth()->user()->account_type ;
         if ( $user_type == 'captain') {
+
             $captain = Captain::find(auth()->user()->id);
+
             if ( $status == 'new' ) {
-                $trip = $captain->trips()->with(['customer','captain'])->where('status' , 'Pending')->first();
+                $trip = $captain->trips()->with(['customer','captain'])->where('status' , 'Pending')->simplePaginate($perPage);
                 return $this->returnData ( ['trip' => $trip] );
             }else if ( $status == 'old' ){
                 $trips = $captain->trips()
                 ->with(['customer','captain'])
                 ->whereNotIn('status', ['Pending','New'])
-                ->get();
+                ->simplePaginate($perPage);
                 return $this->returnData ( ['trips' => $trips] );
             }
         }
