@@ -125,4 +125,8 @@ class User extends Authenticatable implements JWTSubject{
         return $this->hasMany(Trip::class, 'customer_id');
 
     }
+
+    public function customerDetail(){
+        return $this->hasOne(CustomerDetail::class, 'user_id');
+    }
 }

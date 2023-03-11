@@ -9,7 +9,12 @@ class Trip extends Model
 {
     use HasFactory;
 
-    protected $appends = ['rating_customer','rating_captain','service_name'];
+    protected $appends = ['rating_customer',
+                        'rating_captain',
+                        'service_name',
+                        'captain_profile',
+                        'customer_profile'
+                    ];
 
     protected $hidden = ['rating'];
 
@@ -25,6 +30,25 @@ class Trip extends Model
         }
 
         return null;
+    }
+
+    public function getCaptainProfileAttribute()
+    {
+        if ($this->captain) {
+            return $this->captain->documents()->where('name' , 'Profile')->first()->path;
+        }
+
+        return "captainDocument/default/default.png";
+    }
+
+
+    public function getCustomerProfileAttribute()
+    {
+        if ($this->customer && $this->customer->customerDetail) {
+            return $this->customer->customerDetail->profile_picture;
+        }
+
+        return "customer/default/default.png";
     }
 
     public function rating()
