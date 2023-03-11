@@ -96,7 +96,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 1440,
+            'expire' => 525600, // 1440 mean every 24 hours and 525600 mean every year
             'throttle' => 60,
         ],
     ],
