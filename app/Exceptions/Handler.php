@@ -21,6 +21,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
             return $this->returnError( trans('api.Not_found') ,  404);
         }
+
         if ( $request->is('api/*') &&  $exception instanceof RouteNotFoundException) {
             return $this->unauthorized();
         }

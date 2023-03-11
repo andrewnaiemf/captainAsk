@@ -186,4 +186,12 @@ class Captain extends Authenticatable  implements JWTSubject{
 
     }
 
+    public function trips()
+    {
+        return $this->hasMany(Trip::class, 'captain_id');
+
+    }
+
+
+
 }

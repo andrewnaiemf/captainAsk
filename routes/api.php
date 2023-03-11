@@ -10,6 +10,7 @@ use App\Http\Controllers\API\GeneralizationController;
 use App\Http\Controllers\API\WithdrawController;
 use App\Http\Controllers\API\WalletController;
 use App\Http\Controllers\API\ChatController;
+use App\Http\Controllers\API\TripController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -53,6 +54,7 @@ Route::group([
 
 
     Route::post('update' ,  [UserController::class, 'update']);
+    // Route::Delete('user' ,  [UserController::class, 'destroy']);
 
     Route::get('advertisements',  [AdvertisementController::class, 'index']);
 
@@ -64,7 +66,12 @@ Route::group([
 
     Route::resource('chat', ChatController::class);
 
+    Route::resource('trip', TripController::class);
+    Route::get('trip/status/{status}', [TripController::class, 'tripBystatus']);
+
     Route::get('generalizations', [GeneralizationController::class, 'index']);
     Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);
+
+
 
 });

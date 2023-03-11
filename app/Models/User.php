@@ -119,4 +119,10 @@ class User extends Authenticatable implements JWTSubject{
         return $this->hasOne(Chat::class, 'user_id');
 
     }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class, 'customer_id');
+
+    }
 }
