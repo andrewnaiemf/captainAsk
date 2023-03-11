@@ -67,8 +67,8 @@ class TripController extends Controller
             $captain = Captain::find(auth()->user()->id);
 
             if ( $status == 'new' ) {
-                $trip = $captain->trips()->with(['customer','captain'])->where('status' , 'Pending')->simplePaginate($perPage);
-                return $this->returnData ( ['trip' => $trip] );
+                $trips = $captain->trips()->with(['customer','captain'])->where('status' , 'Pending')->simplePaginate($perPage);
+                return $this->returnData ( ['trips' => $trips] );
             }else if ( $status == 'old' ){
                 $trips = $captain->trips()
                 ->with(['customer','captain'])
