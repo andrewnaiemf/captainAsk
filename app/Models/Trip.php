@@ -9,19 +9,35 @@ class Trip extends Model
 {
     use HasFactory;
 
-    protected $appends = ['rating_customer','rating_captain'];
+    protected $appends = ['rating_customer','rating_captain','service_name'];
 
     protected $hidden = ['rating'];
 
     public function getCreatedAtAttribute($value)
-{
-    return \Carbon\Carbon::parse($value)->format('d/m/Y h:i A');
-}
+    {
+        return \Carbon\Carbon::parse($value)->format('d/m/Y h:i A');
+    }
+
+    public function getServiceNameAttribute()
+    {
+        if ($this->service) {
+            return $this->service->name;
+        }
+
+        return null;
+    }
 
     public function rating()
     {
         return $this->hasOne(Rating::class, 'trip_id');
     }
+
+
+    public function service()
+    {
+        return $this->belongsTo(CaptainService::class);
+    }
+
 
     public function getRatingCustomerAttribute()
     {
