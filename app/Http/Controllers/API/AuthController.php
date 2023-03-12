@@ -35,6 +35,7 @@ class AuthController extends Controller
         if ( $request->earn_area ) {
 
             $user=Captain::create([
+                'uuid' => strtotime("now"),
                 'f_name' => $request->f_name,
                 'l_name' => $request->l_name,
                 'password' => Hash::make($request->password),
@@ -69,6 +70,7 @@ class AuthController extends Controller
         }else{
 
             $user=User::create([
+                'uuid' => strtotime("now"),
                 'f_name' => $request->f_name,
                 'l_name' => $request->l_name,
                 'password' => Hash::make($request->password),

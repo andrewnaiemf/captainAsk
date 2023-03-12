@@ -21,6 +21,7 @@ class Captain extends Authenticatable  implements JWTSubject{
 	 */
 	protected $fillable = [
 		'id',
+        'uuid',
 		'f_name',
 		'l_name',
 		'email',
@@ -36,7 +37,7 @@ class Captain extends Authenticatable  implements JWTSubject{
 		'deleted_at',
 	];
 
-    protected $appends = ['fullname' ,'captain_profile', 'uuid', 'rating'];
+    protected $appends = ['fullname' ,'captain_profile', 'rating'];
 
       //to arrange the user aattribute and push the id to the beginning of the array
       public function toArray()
@@ -179,15 +180,14 @@ class Captain extends Authenticatable  implements JWTSubject{
         return "captainDocument/default/default.png";
     }
 
-    public function getUuidAttribute()
-    {
-        return ($this->id * 15) % 26;
-    }
 
     public function getRatingAttribute()
     {
-        $average_rating =  $this->ratings()->avg('rating');
-        return number_format($average_rating, 2);
+        if (auth()->user()) {
+            $average_rating =  $this->ratings()->avg('rating');
+            return number_format($average_rating, 2);
+        }
+        return '0' ;
     }
 
     public function captainDetail(){
@@ -214,14 +214,18 @@ class Captain extends Authenticatable  implements JWTSubject{
 
     public function ratings()
     {
-        return $this->hasManyThrough(
-            Rating::class,
-            Trip::class,
-            'captain_id', // foreign key on trips table
-            'trip_id', // foreign key on ratings table
-            'id', // local key on captains table
-            'id' // local key on trips table
-        )->where(['trips.status' => 'Finished' , 'user_id' => auth()->user()->id]);
+        if (auth()->user()) {
+            return $this->hasManyThrough(
+                Rating::class,
+                Trip::class,
+                'captain_id', // foreign key on trips table
+                'trip_id', // foreign key on ratings table
+                'id', // local key on captains table
+                'id' // local key on trips table
+            )->where(['trips.status' => 'Finished' , 'user_id' => auth()->user()->id]);
+        }
+        return null ;
+
     }
 
 

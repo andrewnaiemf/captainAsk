@@ -20,6 +20,7 @@ class User extends Authenticatable implements JWTSubject{
 	 */
 	protected $fillable = [
 		'id',
+        'uuid',
 		'f_name',
 		'l_name',
 		'email',
@@ -47,7 +48,7 @@ class User extends Authenticatable implements JWTSubject{
         $userArray = array_merge(['id' => $this->id], $userArray);
         return $userArray;
     }
-    protected $appends = ['fullname' ,'customer_profile', 'uuid'];
+    protected $appends = ['fullname' ,'customer_profile'];
 
 	/**
 	 * The attributes that should be hidden for serialization.
@@ -119,10 +120,6 @@ class User extends Authenticatable implements JWTSubject{
         return "customer/default/default.png";
     }
 
-    public function getUuidAttribute()
-    {
-        return ($this->id * 15) % 26;
-    }
 
 	public function admingroup() {
 		return $this->belongsTo(AdminGroup::class, 'admin_group_id');

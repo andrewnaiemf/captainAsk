@@ -19,7 +19,9 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
-            return $this->returnError( trans('api.Not_found') ,  404);
+            if (  $request->is('api/*')  ) {
+                return $this->returnError( trans('api.Not_found') ,  404);
+            }
         }
 
         if ( $request->is('api/*') &&  $exception instanceof RouteNotFoundException) {
