@@ -56,7 +56,7 @@ class CaptainDocument extends Resource {
 	 * @param static property array
 	 */
 	public static $search = [
-		'id','name'
+		'id','name','status'
 	];
 
 	/**
@@ -65,7 +65,7 @@ class CaptainDocument extends Resource {
 	 * 	Example: method=> 'invoices'  => columns=>['title'],
 	 * @param static array
 	 */
-	public static $searchWithRelation = ['captain'=>['f_name']];
+	public static $searchWithRelation = [ 'captain'=>['f_name']];
 
 	/**
 	 * if you need to custom resource name in menu navigation

@@ -12,7 +12,20 @@ class CaptainDocument extends Model
 
     public $fillable = ['id','name','path','type','status','captain_id'];
 
-    public $visible = ['id','path','type','status'];
+    public $visible = ['id','name','path','type','status','captain'];
+
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        if(request()->is('api/*')) {
+            unset($array['name']);
+            unset($array['captain']);
+        }
+
+        return $array;
+    }
 
 
     public function captain(){

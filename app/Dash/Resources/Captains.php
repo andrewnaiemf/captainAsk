@@ -16,7 +16,7 @@ class Captains extends Resource {
 	public function query($model) {
 		return $model->where('account_type', 'captain');
 	}
-	public static $title         = 'f_name';
+	public static $title         = 'name';
 
 	/**
 	 * Policy Permission can handel

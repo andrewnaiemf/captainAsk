@@ -37,7 +37,7 @@ class Captain extends Authenticatable  implements JWTSubject{
 		'deleted_at',
 	];
 
-    protected $appends = ['fullname' ,'captain_profile', 'rating'];
+    protected $appends = ['name' ,'captain_profile', 'rating'];
 
       //to arrange the user aattribute and push the id to the beginning of the array
       public function toArray()
@@ -47,7 +47,7 @@ class Captain extends Authenticatable  implements JWTSubject{
           return $userArray;
       }
 
-    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService'];
 
 	protected $deleted_at = 'deleted_at';
 
@@ -114,7 +114,7 @@ class Captain extends Authenticatable  implements JWTSubject{
         return [];
     }
 
-    public function getFullNameAttribute()
+    public function getNameAttribute()
     {
         return $this->f_name . ' ' . $this->l_name;
     }
