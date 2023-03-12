@@ -17,5 +17,8 @@ return [
     'tripFinishedSuccessfully' => ' تم انهاء الرحلة بنجاح',
     'tripRejectedSuccessfully' => ' تم الغاء الرحلة بنجاح',
     'tripAcceptedSuccessfully' => 'تم قبول الرحلة بنجاح',
-    'InvalidData' => ' البيانات غير صحيحة',
+    'InvalidRequest' => ' الطلب غير صحيح',
+    'Offer_updated_successfully' => 'تم تعديل العرض بنجاح',
+    'Offer_created_successfully' => ' تم اضافة العرض بنجاح',
+
 ];

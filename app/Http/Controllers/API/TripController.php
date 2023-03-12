@@ -141,7 +141,7 @@ class TripController extends Controller
                     $message = trans("api.tripRejectedSuccessfully") ;
 
                 }else{
-                    $message = trans("api.InvalidData") ;
+                    $message = trans("api.InvalidRequest") ;
                 }
 
             }
@@ -157,7 +157,7 @@ class TripController extends Controller
 
         }
 
-        return $this->returnError( trans("api.InvalidData"));
+        return $this->returnError( trans("api.InvalidRequest"));
     }
 
     /**

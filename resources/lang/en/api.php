@@ -17,5 +17,7 @@ return [
     'tripFinishedSuccessfully' => 'The trip finished successfully',
     'tripRejectedSuccessfully' => 'The trip Rejected successfully',
     'tripAcceptedSuccessfully' => 'The trip Accepted successfully',
-    'InvalidData' => 'The data is invalid',
+    'InvalidRequest' => 'The request is invalid',
+    'Offer_updated_successfully' => 'The offer updated successfully',
+    'Offer_created_successfully' => 'The offer created successfully',
 ];

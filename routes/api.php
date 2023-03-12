@@ -11,6 +11,7 @@ use App\Http\Controllers\API\WithdrawController;
 use App\Http\Controllers\API\WalletController;
 use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\TripController;
+use App\Http\Controllers\API\OfferController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -68,6 +69,9 @@ Route::group([
 
     Route::resource('trip', TripController::class);
     Route::get('trip/status/{status}', [TripController::class, 'tripBystatus']);
+
+    Route::resource('offer', OfferController::class);
+
 
     Route::get('generalizations', [GeneralizationController::class, 'index']);
     Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);
