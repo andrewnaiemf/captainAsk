@@ -68,17 +68,13 @@ class OfferController extends Controller
             $offer->update(['amount' => $request->amount , 'accepted' => null ]);
             $message = 'api.Offer_updated_successfully';
 
-        }else if ( $offer->accepted != 1 ){
-
+        }else{
             Offer::Create([
                 'trip_id' => $request->trip_id ,
                 'captain_id' => auth()->user()->id,
                 'amount' => $request->amount
             ]);
             $message = 'api.Offer_created_successfully';
-
-        }else{
-            return $this->returnError( trans("api.InvalidRequest"));
         }
         return $this->returnSuccessMessage( $message  );
     }
