@@ -68,7 +68,7 @@ class OfferController extends Controller
             $offer->update(['amount' => $request->amount , 'accepted' => null ]);
             $message = 'api.Offer_updated_successfully';
 
-        }else if ( $offer && $offer->accepted != 1 ){
+        }else if ( $offer->accepted != 1 ){
 
             Offer::Create([
                 'trip_id' => $request->trip_id ,
