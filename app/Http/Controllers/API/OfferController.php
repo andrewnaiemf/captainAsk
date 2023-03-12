@@ -66,7 +66,7 @@ class OfferController extends Controller
         if( $offer && in_array($offer->accepted , [null , 0]) ){
 
             $offer->update(['amount' => $request->amount , 'accepted' => null ]);
-            $message = 'api.Offer_updated_successfully';
+            $message = trans('api.Offer_updated_successfully');
 
         }else if( $offer && $offer->trip_id != $request->trip_id  ){
             Offer::Create([
@@ -74,7 +74,7 @@ class OfferController extends Controller
                 'captain_id' => auth()->user()->id,
                 'amount' => $request->amount
             ]);
-            $message = 'api.Offer_created_successfully';
+            $message = trans('api.Offer_created_successfully');
         }else{
             return $this->returnError( trans("api.InvalidRequest"));
         }
