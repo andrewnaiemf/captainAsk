@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Str;
 
 class Captain extends Authenticatable  implements JWTSubject{
 	use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
@@ -35,7 +36,7 @@ class Captain extends Authenticatable  implements JWTSubject{
 		'deleted_at',
 	];
 
-    protected $appends = ['fullname'];
+    protected $appends = ['fullname' ,'captain_profile', 'uuid', 'rating'];
 
       //to arrange the user aattribute and push the id to the beginning of the array
       public function toArray()
@@ -45,7 +46,7 @@ class Captain extends Authenticatable  implements JWTSubject{
           return $userArray;
       }
 
-    protected $visible = ['id', 'f_name', 'l_name', 'status', 'verified', 'online' ,'phone','captainDetail','documents','captainService'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService'];
 
 	protected $deleted_at = 'deleted_at';
 
@@ -169,6 +170,25 @@ class Captain extends Authenticatable  implements JWTSubject{
         return $status ;
     }
 
+    public function getCaptainProfileAttribute()
+    {
+        if ($this->documents()->where('name' , 'Profile')->first()) {
+            return $this->documents()->where('name' , 'Profile')->first()->path;
+        }
+
+        return "captainDocument/default/default.png";
+    }
+
+    public function getUuidAttribute()
+    {
+        return ($this->id * 15) % 26;
+    }
+
+    public function getRatingAttribute()
+    {
+        $average_rating =  $this->ratings()->avg('rating');
+        return number_format($average_rating, 2);
+    }
 
     public function captainDetail(){
         return $this->hasOne(CaptainDetails::class, 'user_id');
@@ -192,6 +212,17 @@ class Captain extends Authenticatable  implements JWTSubject{
 
     }
 
+    public function ratings()
+    {
+        return $this->hasManyThrough(
+            Rating::class,
+            Trip::class,
+            'captain_id', // foreign key on trips table
+            'trip_id', // foreign key on ratings table
+            'id', // local key on captains table
+            'id' // local key on trips table
+        )->where(['trips.status' => 'Finished' , 'user_id' => auth()->user()->id]);
+    }
 
 
 }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements JWTSubject{
 	use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
@@ -34,7 +35,7 @@ class User extends Authenticatable implements JWTSubject{
 		'deleted_at',
 	];
 
-    protected $visible = ['id', 'f_name', 'l_name', 'verified', 'online' ,'phone'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'verified', 'online' ,'phone' ,'customer_profile'];
 
 
 	protected $deleted_at = 'deleted_at';
@@ -46,7 +47,7 @@ class User extends Authenticatable implements JWTSubject{
         $userArray = array_merge(['id' => $this->id], $userArray);
         return $userArray;
     }
-    protected $appends = ['fullname'];
+    protected $appends = ['fullname' ,'customer_profile', 'uuid'];
 
 	/**
 	 * The attributes that should be hidden for serialization.
@@ -107,6 +108,20 @@ class User extends Authenticatable implements JWTSubject{
     public function getFullNameAttribute()
     {
         return $this->f_name . ' ' . $this->l_name;
+    }
+
+    public function getCustomerProfileAttribute()
+    {
+        if ($this->customerDetail) {
+            return $this->customerDetail->profile_picture;
+        }
+
+        return "customer/default/default.png";
+    }
+
+    public function getUuidAttribute()
+    {
+        return ($this->id * 15) % 26;
     }
 
 	public function admingroup() {

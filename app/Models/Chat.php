@@ -18,7 +18,7 @@ class Chat extends Model
 
     public function captain()
     {
-        return $this->belongsTo(User::class, 'captain_id');
+        return $this->belongsTo(Captain::class, 'captain_id');
     }
 
     public function user()
