@@ -20,7 +20,12 @@ class CardController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->header('per_page', 10);
-        $cards = CaptainCard::with('captain')->where('captain_id' , auth()->user()->id)->simplePaginate($perPage);
+        if(auth()->user()->account_type == 'captain'){
+            $type = 'captain';
+        }else{
+            $type = 'customer';
+        }
+        $cards = CaptainCard::with( $type )->where('captain_id' , auth()->user()->id)->simplePaginate($perPage);
 
         return $this->returnData ( ['cards' => $cards] );
 

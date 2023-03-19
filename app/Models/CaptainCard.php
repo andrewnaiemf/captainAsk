@@ -19,12 +19,18 @@ class CaptainCard extends Model
         'id',
         'name',
         'number',
-        'captain'
+        'captain',
+        'customer'
     ];
 
     public function captain()
     {
         return $this->belongsTo(Captain::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class ,'captain_id');
     }
 
 

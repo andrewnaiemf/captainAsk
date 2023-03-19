@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
@@ -20,9 +21,15 @@ class WalletController extends Controller
      */
     public function index()
     {
-        $captain = Captain::find( auth()->user()->id );
-        $wallet = $captain->captainDetail()->first()->wallet ;
-        $cards = $captain->cards()->get();
+        if(auth()->user()->account_type == 'captain'){
+            $user = Captain::find( auth()->user()->id );
+            $wallet = $user->captainDetail()->first()->wallet ;
+        }else{
+            $user = User::find( auth()->user()->id );
+            $wallet = $user->customerDetail()->first()->wallet ;
+        }
+
+        $cards = $user->cards()->get();
 
         return $this->returnData([ 'wallet' => $wallet , 'cards' => $cards ]);
 

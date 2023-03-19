@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use App\Models\CustomerDetail;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -47,7 +48,13 @@ class UserController extends Controller
 
 
             $documents = $request->file('documents', []);
-            $this->userDocuments(  $documents, $user );
+            $this->captainDocuments(  $documents, $user );
+        }else{
+
+            if( $request->file('profile') ){
+                $document = $request->file('profile');
+                $this->customerDocuments(  $document, $user );
+            }
         }
 
         return $this->returnSuccessMessage( trans("api.user'sdataUpdatedSuccessfully") );
@@ -85,7 +92,7 @@ class UserController extends Controller
         }
     }
 
-    public function userDocuments( $documents, $user )
+    public function captainDocuments( $documents, $user )
     {
         $path = 'captainDocument/' .$user->id. '/';
 
@@ -123,4 +130,28 @@ class UserController extends Controller
         }
     }
 
+    public function customerDocuments( $document, $user )
+    {
+        $path = 'customer/' .$user->id. '/';
+
+
+        $user_document = $user->customerDetail()->first();
+
+        if ( $user_document ) {
+            $segments = explode('/', $user_document->profile_picture);
+            $imageName = $segments[2];
+            $document->storeAs($path,$imageName);
+        } else {
+            $imageName = $document->hashName();
+            $document->storeAs($path,$imageName);
+            $full_path = $path.$imageName;
+            $document = $user->customerDetail()->first();
+
+            CustomerDetail::create([
+                'user_id' => $user->id,
+                'profile_picture' => $full_path,
+            ]);
+        }
+
+    }
 }

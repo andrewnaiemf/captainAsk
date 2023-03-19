@@ -9,7 +9,7 @@ class Trip extends Model
 {
     use HasFactory;
 
-    protected $fillable =['status','paymentMethod' , 'captain_id'];
+    protected $fillable =['status', 'paymentMethod', 'captain_id', 'notes'];
 
     protected $appends = ['rating_customer',
                         'rating_captain',
