@@ -36,7 +36,7 @@ class User extends Authenticatable implements JWTSubject{
 		'deleted_at',
 	];
 
-    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'verified', 'online' ,'phone' ,'customer_profile'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'fullname', 'verified', 'online' ,'phone' ,'customer_profile' ,'rating'];
 
 
 	protected $deleted_at = 'deleted_at';
@@ -48,7 +48,7 @@ class User extends Authenticatable implements JWTSubject{
         $userArray = array_merge(['id' => $this->id], $userArray);
         return $userArray;
     }
-    protected $appends = ['fullname' ,'customer_profile'];
+    protected $appends = ['fullname' ,'customer_profile', 'rating'];
 
 	/**
 	 * The attributes that should be hidden for serialization.
@@ -120,6 +120,14 @@ class User extends Authenticatable implements JWTSubject{
         return "customer/default/default.png";
     }
 
+    public function getRatingAttribute()
+    {
+        if (auth()->user()) {
+            $average_rating =  $this->ratings()->avg('rating');
+            return number_format($average_rating, 2);
+        }
+        return '0' ;
+    }
 
 	public function admingroup() {
 		return $this->belongsTo(AdminGroup::class, 'admin_group_id');
@@ -140,5 +148,21 @@ class User extends Authenticatable implements JWTSubject{
 
     public function customerDetail(){
         return $this->hasOne(CustomerDetail::class, 'user_id');
+    }
+
+    public function ratings()
+    {
+        if (auth()->user()) {
+            return $this->hasManyThrough(
+                Rating::class,
+                Trip::class,
+                'captain_id', // foreign key on trips table
+                'trip_id', // foreign key on ratings table
+                'id', // local key on captains table
+                'id' // local key on trips table
+            )->where(['trips.status' => 'Finished' , 'user_id' => auth()->user()->id]);
+        }
+        return null ;
+
     }
 }

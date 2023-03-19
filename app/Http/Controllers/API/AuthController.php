@@ -21,15 +21,21 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validator=Validator::make($request->all(), [
-                    'f_name' => 'required',
-                    'l_name' => 'required',
-                    'phone' => 'required|numeric|unique:users',
-                    'password' => 'required|string|min:6',
-                    'earn_area' => 'required|string',
-                 ]);
+        $rules = [
+            'f_name' => 'required',
+            'l_name' => 'required',
+            'phone' => 'required|numeric|unique:users',
+            'password' => 'required|string|min:6',
+        ];
+
+        if ($request->earn_area) {
+            $rules['earn_area'] = 'required|string';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
         if ($validator->fails()) {
-            return $this->returnValidationError(401,$validator->errors()->all());
+            return $this->returnValidationError(401, $validator->errors()->all());
         }
 
         if ( $request->earn_area ) {
@@ -75,7 +81,8 @@ class AuthController extends Controller
                 'l_name' => $request->l_name,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
-
+                'online' => 1,
+                'verified' => 0
             ]);
 
         }
@@ -133,14 +140,17 @@ class AuthController extends Controller
     public function me()
     {
         $user_type = auth()->user()->account_type;
-        $user = Captain::find(auth()->user()->id);
 
         if ( $user_type == 'captain' ) {
+            $user = Captain::find(auth()->user()->id);
             $user->load('captainDetail' );
             $user->load('documents');
 
             $msg = $user->status == 'Pending' ? "dataIsPending" : "dataIsRejected";
             return $this->returnData(['user' => $user ] ,trans("api.". $msg));
+        }else{
+            $user = User::find(auth()->user()->id);
+            return $this->returnData(['user' => $user ]);
         }
 
     }
