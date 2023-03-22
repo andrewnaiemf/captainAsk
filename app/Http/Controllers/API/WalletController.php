@@ -21,12 +21,17 @@ class WalletController extends Controller
      */
     public function index()
     {
+        $wallet = '0';
         if(auth()->user()->account_type == 'captain'){
             $user = Captain::find( auth()->user()->id );
-            $wallet = $user->captainDetail()->first()->wallet ;
+            if($user->captainDetail()->first()){
+                $wallet = $user->captainDetail()->first()->wallet ;
+            }
         }else{
             $user = User::find( auth()->user()->id );
-            $wallet = $user->customerDetail()->first()->wallet ;
+            if( $user->customerDetail()->first()){
+                $wallet = $user->customerDetail()->first()->wallet ;
+            }
         }
 
         $cards = $user->cards()->get();
