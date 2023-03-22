@@ -72,6 +72,7 @@ Route::group([
 
     Route::resource('offer', OfferController::class);
 
+    Route::post('transfer', [WalletController::class, 'transfer']);
 
     Route::get('generalizations', [GeneralizationController::class, 'index']);
     Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);

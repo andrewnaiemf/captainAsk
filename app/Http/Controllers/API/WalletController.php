@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
 use App\Models\User;
+use App\Models\CaptainDetails;
+use App\Models\CustomerDetail;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
@@ -105,5 +107,39 @@ class WalletController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function transfer(Request $request){
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|numeric|exists:users,phone',
+            'amount' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+
+        $loggedCustomerDetails = CustomerDetail::where(['user_id'=>auth()->user()->id])->first();
+
+        if($loggedCustomerDetails->wallet <  $request->amount){
+           return $this->returnError( trans('api.You_do_not_have_enough_points_balance_in_your_wallet') );
+        }
+
+        $receiver = User::where('phone' , $request->phone)->first();
+        if($receiver->account_type == 'captain'){
+            $captainDetails = CaptainDetails::where(['user_id'=>$receiver->id])->first();
+            $totalAmount =  $captainDetails->wallet + $request->amount;
+            $captainDetails->update(['wallet' => $totalAmount]);
+        }else{
+            $customerDetails = CustomerDetail::where(['user_id'=>$receiver->id])->first();
+            $totalAmount =  $customerDetails->wallet + $request->amount;
+            $customerDetails->update(['wallet' => $totalAmount]);
+        }
+
+        $loggedCustomerTotalAmount =  $loggedCustomerDetails->wallet - $request->amount ;
+        $loggedCustomerDetails->update(['wallet' => $loggedCustomerTotalAmount]);
+
+        return $this->returnSuccessMessage( trans("api.transferCompletedSuccessfully")  );
+
     }
 }
