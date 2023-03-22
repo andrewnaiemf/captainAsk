@@ -23,7 +23,9 @@ class ChatController extends Controller
         $perPage = $request->header('per_page', 10);
 
         $user = auth()->user();
-        $user = Captain::find(auth()->user()->id);
+        if(auth()->user()->account_type == 'captain' ){
+            $user = Captain::find(auth()->user()->id);
+        }
         $chat = $user->chats()->whereNull('deleted_at')->simplePaginate($perPage);
         $chat->load('captain');
         $chat->load('user');
@@ -132,8 +134,12 @@ class ChatController extends Controller
      */
     public function destroy($id)
     {
-        $chat = Chat::where(['captain_id' => auth()->user()->id, 'user_id' => $id])->whereNull('deleted_at')->first();
-        if (  $chat ){
+        if(auth()->user()->account_type == 'captain'){
+            $chat = Chat::where(['captain_id' => auth()->user()->id, 'user_id' => $id])->whereNull('deleted_at')->first();
+        }else{
+            $chat = Chat::where(['user_id' => auth()->user()->id, 'captain_id' => $id])->whereNull('deleted_at')->first();
+        }
+        if ($chat){
             $chat->delete();
         }
         return $this->returnSuccessMessage( trans("api.user_blocked_successfully") );

@@ -14,7 +14,7 @@ class Chat extends Model
 
     protected $fillable = ['user_id', 'captain_id'];
 
-    protected $visible = ['captain', 'user'];
+    protected $visible = ['id','captain', 'user'];
 
     public function captain()
     {
