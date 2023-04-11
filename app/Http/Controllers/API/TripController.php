@@ -232,11 +232,10 @@ class TripController extends Controller
             $trip = Trip::find($id);
             $trip->update([
                 'paymentMethod' => $request->paymentMethod,
-                'cost' => $request->cost
+                'cost' => $request->cost,
+                'firebaseId' => strtotime("now")
             ]);
-            $trip['firebaseId'] = strtotime("now");
             return $this->returnData($trip);
-
         }
 
     }
