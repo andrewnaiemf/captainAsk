@@ -16,6 +16,7 @@ class CaptainService extends Model
 
     public $visable = [ 'name' ,'image' ];
 
+    protected $hidden = ['created_at','updated_at'];
 
 
 

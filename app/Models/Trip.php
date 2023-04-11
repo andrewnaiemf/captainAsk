@@ -9,7 +9,30 @@ class Trip extends Model
 {
     use HasFactory;
 
-    protected $fillable =['status', 'paymentMethod', 'captain_id', 'notes'];
+    protected $fillable =[
+        'id',
+        'status',
+        'paymentMethod',
+        'captain_id',
+        'notes',
+        'customer_id',
+        'service_id',
+        'start_address',
+        'start_lat',
+        'start_lng',
+        'end_lng',
+        'end_lat',
+        'end_address',
+        'cost',
+        'paymentMethod'
+    ];
+
+    public function toArray()
+    {
+        $tripArray = parent::toArray();
+        $tripArray = array_merge(['id' => $this->id], $tripArray);
+        return $tripArray;
+    }
 
     protected $appends = ['rating_customer',
                         'rating_captain',
@@ -18,7 +41,7 @@ class Trip extends Model
                         'customer_profile'
                     ];
 
-    protected $hidden = ['rating'];
+    protected $hidden = ['rating','created_at','updated_at'];
 
     public function getCreatedAtAttribute($value)
     {

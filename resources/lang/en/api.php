@@ -14,6 +14,7 @@ return [
     'Chat_opend_successfully' => 'Chat opend successfully',
     'user_blocked_successfully' => 'User blocked successfully',
     'logged_out_successfully' => 'logged out successfully',
+    'tripCreatedSuccessfully' => 'The trip created successfully',
     'tripFinishedSuccessfully' => 'The trip finished successfully',
     'tripRejectedSuccessfully' => 'The trip Rejected successfully',
     'tripAcceptedSuccessfully' => 'The trip Accepted successfully',

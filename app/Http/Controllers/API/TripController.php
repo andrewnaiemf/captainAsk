@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
+use App\Models\CaptainService;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
@@ -11,6 +12,8 @@ use App\Models\User;
 use App\Models\Trip;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Validator;
+use GoogleMaps\GoogleMaps;
+use GuzzleHttp\Client;
 
 class TripController extends Controller
 {
@@ -53,7 +56,52 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(), [
+            'service_id' => 'required|in:1,2,3,4,5',
+            'start_address' => 'required',
+            'start_lat' => 'required',
+            'start_lng' => 'required',
+            'end_address' => 'required',
+            'end_lat' => 'required',
+            'end_lng' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+        $request['customer_id'] = auth()->user()->id;
+
+        $user_wallet = '0';
+        $user_details = auth()->user()->customerDetail()->first();
+        if(isset($user_details)){
+            $user_wallet =  $user_details->wallet;
+        }
+        $origin = $request->start_lat .', ' .$request->start_lng;
+        $destination = $request->end_lat .', ' .$request->end_lng;
+        $distance = $this->getDistance($origin, $destination);
+
+        if ($distance){
+            $data = [];
+            $cost = ceil($distance * 10) ; // 10 SAR per 1 kilo
+            $min_cost = $cost - 5 ;
+
+            $data['wallet'] = $user_wallet;
+            $data['can_pay'] = false;
+            $data['min_cost'] = $min_cost;
+            $data['cost'] = $cost;
+
+            if ($user_wallet > $min_cost)
+            {
+                $data['can_pay'] = true;
+            }
+            $trip = Trip::create($request->all());
+            $data['trip'] = $trip;
+
+           return $this->returnData($data);
+        }else{
+            return $this->returnError( trans("api.InvalidRequest"));
+        }
+
     }
 
     /**
@@ -119,55 +167,78 @@ class TripController extends Controller
     public function update(Request $request, $id)
     {
 
-        $validator=Validator::make($request->all(), [
-            'status' => 'required|in:Accepted,Rejected,Finished',
-        ]);
+        if (auth()->user()->account_type == 'captain') {
+            $validator=Validator::make($request->all(), [
+                'status' => 'required|in:Accepted,Rejected,Finished',
+            ]);
 
-        if ($validator->fails()) {
-            return $this->returnValidationError(401,$validator->errors()->all());
-        }
+            if ($validator->fails()) {
+                return $this->returnValidationError(401,$validator->errors()->all());
+            }
 
 
-        $trip = Trip::find($id);
-        $captain = Captain::find(auth()->user()->id) ;
+            $trip = Trip::find($id);
+            $captain = Captain::find(auth()->user()->id) ;
 
-        if ( $trip &&  !in_array($trip->status , ['Finished','Rejected'])  && $captain->account_type == 'captain') {
+            if ( $trip &&  !in_array($trip->status , ['Finished','Rejected'])  && $captain->account_type == 'captain') {
 
-            if ( $trip->captain_id == $captain->id ) {
+                if ( $trip->captain_id == $captain->id ) {
 
-                if ( $request->status == 'Finished' &&  $trip->status == 'Accepted' ) {
+                    if ( $request->status == 'Finished' &&  $trip->status == 'Accepted' ) {
 
-                    $trip->update(['status' => $request->status]);
+                        $trip->update(['status' => $request->status]);
 
-                    if ( $trip->paymentMethod == 'card') {
-                        $captain_wallet =  $trip->cost + $captain->captainDetail->wallet ;
-                        $captain->captainDetail()->update(['wallet' => $captain_wallet]);
+                        if ( $trip->paymentMethod == 'card') {
+                            $captain_wallet =  $trip->cost + $captain->captainDetail->wallet ;
+                            $captain->captainDetail()->update(['wallet' => $captain_wallet]);
+                        }
+                        $message = trans("api.tripFinishedSuccessfully") ;
+
+                    }else if ( $request->status == 'Rejected'  &&  $trip->status == 'Accepted' ) {
+
+                        $trip->update(['status' => $request->status]);
+                        $message = trans("api.tripRejectedSuccessfully") ;
+
+                    }else{
+                        $message = trans("api.InvalidRequest") ;
                     }
-                    $message = trans("api.tripFinishedSuccessfully") ;
 
-                }else if ( $request->status == 'Rejected'  &&  $trip->status == 'Accepted' ) {
-
-                    $trip->update(['status' => $request->status]);
-                    $message = trans("api.tripRejectedSuccessfully") ;
-
-                }else{
-                    $message = trans("api.InvalidRequest") ;
                 }
 
+                if (  $request->status == 'Accepted'  &&  $trip->status == 'Pending' ) {
+
+                    $trip->update(['status' => $request->status , 'captain_id' => $captain->id]);
+                    $message = trans("api.tripAcceptedSuccessfully") ;
+
+                }
+
+                return $this->returnSuccessMessage( $message  );
+
             }
 
-            if (  $request->status == 'Accepted'  &&  $trip->status == 'Pending' ) {
+            return $this->returnError( trans("api.InvalidRequest"));
+        }else{
 
-                $trip->update(['status' => $request->status , 'captain_id' => $captain->id]);
-                $message = trans("api.tripAcceptedSuccessfully") ;
+            $validator=Validator::make($request->all(), [
+                'paymentMethod' => 'required',
+                'cost' => 'required',
+            ]);
 
+            if ($validator->fails()) {
+                return $this->returnValidationError(401,$validator->errors()->all());
             }
 
-            return $this->returnSuccessMessage( $message  );
+
+            $trip = Trip::find($id);
+            $trip->update([
+                'paymentMethod' => $request->paymentMethod,
+                'cost' => $request->cost
+            ]);
+            $trip['firebaseId'] = strtotime("now");
+            return $this->returnData($trip);
 
         }
 
-        return $this->returnError( trans("api.InvalidRequest"));
     }
 
     /**
@@ -179,5 +250,30 @@ class TripController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getDistance($origin, $destination)
+    {
+        $googleMaps = new GoogleMaps(new Client());
+
+        $directions = $googleMaps->load('directions')
+            ->setParam([
+                'origin'          => $origin,
+                'destination'     => $destination,
+                'units' => 'metric',
+                'mode' => 'driving',
+                'language' => 'en'
+            ])->get();
+        $directions = json_decode($directions, true);
+
+        if ($directions['status'] === 'OK') {
+            $distanceInMeters = $directions['routes'][0]['legs'][0]['distance']['value'];
+            $distanceInKilometers = $distanceInMeters / 1000;
+
+            return $distanceInKilometers ;
+
+        } else {
+          return ;
+        }
     }
 }
