@@ -25,15 +25,17 @@ trait FirebaseTrait
         return $docId;
     }
 
-    public function updateTrip($trip){
+    public function updateTrip($trip, $updated_data){
 
         $data = FirestoreMapper::toFirestore($trip);
-
         $docRef =  $this->ref->document($trip->firebaseId);
-        $docRef->update($data, ['merge' => true]);
 
-        return true;
+        $updateData = [];
 
+        foreach ($updated_data as $key => $value) {
+            $updateData[] = ['path' => $key, 'operator' => '=', 'value' =>  $value];
+        }
+        $res = $docRef->update($updateData);
     }
 
 }

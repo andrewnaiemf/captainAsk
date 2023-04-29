@@ -15,6 +15,7 @@ use App\Models\Rating;
 use Illuminate\Support\Facades\Validator;
 use GoogleMaps\GoogleMaps;
 use GuzzleHttp\Client;
+use App\Notifications\PushNotification;
 
 class TripController extends Controller
 {
@@ -227,8 +228,8 @@ class TripController extends Controller
         }else{
 
             $validator=Validator::make($request->all(), [
-                'paymentMethod' => 'required',
-                'cost' => 'required',
+                'paymentMethod' => 'required|in:cash,card',
+                'cost' => 'required|numeric|between:0,999999',
             ]);
 
             if ($validator->fails()) {
@@ -237,21 +238,25 @@ class TripController extends Controller
 
 
             $trip = Trip::find($id);
+            $trip->update([
+                'paymentMethod' => $request->paymentMethod,
+                'cost' => $request->cost,
+            ]);
 
-            $updateFirebaseTrip = $this->updateTrip($trip);
-            if( $updateFirebaseTrip ){
-                $trip->update([
-                    'paymentMethod' => $request->paymentMethod,
-                    'cost' => $request->cost,
-//                'firebaseId' => strtotime("now")
-                ]);
-            }
+            $this->updateTrip($trip , $request->all());
 
+            $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
+                $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
+            })->where('status','Accepted')->pluck('device_token');
+
+            $notifyDevices = PushNotification::send($captains_deviceTokens);
+//            dd($notifyDevices);
             return $this->returnData($trip);
         }
 
-    }
 
+
+    }
     /**
      * Remove the specified resource from storage.
      *

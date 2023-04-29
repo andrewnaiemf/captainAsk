@@ -9,6 +9,7 @@
         "alexpechkarev/google-maps": "^10.0",
         "astrotomic/laravel-translatable": "^11.9",
         "doctrine/dbal": "^2.10",
+        "edujugon/push-notification": "^5.3",
         "fruitcake/laravel-cors": "^2.0",
         "google/cloud-firestore": "^1.30",
         "grpc/grpc": "^1.38",

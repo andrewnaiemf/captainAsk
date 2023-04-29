@@ -22,7 +22,8 @@ class Captain extends Authenticatable  implements JWTSubject{
 	protected $fillable = [
 		'id',
         'uuid',
-		'f_name',
+        'device_token',
+        'f_name',
 		'l_name',
 		'email',
         'phone',
@@ -86,13 +87,7 @@ class Captain extends Authenticatable  implements JWTSubject{
 		return empty($date) ? null : date('Y-m-d', strtotime($date));
 	}
 
-	public function admingroup() {
-		return $this->belongsTo(AdminGroup::class, 'admin_group_id');
-	}
 
-    public function documents(){
-        return $this->hasMany(CaptainDocument::class);
-    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -192,6 +187,14 @@ class Captain extends Authenticatable  implements JWTSubject{
 
     public function captainDetail(){
         return $this->hasOne(CaptainDetails::class, 'user_id');
+    }
+
+    public function admingroup() {
+        return $this->belongsTo(AdminGroup::class, 'admin_group_id');
+    }
+
+    public function documents(){
+        return $this->hasMany(CaptainDocument::class);
     }
 
     public function cards()

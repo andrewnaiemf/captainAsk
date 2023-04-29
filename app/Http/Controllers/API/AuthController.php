@@ -82,7 +82,8 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
                 'online' => 1,
-                'verified' => 0
+                'verified' => 0,
+                'device_token' => $request->device_token
             ]);
 
         }
@@ -122,6 +123,8 @@ class AuthController extends Controller
         }
 
         $user = auth()->user();
+
+        $this->device_token($request->device_token);
 
         if (auth()->user()->account_type == 'captain') {
             $user = Captain::find($user->id);
@@ -217,4 +220,19 @@ class AuthController extends Controller
         return $this->returnData(['user' => $user , 'access_token' => $token]);
     }
 
+
+    private function device_token($device_token){
+
+        $user = auth()->user();
+        if(!isset($user->device_token)){
+            $user->update(['device_token'=>json_encode($device_token)]);
+        }else{
+            $devices_token =( array )json_decode($user->device_token);
+
+            if(! in_array( device_token , $devices_token) ){
+                array_push($devices_token ,$device_token );
+                $user->update(['device_token'=>json_encode( $devices_token)]);
+            }
+        }
+    }
 }
