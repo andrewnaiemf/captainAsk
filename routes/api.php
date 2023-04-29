@@ -37,6 +37,16 @@ Route::group([
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
+
+//Route::get('insert',function (){
+//   $ref = app('firebase.firestore')->database()->collection('trips')->newDocument();
+//   $ref->set([
+//       'firstname' => 'test'
+//   ]);
+//});
+
+
 });
 
 

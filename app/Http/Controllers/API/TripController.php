@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
 use App\Models\CaptainService;
+use App\Traits\FirebaseTrait;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
@@ -18,6 +19,8 @@ use GuzzleHttp\Client;
 class TripController extends Controller
 {
     use GeneralTrait;
+    use FirebaseTrait;
+
 
     /**
      * Display a listing of the resource.
@@ -96,8 +99,12 @@ class TripController extends Controller
             }
             $trip = Trip::create($request->all());
             $data['trip'] = $trip;
+            $docId = $this->addNewTrip($trip);//pass the trip to firebase trait and return its id
 
-           return $this->returnData($data);
+            $trip->update(['firebaseId' => $docId]);
+
+            return $this->returnData($data);
+
         }else{
             return $this->returnError( trans("api.InvalidRequest"));
         }
@@ -230,11 +237,16 @@ class TripController extends Controller
 
 
             $trip = Trip::find($id);
-            $trip->update([
-                'paymentMethod' => $request->paymentMethod,
-                'cost' => $request->cost,
-                'firebaseId' => strtotime("now")
-            ]);
+
+            $updateFirebaseTrip = $this->updateTrip($trip);
+            if( $updateFirebaseTrip ){
+                $trip->update([
+                    'paymentMethod' => $request->paymentMethod,
+                    'cost' => $request->cost,
+//                'firebaseId' => strtotime("now")
+                ]);
+            }
+
             return $this->returnData($trip);
         }
 
