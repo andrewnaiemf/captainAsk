@@ -243,6 +243,7 @@ class TripController extends Controller
                 'cost' => $request->cost,
             ]);
 
+            $request['status'] = 'Pending';
             $this->updateTrip($trip , $request->all());
 
             $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
