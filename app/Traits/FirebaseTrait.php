@@ -23,13 +23,15 @@ trait FirebaseTrait
         $docId = $docRef->id();
 
         $docRef->collection('captains')->add([
-            'name'=> null,
-            'image_url'=> null,
-            'rate'=> null,
-            'car_number'=> null,
-            'amount'=> null,
-            'arrival_time'=> null,
-            'distance'=> null,
+            'id' => null,
+            'status' => null,
+            'name' => null,
+            'image_url' => null,
+            'rate' => null,
+            'car_number' => null,
+            'amount' => null,
+            'arrival_time' => null,
+            'distance' => null,
         ]);
 
         $docRef->set( $data );

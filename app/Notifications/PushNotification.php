@@ -7,23 +7,25 @@ use Illuminate\Support\Facades\Http;
 
 class PushNotification
 {
-    public static function send($tokens)
+    public static function send($tokens ,$message)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
         $serverKey = env('FCM_KEY');
         $devs=[];
         $devices = $tokens;
         foreach ($devices as $tokens) {
-            foreach (json_decode($tokens) as $token){
-                array_push($devs, $token);
+            if( $tokens){
+                foreach (json_decode($tokens) as $token){
+                    array_push($devs, $token);
+                }
             }
         }
 
         $data = [
             "registration_ids" =>$devs,
             "notification" => [
-                "body" =>'body',
-                "title" =>'Captain ask',
+                "body" => $message,
+                "title" => 'Captain ask',
                 "sound" => "notify.mp3",
             ],
         ];

@@ -250,8 +250,9 @@ class TripController extends Controller
                 $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
             })->where('status','Accepted')->pluck('device_token');
 
-            $notifyDevices = PushNotification::send($captains_deviceTokens);
-//            dd($notifyDevices);
+            $message = "There is a new trip";
+            $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+
             return $this->returnData($trip);
         }
 
