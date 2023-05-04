@@ -90,7 +90,7 @@ class OfferController extends Controller
 
         }
         $offer_firebase_id = $offer['firebaseId'] ?? '' ;
-        $result = $this->offerFirebase($trip , $request->all() ,$captain ,$location ,$offer_firebase_id);
+        $result = $this->offerFirebase($offer_firebase_id ,$trip , $request->all() ,$captain ,$location);
 
         if ($result != 'update'){
 
@@ -141,7 +141,38 @@ class OfferController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator=Validator::make($request->all(), [
+            'status' => 'required|in:Decline,Accept',
+            'captain_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+
+        $offer = Offer::where(['firebaseId' => $id ,'captain_id' =>$request->captain_id ])->first();
+
+        if ($offer){
+
+            $trip = Trip::find($offer->trip_id);
+            $this->offerFirebase($id ,$trip ,['status' => $request->status,'captain_id' => $request->captain_id]);
+
+            if ($request->status == 'Decline'){
+                $status = 0;
+
+            }else{
+                $status = 1;
+                $trip->update([
+                    'status' => 'Accepted',
+                    'captain_id' => $request->captain_id
+                ]);
+            }
+            $offer->update(['accepted' => $status]);
+
+            return $this->returnSuccessMessage(  trans('api.Offer_updated_successfully')  );
+        }
+
+        return $this->returnError( trans("api.InvalidRequest"));
     }
 
     /**

@@ -43,20 +43,37 @@ trait FirebaseTrait
     }
 
 
-    public function offerFirebase($trip ,$offerData ,$captain ,$location ,$firebaseId){
+    public function offerFirebase($firebaseId = null ,$trip = null ,$offerData = null ,$captain = null ,$location = null){
 
         $docRef = $this->ref->document($trip->firebaseId);
         if($firebaseId){//update offer
 
             $subCollection = $this->ref->document($trip->firebaseId)->collection('captains')->document($firebaseId);
+            if (isset($offerData['amount'])){
+                $data = [
+                    'amount' => $offerData['amount'],
+                    'arrival_time' => ceil($location['duration'] / 60),//per minutes
+                    'distance' =>ceil($location['distanceInKilometers']) ,
+                    'status' => 'Pending',
+                ];
+            }elseif($offerData['status']){
 
-            $data = [
-                'amount' => $offerData['amount'],
-                'amount' => $offerData['amount'],
-                'arrival_time' => ceil($location['duration'] / 60),//per minutes
-                'distance' =>ceil($location['distanceInKilometers']) ,
-                'status' => 'Pending',
-            ];
+                 if($offerData['status'] == 'Decline')
+                 {
+                    $data = ['status' => 'Decline'];
+                 }else{//update the trip status with accepted , update the offer status with accept , and delete all other offers
+                     $query = $docRef->collection('captains')->where('status', '!=','Accepted');
+                     $docs = $query->documents()->rows();
+
+                     foreach ($docs as $doc) {
+                         $doc->reference()->delete();
+                     }
+
+                     $this->updateTrip($trip ,['status' => 'Accepted']);
+                     $data = ['status' => 'Accepted'];
+                }
+            }
+
             $updateData=[];
 
             foreach ($data as $key => $value) {
