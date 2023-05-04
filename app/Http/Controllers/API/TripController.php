@@ -82,7 +82,7 @@ class TripController extends Controller
         $origin = $request->start_lat .', ' .$request->start_lng;
         $destination = $request->end_lat .', ' .$request->end_lng;
         $location = $this->getDistance($origin, $destination);
-        $distance = $location['distanceInKilometers'] ;
+        $distance = $location['distanceInKilometers'];
 
         if ($distance){
             $data = [];
@@ -98,6 +98,7 @@ class TripController extends Controller
             {
                 $data['can_pay'] = true;
             }
+            $request['distance'] = $distance;
             $trip = Trip::create($request->all());
             $data['trip'] = $trip;
             $docId = $this->addNewTrip($trip);//pass the trip to firebase trait and return its id

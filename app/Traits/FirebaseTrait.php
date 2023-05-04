@@ -65,6 +65,7 @@ trait FirebaseTrait
 
             $subCollection->update($updateData);
             return 'update';
+
         }else{//create offer
 
             $newDocRef = $docRef->collection('captains')->add([
