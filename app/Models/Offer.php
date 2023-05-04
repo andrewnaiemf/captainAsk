@@ -15,7 +15,8 @@ class Offer extends Model
         'trip_id',
         'captain_id',
         'amount',
-        'accepted'
+        'accepted',
+        'firebaseId'
     ];
 
     public function captain()

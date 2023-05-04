@@ -8,20 +8,19 @@ use App\Models\CaptainService;
 use App\Traits\FirebaseTrait;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
+use App\Traits\GeolocationTrait;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Trip;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Validator;
-use GoogleMaps\GoogleMaps;
-use GuzzleHttp\Client;
 use App\Notifications\PushNotification;
 
 class TripController extends Controller
 {
     use GeneralTrait;
     use FirebaseTrait;
-
+    use GeolocationTrait;
 
     /**
      * Display a listing of the resource.
@@ -82,7 +81,8 @@ class TripController extends Controller
         }
         $origin = $request->start_lat .', ' .$request->start_lng;
         $destination = $request->end_lat .', ' .$request->end_lng;
-        $distance = $this->getDistance($origin, $destination);
+        $location = $this->getDistance($origin, $destination);
+        $distance = $location['distanceInKilometers'] ;
 
         if ($distance){
             $data = [];
@@ -268,30 +268,5 @@ class TripController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function getDistance($origin, $destination)
-    {
-        $googleMaps = new GoogleMaps(new Client());
-
-        $directions = $googleMaps->load('directions')
-            ->setParam([
-                'origin'          => $origin,
-                'destination'     => $destination,
-                'units' => 'metric',
-                'mode' => 'driving',
-                'language' => 'en'
-            ])->get();
-        $directions = json_decode($directions, true);
-
-        if ($directions['status'] === 'OK') {
-            $distanceInMeters = $directions['routes'][0]['legs'][0]['distance']['value'];
-            $distanceInKilometers = $distanceInMeters / 1000;
-
-            return $distanceInKilometers ;
-
-        } else {
-          return ;
-        }
     }
 }

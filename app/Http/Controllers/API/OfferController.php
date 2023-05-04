@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Captain;
+use App\Traits\FirebaseTrait;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
+use App\Traits\GeolocationTrait;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Offer;
 use App\Models\Trip;
@@ -13,6 +16,8 @@ use App\Models\Trip;
 class OfferController extends Controller
 {
     use GeneralTrait;
+    use FirebaseTrait;
+    use GeolocationTrait;
 
     /**
      * Display a listing of the resource.
@@ -45,6 +50,8 @@ class OfferController extends Controller
         $validator=Validator::make($request->all(), [
             'trip_id' => 'integer|required|exists:trips,id',
             'amount' => 'numeric|required|unique:captain_cards,number',
+            'lat' => 'required',
+            'lng' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -63,21 +70,43 @@ class OfferController extends Controller
         ])
         ->first();
 
-        if( $offer && in_array($offer->accepted , [null , 0]) ){
+        $captain = Captain::find(auth()->user()->id);
 
-            $offer->update(['amount' => $request->amount , 'accepted' => null ]);
+        $origin = $request->lat .', ' .$request->lng;
+        $destination = $trip->start_lat .', ' .$trip->start_lng;
+        $location = $this->getDistance($origin, $destination);
+
+        if( $offer && !is_null($offer->accepted)  ){
+
             $message = trans('api.Offer_updated_successfully');
 
-        }else if( $offer && $offer->trip_id != $request->trip_id  ){
-            Offer::Create([
+        }elseif(! isset($offer)){
+
+            $message = trans('api.Offer_created_successfully');
+
+        }else{
+
+            return $this->returnError( trans("api.InvalidRequest"));
+
+        }
+        $offer_firebase_id = $offer['firebaseId'] ?? '' ;
+        $result = $this->offerFirebase($trip , $request->all() ,$captain ,$location ,$offer_firebase_id);
+
+        if ($result != 'update'){
+
+            $offer = Offer::Create([
                 'trip_id' => $request->trip_id ,
                 'captain_id' => auth()->user()->id,
                 'amount' => $request->amount
             ]);
-            $message = trans('api.Offer_created_successfully');
+            $offer->update(['firebaseId' => $result]);
+
         }else{
-            return $this->returnError( trans("api.InvalidRequest"));
+
+            $offer->update(['amount' => $request->amount , 'accepted' => null ]);
+
         }
+
         return $this->returnSuccessMessage( $message  );
     }
 
