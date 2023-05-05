@@ -57,13 +57,10 @@ trait FirebaseTrait
                     'status' => 'Pending',
                 ];
             }elseif($offerData['status']){
+                $status = $offerData['status'] == 'Decline' ? 'Declined' : 'Accepted' ;
+                $this->update(['status' => $status] ,$subCollection);
 
-                 if($offerData['status'] == 'Decline')
-                 {
-                    $data = ['status' => 'Decline'];
-                 }else{//update the trip status with accepted , update the offer status with accept , and delete all other offers
-
-                     $this->updateTrip($trip ,['status' => 'Accepted']);
+                if($offerData['status'] == 'Accept') {//update the trip status with accepted , update the offer status with accept , and delete all other offers
 
                      $query = $docRef->collection('captains')->where('status', '!=','Accepted');
                      $docs = $query->documents()->rows();
@@ -71,17 +68,11 @@ trait FirebaseTrait
                          $doc->reference()->delete();
                      }
 
-                     $data = ['status' => 'Accepted'];
+                     $this->updateTrip($trip ,['status' => 'Accepted']);
                 }
             }
 
-            $updateData=[];
 
-            foreach ($data as $key => $value) {
-                $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
-            }
-
-            $subCollection->update($updateData);
             return 'update';
 
         }else{//create offer
@@ -104,6 +95,17 @@ trait FirebaseTrait
 
         }
 
+    }
+
+
+    private function update($data ,$subCollection){
+        $updateData=[];
+
+        foreach ($data as $key => $value) {
+            $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
+        }
+
+        $subCollection->update($updateData);
     }
 
 }
