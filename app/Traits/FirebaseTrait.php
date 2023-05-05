@@ -57,10 +57,18 @@ trait FirebaseTrait
                     'status' => 'Pending',
                 ];
             }elseif($offerData['status']){
-                $status = $offerData['status'] == 'Decline' ? 'Declined' : 'Accepted' ;
-                $this->update(['status' => $status] ,$subCollection);
 
-                if($offerData['status'] == 'Accept') {//update the trip status with accepted , update the offer status with accept , and delete all other offers
+                $status = $offerData['status'] == 'Decline' ? 'Declined' : 'Accepted';
+                $data =['status' => $status];
+                $updateData=[];
+
+                foreach ($data as $key => $value) {
+                    $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
+                }
+
+                $subCollection->update($updateData);
+
+                 if($offerData['status'] == 'Accept'){//update the trip status with accepted , update the offer status with accept , and delete all other offers
 
                      $query = $docRef->collection('captains')->where('status', '!=','Accepted');
                      $docs = $query->documents()->rows();
@@ -71,7 +79,6 @@ trait FirebaseTrait
                      $this->updateTrip($trip ,['status' => 'Accepted']);
                 }
             }
-
 
             return 'update';
 
@@ -95,17 +102,6 @@ trait FirebaseTrait
 
         }
 
-    }
-
-
-    private function update($data ,$subCollection){
-        $updateData=[];
-
-        foreach ($data as $key => $value) {
-            $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
-        }
-
-        $subCollection->update($updateData);
     }
 
 }
