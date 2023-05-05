@@ -49,7 +49,7 @@ trait FirebaseTrait
         if($firebaseId){//update offer
 
             $subCollection = $this->ref->document($trip->firebaseId)->collection('captains')->document($firebaseId);
-            if (isset($offerData['amount'])){
+            if (isset($offerData['amount'])){// add amount in step 2 to create trip
                 $data = [
                     'amount' => $offerData['amount'],
                     'arrival_time' => ceil($location['duration'] / 60),//per minutes
@@ -93,7 +93,10 @@ trait FirebaseTrait
                 'car_number' => '111111',
                 'amount' => $offerData['amount'],
                 'arrival_time' => ceil($location['duration'] / 60),//per minutes
-                'distance' =>ceil($location['distanceInKilometers']) ,
+                'distance' =>ceil($location['distanceInKilometers']),
+                'uuId' => $captain->uuid,
+                'lat' => $offerData['lat'],
+                'lng' => $offerData['lng']
             ]);
 
             $newDocId = $newDocRef->id();
