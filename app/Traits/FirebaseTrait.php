@@ -62,14 +62,15 @@ trait FirebaseTrait
                  {
                     $data = ['status' => 'Decline'];
                  }else{//update the trip status with accepted , update the offer status with accept , and delete all other offers
+
+                     $this->updateTrip($trip ,['status' => 'Accepted']);
+
                      $query = $docRef->collection('captains')->where('status', '!=','Accepted');
                      $docs = $query->documents()->rows();
-
                      foreach ($docs as $doc) {
                          $doc->reference()->delete();
                      }
 
-                     $this->updateTrip($trip ,['status' => 'Accepted']);
                      $data = ['status' => 'Accepted'];
                 }
             }
