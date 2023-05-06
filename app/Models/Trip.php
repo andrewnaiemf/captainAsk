@@ -43,7 +43,7 @@ class Trip extends Model
                         'customer_profile'
                     ];
 
-    protected $hidden = ['rating','created_at','updated_at'];
+    protected $hidden = ['rating','updated_at'];
 
     public function getCreatedAtAttribute($value)
     {
