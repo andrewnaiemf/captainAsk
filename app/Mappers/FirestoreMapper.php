@@ -18,6 +18,7 @@ class FirestoreMapper
             'end_address' => $trip->end_address,
             'end_lat' => $trip->end_lat,
             'end_lng' => $trip->end_lng,
+            'distance' => $trip->distance,
             'paymentMethod' => $trip->paymentMethod,
             'cost' => $trip->cost,
             'status' => $trip->status,
