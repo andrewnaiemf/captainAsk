@@ -52,7 +52,7 @@ class RatingController extends Controller
 
         $trip = Trip::find($request->trip_id);
         $user = auth()->user() ;
-        $user_id = $user->account_type == 'captain' ? $trip->captain_id : $trip->customer_id ;
+        $user_id = $user->account_type == 'captain' ? $trip->customer_id : $trip->captain_id ;
         $rate = Rating::where(['trip_id' => $request->trip_id , 'user_id' =>  $user_id])->first();
 
         if( ! isset($rate)) {
