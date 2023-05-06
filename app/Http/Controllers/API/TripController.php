@@ -201,6 +201,8 @@ class TripController extends Controller
                             $captain_wallet =  $trip->cost + $captain->captainDetail->wallet ;
                             $captain->captainDetail()->update(['wallet' => $captain_wallet]);
                         }
+                        $this->updateTrip($trip , $request->all());
+
                         $message = trans("api.tripFinishedSuccessfully") ;
 
                     }else if ( $request->status == 'Rejected'  &&  $trip->status == 'Accepted' ) {
