@@ -31,10 +31,9 @@ class UserController extends Controller
         }
 
         $user = User::find(auth()->user()->id);
-
         $user->update([
-            'online' => intval($request['is_online'] ?? $user->online),
-            'verified' => intval($request['verified'] ?? $user->verified),
+            'online' => intval(filter_var($request['is_online'], FILTER_VALIDATE_BOOLEAN) ?? $user->online),
+            'verified' => intval(filter_var($request['verified'], FILTER_VALIDATE_BOOLEAN) ?? $user->verified),
         ] + $request->except(['online', 'verified']));
 
         if ( $user->account_type == 'captain' ){
