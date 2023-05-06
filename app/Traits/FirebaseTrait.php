@@ -95,6 +95,7 @@ trait FirebaseTrait
                 'arrival_time' => ceil($location['duration'] / 60),//per minutes
                 'distance' =>ceil($location['distanceInKilometers']),
                 'uuId' => $captain->uuid,
+                'phne' => $captain->phone,
                 'lat' => $offerData['lat'],
                 'lng' => $offerData['lng']
             ]);
