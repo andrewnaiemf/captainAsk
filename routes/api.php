@@ -12,6 +12,7 @@ use App\Http\Controllers\API\WalletController;
 use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\TripController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\API\RatingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,15 +38,6 @@ Route::group([
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-
-
-//Route::get('insert',function (){
-//   $ref = app('firebase.firestore')->database()->collection('trips')->newDocument();
-//   $ref->set([
-//       'firstname' => 'test'
-//   ]);
-//});
-
 
 });
 
@@ -81,6 +73,8 @@ Route::group([
     Route::get('trip/status/{status}', [TripController::class, 'tripBystatus']);
 
     Route::resource('offer', OfferController::class);
+
+    Route::resource('rate', ratingController::class);
 
     Route::post('transfer', [WalletController::class, 'transfer']);
 

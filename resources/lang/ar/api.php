@@ -16,6 +16,7 @@ return [
     'logged_out_successfully' => 'تم تسجيل الخروج بنجاح',
     'tripCreatedSuccessfully' => 'تم انشاء الرحلة بنجاح',
     'tripFinishedSuccessfully' => ' تم انهاء الرحلة بنجاح',
+    'ratingSetSuccessfully' => 'تم اعطاء التقييم بنجاح',
     'tripRejectedSuccessfully' => ' تم الغاء الرحلة بنجاح',
     'tripAcceptedSuccessfully' => 'تم قبول الرحلة بنجاح',
     'InvalidRequest' => ' الطلب غير صحيح',
