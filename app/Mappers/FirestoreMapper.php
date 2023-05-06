@@ -21,7 +21,9 @@ class FirestoreMapper
             'paymentMethod' => $trip->paymentMethod,
             'cost' => $trip->cost,
             'status' => $trip->status,
-            'customer_picture' => auth()->user()->account_type == 'user' ? auth()->user()->customer_profile : ''
+            'customer_picture' => auth()->user()->account_type == 'user' ? auth()->user()->customer_profile : '',
+            'name' => auth()->user()->fullname,
+            'rate' => auth()->user()->rating
         ];
     }
 }
