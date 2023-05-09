@@ -141,8 +141,8 @@ class TripController extends Controller
                 ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
                 $trips = $captain->trips()
+                ->whereNotIn('status', ['Accepted', 'Pending'])
                 ->with(['customer','captain'])
-                ->where('status','!=', 'Accepted')
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }
@@ -157,8 +157,8 @@ class TripController extends Controller
                 ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
                 $trips = $customer->trips()
+                ->whereNotIn('status', ['Accepted', 'Pending'])
                 ->with(['customer','captain'])
-                ->where('status','!=', 'Accepted')
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }
