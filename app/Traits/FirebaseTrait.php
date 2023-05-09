@@ -56,17 +56,12 @@ trait FirebaseTrait
                     'distance' =>ceil($location['distanceInKilometers']) ,
                     'status' => 'Pending',
                 ];
+
             }elseif($offerData['status']){
 
                 $status = $offerData['status'] == 'Decline' ? 'Declined' : 'Accepted';
                 $data =['status' => $status];
-                $updateData=[];
 
-                foreach ($data as $key => $value) {
-                    $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
-                }
-
-                $subCollection->update($updateData);
 
                  if($offerData['status'] == 'Accept'){//update the trip status with accepted , update the offer status with accept , and delete all other offers
 
@@ -80,6 +75,13 @@ trait FirebaseTrait
                 }
             }
 
+            $updateData=[];
+
+            foreach ($data as $key => $value) {
+                $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
+            }
+
+            $subCollection->update($updateData);
             return 'update';
 
         }else{//create offer
