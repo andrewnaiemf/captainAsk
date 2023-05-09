@@ -242,4 +242,24 @@ class AuthController extends Controller
             }
         }
     }
+
+    public function reset(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|exists:users,phone',
+            'password' => 'required|confirmed|string|min:6',
+            'password_confirmation' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+        $user = User::where('phone',$request->phone)->first();
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return $this->returnSuccessMessage( trans("api.Password_updated_successfully") );
+    }
 }
