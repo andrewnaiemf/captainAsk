@@ -150,4 +150,9 @@ class Trip extends Model
     }
 
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class, 'trip_id');
+    }
+
 }

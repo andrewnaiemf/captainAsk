@@ -130,6 +130,13 @@ class AuthController extends Controller
             $user = Captain::find($user->id);
             $user->load('captainDetail');
             $user->load('documents');
+        }else{
+            $trip = auth()->user()->trips()->where('status', 'Accepted')
+            ->with('offers' , function ($q){
+                $q->where('accepted' ,1);
+            })
+            ->first();
+            $user['trip'] = $trip;
         }
 
         return $this->respondWithToken($token ,$user );
