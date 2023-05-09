@@ -62,7 +62,6 @@ trait FirebaseTrait
                 $status = $offerData['status'] == 'Decline' ? 'Declined' : 'Accepted';
                 $data =['status' => $status];
 
-
                  if($offerData['status'] == 'Accept'){//update the trip status with accepted , update the offer status with accept , and delete all other offers
 
                      $query = $docRef->collection('captains')->where('status', '!=','Accepted');

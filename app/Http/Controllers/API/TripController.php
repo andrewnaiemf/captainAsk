@@ -68,6 +68,7 @@ class TripController extends Controller
             'end_address' => 'required',
             'end_lat' => 'required',
             'end_lng' => 'required',
+            'notes' => 'required_if:service_id,3',
         ]);
 
         if ($validator->fails()) {
@@ -100,6 +101,7 @@ class TripController extends Controller
                 $data['can_pay'] = true;
             }
             $request['distance'] = $distance;
+            $request['notes'] = $request->notes ?? null;
             $trip = Trip::create($request->all());
             $data['trip'] = $trip;
             $docId = $this->addNewTrip($trip);//pass the trip to firebase trait and return its id
