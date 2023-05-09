@@ -84,5 +84,6 @@ Route::group([
     Route::get('generalizations/{id}', [GeneralizationController::class, 'show']);
 
 
+    Route::get('trip/notify/{id}', [TripController::class, 'notify']);
 
 });

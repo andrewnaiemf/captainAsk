@@ -24,4 +24,6 @@ return [
     'Offer_created_successfully' => ' تم اضافة العرض بنجاح',
     'transferCompletedSuccessfully' => 'التحويل تم بنجاح',
     'You_do_not_have_enough_points_balance_in_your_wallet' => 'ليس لديك رصيد كافي من النقاط في محفظتك',
+    'customerNotifiedSuccessfully' => 'تم اشعار العميل بنجاح',
+
 ];

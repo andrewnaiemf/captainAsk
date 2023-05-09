@@ -285,4 +285,21 @@ class TripController extends Controller
     {
         //
     }
+
+
+    public function notify($id){
+
+        $trip = Trip::find($id);
+
+        if ($trip && $trip->status == 'Accepted') {
+            $customer = User::find($trip->customer_id);
+            if (!$trip->user_notified) {
+                $result = PushNotification::send([$customer->device_token] ,'the captain will arrive after 5 mins');
+                $trip->update(['user_notified' => true]);
+                return $this->returnSuccessMessage( trans("api.customerNotifiedSuccessfully") );
+            }
+        }
+        return $this->returnError( trans("api.InvalidRequest"));
+
+    }
 }

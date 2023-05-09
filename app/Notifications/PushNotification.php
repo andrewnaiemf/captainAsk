@@ -59,6 +59,6 @@ class PushNotification
         curl_close($ch);
 
         // FCM response
-        return $result;
+        return json_decode($result);
     }
 }
