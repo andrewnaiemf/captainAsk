@@ -225,7 +225,7 @@ class Captain extends Authenticatable  implements JWTSubject{
                 'trip_id', // foreign key on ratings table
                 'id', // local key on captains table
                 'id' // local key on trips table
-            )->where(['trips.status' => 'Finished' , 'user_id' => auth()->user()->id]);
+            )->where(['trips.status' => 'Finished' , 'user_id' =>  $this->id]);
         }
         return null ;
 

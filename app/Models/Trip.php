@@ -92,8 +92,8 @@ class Trip extends Model
 
     public function getRatingCustomerAttribute()
     {
-        if ($this->rating && $this->customer_id) {
-            return $this->rating->where([
+        if ($this->rating() && $this->customer_id) {
+            return $this->rating()->where([
                 'user_id' => $this->customer_id,
                 'trip_id' => $this->id
                 ])->value('rating');
@@ -104,8 +104,8 @@ class Trip extends Model
 
     public function getRatingCaptainAttribute()
     {
-        if ($this->rating && $this->captain_id) {
-            return $this->rating->where([
+        if ($this->rating() && $this->captain_id) {
+            return $this->rating()->where([
                 'user_id' => $this->captain_id ,
                  'trip_id' => $this->id
                 ])->value('rating');

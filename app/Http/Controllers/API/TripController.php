@@ -35,6 +35,7 @@ class TripController extends Controller
 
             $trips = Trip::where('status', 'Pending')
             ->with(['customer','captain'])
+            ->orderBy('id', 'desc')
             ->simplePaginate($perPage);
 
             return $this->returnData ( ['trips' => $trips] );
@@ -133,22 +134,32 @@ class TripController extends Controller
             $captain = Captain::find(auth()->user()->id);
 
             if ( $status == 'new' ) {
-                $trips = $captain->trips()->with(['customer','captain'])->where('status' , 'Accepted')->simplePaginate($perPage);
+                $trips = $captain->trips()
+                ->with(['customer','captain'])
+                ->where('status' , 'Accepted')
+                ->orderBy('id', 'desc')
+                ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
                 $trips = $captain->trips()
                 ->with(['customer','captain'])
                 ->where('status','!=', 'Accepted')
+                ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }
         }else{
             $customer = User::find(auth()->user()->id);
 
             if ( $status == 'new' ) {
-                $trips = $customer->trips()->with(['customer','captain'])->where('status' , 'Accepted')->simplePaginate($perPage);
+                $trips = $customer->trips()
+                ->with(['customer','captain'])
+                ->where('status' , 'Accepted')
+                ->orderBy('id', 'desc')
+                ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
                 $trips = $customer->trips()
                 ->with(['customer','captain'])
                 ->where('status','!=', 'Accepted')
+                ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }
         }

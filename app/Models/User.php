@@ -157,11 +157,9 @@ class User extends Authenticatable implements JWTSubject{
             return $this->hasManyThrough(
                 Rating::class,
                 Trip::class,
-                'captain_id', // foreign key on trips table
+                'customer_id', // foreign key on trips table
                 'trip_id', // foreign key on ratings table
-                'id', // local key on captains table
-                'id' // local key on trips table
-            )->where(['trips.status' => 'Finished' , 'user_id' => auth()->user()->id]);
+            )->where(['trips.status' => 'Finished' , 'user_id' => $this->id]);
         }
         return null ;
 
