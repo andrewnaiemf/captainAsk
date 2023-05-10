@@ -57,10 +57,14 @@ trait FirebaseTrait
                     'status' => 'Pending',
                 ];
 
+                $this->updateCaptainOffer($subCollection, $data);
+
             }elseif($offerData['status']){
 
                 $status = $offerData['status'] == 'Decline' ? 'Declined' : 'Accepted';
                 $data =['status' => $status];
+
+                $this->updateCaptainOffer($subCollection, $data);
 
                  if($offerData['status'] == 'Accept'){//update the trip status with accepted , update the offer status with accept , and delete all other offers
 
@@ -74,13 +78,6 @@ trait FirebaseTrait
                 }
             }
 
-            $updateData=[];
-
-            foreach ($data as $key => $value) {
-                $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
-            }
-
-            $subCollection->update($updateData);
             return 'update';
 
         }else{//create offer
@@ -107,6 +104,18 @@ trait FirebaseTrait
 
         }
 
+    }
+
+
+     public function updateCaptainOffer($subCollection, $data)
+    {
+        $updateData=[];
+
+        foreach ($data as $key => $value) {
+            $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
+        }
+
+        $subCollection->update($updateData);
     }
 
 }
