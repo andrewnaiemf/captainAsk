@@ -102,6 +102,7 @@ class TripController extends Controller
             }
             $request['distance'] = $distance;
             $request['notes'] = $request->notes ?? null;
+            $request['min_cost'] = $min_cost;
             $trip = Trip::create($request->all());
             $data['trip'] = $trip;
             $docId = $this->addNewTrip($trip);//pass the trip to firebase trait and return its id
@@ -256,6 +257,11 @@ class TripController extends Controller
 
 
             $trip = Trip::find($id);
+
+            if($request->cost <  $trip->min_cost){
+                return $this->returnError( trans("api.Costshouldover") . $trip->min_cost);
+            }
+
             $trip->update([
                 'paymentMethod' => $request->paymentMethod,
                 'cost' => $request->cost,

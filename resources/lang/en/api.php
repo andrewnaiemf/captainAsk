@@ -25,4 +25,5 @@ return [
     'transferCompletedSuccessfully' =>'The transfer completed successfully',
     'You_do_not_have_enough_points_balance_in_your_wallet' => 'You do not have enough points balance in your wallet',
     'customerNotifiedSuccessfully' => 'The customer notified successfully',
+    'Costshouldover' => 'Cost should be over ',
 ];

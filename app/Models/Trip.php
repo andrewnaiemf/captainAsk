@@ -27,7 +27,8 @@ class Trip extends Model
         'paymentMethod',
         'firebaseId',
         'distance',
-        'user_notified'
+        'user_notified',
+        'min_cost'
     ];
 
     public function toArray()

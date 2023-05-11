@@ -25,7 +25,8 @@ class FirestoreMapper
             'customer_picture' => auth()->user()->account_type == 'user' ? auth()->user()->customer_profile : '',
             'name' => auth()->user()->fullname,
             'rate' => auth()->user()->rating,
-            'notes' => $trip->notes ?? null
+            'notes' => $trip->notes ?? null,
+            'min_cost' => $trip->min_cost
         ];
     }
 }
