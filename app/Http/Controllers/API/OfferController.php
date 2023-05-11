@@ -11,7 +11,8 @@ use App\Traits\GeolocationTrait;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Offer;
 use App\Models\Trip;
-
+use App\Models\User;
+use App\Notifications\PushNotification;
 
 class OfferController extends Controller
 {
@@ -106,6 +107,9 @@ class OfferController extends Controller
             $offer->update(['amount' => $request->amount , 'accepted' => null ]);
 
         }
+
+        $customer = User::find($trip->customer_id);
+        $result = PushNotification::send([$customer->device_token] ,'You have new offer');
 
         return $this->returnSuccessMessage( $message  );
     }

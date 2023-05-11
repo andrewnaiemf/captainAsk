@@ -78,6 +78,7 @@ class TripController extends Controller
 
         $trip = Trip::where(['customer_id' => auth()->user()->id])
         ->whereIn('status',['Accepted' ,'Pending'])->first();
+
         if($trip){
             return $this->returnError( trans("api.cannotstarttripnow"));
         }
@@ -310,6 +311,7 @@ class TripController extends Controller
             if (!$trip->user_notified) {
                 $result = PushNotification::send([$customer->device_token] ,'the captain will arrive after 5 mins');
                 $trip->update(['user_notified' => true]);
+                $this->updateTrip($trip ,['arrive_soon' => true]);
                 return $this->returnSuccessMessage( trans("api.customerNotifiedSuccessfully") );
             }
         }
