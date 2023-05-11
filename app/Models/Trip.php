@@ -28,7 +28,8 @@ class Trip extends Model
         'firebaseId',
         'distance',
         'user_notified',
-        'min_cost'
+        'min_cost',
+        'url'
     ];
 
     public function toArray()

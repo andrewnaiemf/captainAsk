@@ -16,6 +16,7 @@ return [
     'logged_out_successfully' => 'logged out successfully',
     'tripCreatedSuccessfully' => 'The trip created successfully',
     'tripFinishedSuccessfully' => 'The trip finished successfully',
+    'tripStartedSuccessfully' => 'The trip started successfully',
     'ratingSetSuccessfully' => 'The rating added successfully',
     'tripRejectedSuccessfully' => 'The trip Rejected successfully',
     'tripAcceptedSuccessfully' => 'The trip Accepted successfully',

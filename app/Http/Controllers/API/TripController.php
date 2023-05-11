@@ -146,7 +146,7 @@ class TripController extends Controller
             if ( $status == 'new' ) {
                 $trips = $captain->trips()
                 ->with(['customer','captain'])
-                ->where('status' , 'Accepted')
+                ->whereIn('status' , ['Accepted','Started'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
@@ -164,7 +164,7 @@ class TripController extends Controller
                 ->with(['customer','captain'])->with('offers' , function ($q){
                     $q->where('accepted' ,1);
                 })
-                ->whereIn('status' , ['Accepted' ,'Pending'])
+                ->whereIn('status' , ['Accepted' ,'Pending' ,'Started'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
@@ -201,7 +201,7 @@ class TripController extends Controller
 
         if (auth()->user()->account_type == 'captain') {
             $validator=Validator::make($request->all(), [
-                'status' => 'required|in:Accepted,Rejected,Finished',
+                'status' => 'required|in:Accepted,Rejected,Finished,Started',
             ]);
 
             if ($validator->fails()) {
@@ -218,23 +218,32 @@ class TripController extends Controller
 
                     if ( $request->status == 'Finished' &&  $trip->status == 'Accepted' ) {
 
-                        $trip->update(['status' => $request->status]);
 
                         if ( $trip->paymentMethod == 'card') {
                             $captain_wallet =  $trip->cost + $captain->captainDetail->wallet ;
                             $captain->captainDetail()->update(['wallet' => $captain_wallet]);
                         }
-                        $this->updateTrip($trip , $request->all());
 
                         $message = trans("api.tripFinishedSuccessfully") ;
 
                     }else if ( $request->status == 'Rejected'  &&  $trip->status == 'Accepted' ) {
 
-                        $trip->update(['status' => $request->status]);
                         $message = trans("api.tripRejectedSuccessfully") ;
 
-                    }else{
+                    }else if ( $request->status == 'Started'  &&  $trip->status == 'Accepted' ) {
+
+                        $message = trans("api.tripStartedSuccessfully") ;
+
+                    }
+                    else{
                         $message = trans("api.InvalidRequest") ;
+                    }
+
+                    if($trip->status == 'Accepted' &&   in_array($request->status , ['Finished','Rejected','Started'])){
+
+                        $trip->update(['status' => $request->status]);
+                        $this->updateTrip($trip , $request->all());
+
                     }
 
                 }

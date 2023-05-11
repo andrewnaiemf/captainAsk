@@ -19,6 +19,7 @@ return [
     'ratingSetSuccessfully' => 'تم اعطاء التقييم بنجاح',
     'tripRejectedSuccessfully' => ' تم الغاء الرحلة بنجاح',
     'tripAcceptedSuccessfully' => 'تم قبول الرحلة بنجاح',
+    'tripStartedSuccessfully' => 'تم بدأ الرحلة بنجاح',
     'InvalidRequest' => ' الطلب غير صحيح',
     'Offer_updated_successfully' => 'تم تعديل العرض بنجاح',
     'Offer_created_successfully' => ' تم اضافة العرض بنجاح',
