@@ -131,7 +131,7 @@ class AuthController extends Controller
             $user->load('captainDetail');
             $user->load('documents');
         }else{
-            $trip = auth()->user()->trips()->where('status', 'Accepted')
+            $trip = auth()->user()->trips()->whereIn('status', ['Accepted' ,'Pending'])
             ->with('offers' , function ($q){
                 $q->where('accepted' ,1);
             })

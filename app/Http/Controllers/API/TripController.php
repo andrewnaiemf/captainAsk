@@ -153,8 +153,10 @@ class TripController extends Controller
 
             if ( $status == 'new' ) {
                 $trips = $customer->trips()
-                ->with(['customer','captain'])
-                ->where('status' , 'Accepted')
+                ->with(['customer','captain'])->with('offers' , function ($q){
+                    $q->where('accepted' ,1);
+                })
+                ->whereIn('status' , ['Accepted' ,'Pending'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
