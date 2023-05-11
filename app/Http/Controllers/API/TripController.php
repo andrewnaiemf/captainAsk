@@ -256,6 +256,7 @@ class TripController extends Controller
             $validator=Validator::make($request->all(), [
                 'paymentMethod' => 'required|in:cash,card',
                 'cost' => 'required|numeric|between:0,999999',
+                'status' => 'nullable|in:canceled'
             ]);
 
             if ($validator->fails()) {
@@ -272,17 +273,23 @@ class TripController extends Controller
             $trip->update([
                 'paymentMethod' => $request->paymentMethod,
                 'cost' => $request->cost,
+                'status' => $request->status ?? $trip->status
             ]);
 
-            $request['status'] = 'Pending';
+            $request['status'] = $request->status ?? 'Pending';
             $this->updateTrip($trip , $request->all());
 
-            $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
-                $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
-            })->where('status','Accepted')->pluck('device_token');
 
-            $message = "There is a new trip";
-            $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+            if ($request->status == 'Pending') {
+
+                $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
+                    $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
+                })->where('status','Accepted')->pluck('device_token');
+
+                $message = "There is a new trip";
+                $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+            }
+
 
             return $this->returnData($trip);
         }
