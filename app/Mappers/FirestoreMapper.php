@@ -26,7 +26,8 @@ class FirestoreMapper
             'name' => auth()->user()->fullname,
             'rate' => auth()->user()->rating,
             'notes' => $trip->notes ?? null,
-            'min_cost' => $trip->min_cost
+            'min_cost' => $trip->min_cost,
+            'arrive_soon' => false
         ];
     }
 }

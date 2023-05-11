@@ -76,6 +76,12 @@ class TripController extends Controller
         }
         $request['customer_id'] = auth()->user()->id;
 
+        $trip = Trip::where(['customer_id' => auth()->user()->id])
+        ->whereIn('status',['Accepted' ,'Pending'])->first();
+        if($trip){
+            return $this->returnError( trans("api.cannotstarttripnow"));
+        }
+
         $user_wallet = '0';
         $user_details = auth()->user()->customerDetail()->first();
         if(isset($user_details)){
