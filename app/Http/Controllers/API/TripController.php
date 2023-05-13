@@ -216,7 +216,7 @@ class TripController extends Controller
 
                 if ( $trip->captain_id == $captain->id ) {
 
-                    if ( $request->status == 'Finished' &&  $trip->status == 'Accepted' ) {
+                    if ( $request->status == 'Finished' &&  $trip->status == 'Started' ) {
 
 
                         if ( $trip->paymentMethod == 'card') {
