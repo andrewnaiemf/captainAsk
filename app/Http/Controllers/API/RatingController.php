@@ -43,6 +43,7 @@ class RatingController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'rate' => 'required|numeric|between:0,5',
+            'feedback' => 'nullable',
             'trip_id' => 'required'
         ]);
 
@@ -61,7 +62,8 @@ class RatingController extends Controller
             Rating::create([
                 'user_id' => $user_id,
                 'trip_id' => $request->trip_id,
-                'rating' => $request->rate
+                'rating' => $request->rate,
+                'feedback' => $request->feedback
             ]);
 
             return $this->returnSuccessMessage( trans("api.ratingSetSuccessfully") );
