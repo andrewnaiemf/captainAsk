@@ -239,10 +239,8 @@ class TripController extends Controller
                         $message = trans("api.InvalidRequest") ;
                     }
 
-                    if(
-                        $trip->status  ['Accepted'] &&  in_array($request->status , ['Rejected','Started']) ||
-                        $trip->status  ['Started'] &&  in_array($request->status , ['Rejected','Finished'])
-
+                    if( $trip->status == 'Accepted' &&  in_array($request->status , ['Rejected','Started']) ||
+                        $trip->status == 'Started' &&  in_array($request->status , ['Rejected','Finished'])
                         ){
 
                         $trip->update(['status' => $request->status]);
