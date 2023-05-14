@@ -266,7 +266,7 @@ class TripController extends Controller
 
             $validator=Validator::make($request->all(), [
                 'paymentMethod' => 'required|in:cash,card',
-                'cost' => 'required|numeric|between:0,999999',
+                'cost' => 'required',
                 'status' => 'nullable|in:canceled'
             ]);
 
