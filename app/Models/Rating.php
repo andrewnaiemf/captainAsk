@@ -9,7 +9,7 @@ class Rating extends Model
 {
     use HasFactory;
 
-    public $fillable = ['user_id' ,'trip_id','rating','feedback'];
+    public $fillable = ['user_id','trip_id','rating','feedback','rated_by_customer_id'];
 
     public function user()
     {
@@ -24,6 +24,11 @@ class Rating extends Model
     public function trip()
     {
         return $this->belongsTo(Trip::class);
+    }
+
+    public function ratedByCustomer()
+    {
+        return $this->belongsTo(User::class, 'rated_by_customer_id');
     }
 
 }

@@ -63,7 +63,8 @@ class RatingController extends Controller
                 'user_id' => $user_id,
                 'trip_id' => $request->trip_id,
                 'rating' => $request->rate,
-                'feedback' => $request->feedback
+                'feedback' => $request->feedback,
+                'rated_by_customer_id' => $user->id
             ]);
 
             return $this->returnSuccessMessage( trans("api.ratingSetSuccessfully") );
@@ -83,7 +84,9 @@ class RatingController extends Controller
     public function show(Request $request ,$id)
     {
         $perPage = $request->header('per_page', 10);
-        $rates = Rating::where('user_id' ,$id)->orderBy('id', 'desc')
+        $rates = Rating::with(['ratedByCustomer'])
+        ->where('user_id' ,$id)
+        ->orderBy('id', 'desc')
         ->simplePaginate($perPage);
 
         return $this->returnData($rates);
