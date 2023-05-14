@@ -10,7 +10,7 @@ class PushNotification
     public static function send($tokens ,$message)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $serverKey = env('FCM_KEY');
+        $serverKey = env('FCM_KEY') ?? 'AAAA7Npqa5I:APA91bHoZERhWmkNxFYYFhtHhLv0ztX59kYLzU5j3TrIIkRjZrdeSNgDrQcv04UTitAPrB16ODVV5zHnHLHC5FVoBRdS0G1owTTWdTr_G3LL_t5LeLGWgLUXtN-0-x5ZKBMC-bCmSET-';
         $devs=[];
         $devices = $tokens;
         foreach ($devices as $tokens) {
