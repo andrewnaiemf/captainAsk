@@ -54,6 +54,12 @@
                 display: none;
             }
 
+            @media (min-width: 576px){
+                .modal-dialog {
+                    max-width: 400px !important;
+                    margin: 1.75rem auto;
+                }
+            }
         </style>
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
@@ -67,7 +73,24 @@
     <body class="d-flex flex-column">
         <div id="spinner">
             <!-- Your spinner HTML goes here -->
-          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 50px;">
+                <div class="modal-body text-center" style="    padding: 2rem;">
+                    <img src="{{ asset('Frontend/images/right-arrow.png') }}" width="40" alt="" >
+                    <p class="mt-2" style="color: #1F1F1F; font-size: 18px; font-weight: 700; ">The trip is <span id="Trip_status">Finished</span>.</p>
+                    <a href="#" style="justify-content: center; display: flex;text-decoration: none;">
+                        <div style="background: #20BF55; color: #FFFFFF; width: fit-content; padding: 5px 14px; margin: 0; border-radius: 13px; box-shadow: 1px 2px #655757;">
+                            <p class="m-0"> Get Captain ASK</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
 
          <header class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand m-0" href="#">

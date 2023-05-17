@@ -84,14 +84,26 @@ function initializeMap(firestore) {
 function getTripData(firestore, map) {
 
     if(trip.status == 'Finished'){
-    //     alert('This trip is finished')
-    // }else{
-    //     var status = ['Started' ,'Accepted'];
-
-    //     if ( status.includes(trip.status) ) {
 
         var tripRef = firestore.collection('trips').doc(tripId);
         var captainsRef = tripRef.collection('captains');
+
+        tripRef.onSnapshot(function(snapshot) {
+            var tripData = snapshot.data();
+            var status = tripData.status;
+
+            // Check if the trip status is "finished"
+            if (status === 'Finished') {
+                $('#Trip_status').html('Finished')
+                $('#statusModal').modal('show');
+            }else if(status === 'Canceled'){
+                $('#Trip_status').html('Canceled')
+                $('#statusModal').modal('show');
+            }else {
+              $('#statusModal').modal('hide');
+            }
+        });
+
         captainsRef.get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 // Access individual captain document data
@@ -103,15 +115,10 @@ function getTripData(firestore, map) {
                 listenForCaptainLocation(firestore, captainData.id, map);
 
             });
-        })
-        // .catch(function(error) {
-        //     console.log('Error getting captains collection:', error);
-        // });
+        }).catch(function(error) {
+            console.log('Error getting captains collection:', error);
+        });
 
-        // }
-        // else {
-        // alert('Invalid request')
-        // }
     }
 }
 
