@@ -109,7 +109,7 @@ class OfferController extends Controller
         }
 
         $customer = User::find($trip->customer_id);
-        $result = PushNotification::send([$customer->device_token] ,'You have new offer');
+        $result = PushNotification::send([$customer->device_token] ,'new_offer');
 
         return $this->returnSuccessMessage( $message  );
     }
@@ -170,6 +170,10 @@ class OfferController extends Controller
                     'status' => 'Accepted',
                     'captain_id' => $request->captain_id
                 ]);
+
+                $captain = User::find($request->captain_id);
+                //notify the captain that his offer is accepted
+                $result = PushNotification::send([$captain->device_token] ,'accepted_offer');
             }
             $offer->update(['accepted' => $status]);
 

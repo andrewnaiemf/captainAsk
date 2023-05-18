@@ -297,8 +297,18 @@ class TripController extends Controller
                     $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
                 })->where('status','Accepted')->pluck('device_token');
 
+
+            }
+            if ($request->status == 'Pending') {
+
                 $message = "There is a new trip";
                 $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+
+            }elseif ($request->status == 'canceled') {
+
+                $message = "The trip is canceled";
+                $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+
             }
 
 
@@ -327,7 +337,7 @@ class TripController extends Controller
         if ($trip && $trip->status == 'Accepted') {
             $customer = User::find($trip->customer_id);
             if (!$trip->user_notified) {
-                $result = PushNotification::send([$customer->device_token] ,'the captain will arrive after 5 mins');
+                $result = PushNotification::send([$customer->device_token] ,'arrival_message');
                 $trip->update(['user_notified' => true]);
                 $this->updateTrip($trip ,['arrive_soon' => true]);
                 return $this->returnSuccessMessage( trans("api.customerNotifiedSuccessfully") );

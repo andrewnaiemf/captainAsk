@@ -28,7 +28,8 @@ class FirestoreMapper
             'notes' => $trip->notes ?? null,
             'min_cost' => $trip->min_cost,
             'arrive_soon' => false,
-            'url' => ''
+            'url' => '',
+            'is_rate' =>false
         ];
     }
 }

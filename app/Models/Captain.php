@@ -48,7 +48,7 @@ class Captain extends Authenticatable  implements JWTSubject{
           return $userArray;
       }
 
-    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService','device_token'];
 
 	protected $deleted_at = 'deleted_at';
 

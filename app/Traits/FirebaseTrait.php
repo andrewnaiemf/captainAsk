@@ -95,7 +95,8 @@ trait FirebaseTrait
                 'uuId' => $captain->uuid,
                 'phne' => $captain->phone,
                 'lat' => $offerData['lat'],
-                'lng' => $offerData['lng']
+                'lng' => $offerData['lng'],
+                'is_tracking' =>false
             ]);
 
             $newDocId = $newDocRef->id();

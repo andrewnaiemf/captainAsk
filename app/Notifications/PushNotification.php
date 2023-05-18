@@ -9,6 +9,36 @@ class PushNotification
 {
     public static function send($tokens ,$message)
     {
+        $screen = '';
+        switch ($message) {
+            case 'accepted_offer':
+                $message = 'Your offer is accepted';
+                $screen  = 'home_screen';
+                break;
+
+            case 'request':
+                $message = 'You have an new trip';
+                $screen  = 'request';
+                break;
+
+            case 'new_trip':
+                $message = 'There is a new trip';
+                $screen  = 'new_request';
+                break;
+
+            case 'arrival_message':
+                $message = 'the captain will arrive after 5 mins';
+                $screen  = 'arrival_message';
+                break;
+
+            case 'new_offer':
+                $message = 'You have new offer';
+                $screen  = 'new_offer';
+
+            default:
+                break;
+        }
+
         $url = 'https://fcm.googleapis.com/fcm/send';
         $serverKey = env('FCM_KEY') ?? 'AAAA7Npqa5I:APA91bHoZERhWmkNxFYYFhtHhLv0ztX59kYLzU5j3TrIIkRjZrdeSNgDrQcv04UTitAPrB16ODVV5zHnHLHC5FVoBRdS0G1owTTWdTr_G3LL_t5LeLGWgLUXtN-0-x5ZKBMC-bCmSET-';
         $devs=[];
@@ -28,6 +58,9 @@ class PushNotification
                 "title" => 'Captain ask',
                 "sound" => "notify.mp3",
             ],
+            "data" => [
+                'screen' => $screen
+            ]
         ];
         $encodedData = json_encode($data);
 
