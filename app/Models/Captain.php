@@ -172,7 +172,7 @@ class Captain extends Authenticatable  implements JWTSubject{
             return $this->documents()->where('name' , 'Profile')->first()->path;
         }
 
-        return "captainDocument/default/default.png";
+        return "default/default.png";
     }
 
 
