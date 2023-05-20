@@ -9,6 +9,7 @@ use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\CustomerDetail;
+use App\Models\CaptainDocument;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -116,9 +117,9 @@ class UserController extends Controller
                 $imageName = $doc->hashName();
                 $doc->storeAs($path,$imageName);
                 $full_path = $path.$imageName;
-                $document = $user->documents()->where('type' , $type)->first();
+                // $document = $user->documents()->where('type' , $type)->first();
 
-                $document->update([
+                CaptainDocument::create([
                     'captain_id' => $user->id,
                     'name' => $type,
                     'type' => $type,

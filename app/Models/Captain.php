@@ -147,14 +147,14 @@ class Captain extends Authenticatable  implements JWTSubject{
         $status = 'Pending' ;
 
 
-        if (   $acceptedCount == 6 && $rejectedCount == 0 ) {
+        if (   $acceptedCount == 8 && $rejectedCount == 0 ) {
             $status = 'Accepted' ;
         }
-        elseif ( $rejectedCount == 6 )
+        elseif ( $rejectedCount == 8 )
         {
             $status = 'Rejected' ;
 
-        }elseif($rejectedCount < 6)
+        }elseif($rejectedCount < 8)
         {
             $status = 'Pending' ;
 
