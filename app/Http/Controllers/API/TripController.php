@@ -145,14 +145,14 @@ class TripController extends Controller
 
             if ( $status == 'new' ) {
                 $trips = $captain->trips()
-                ->with(['customer','captain'])
+                ->with(['customer','captain','captain.captainCarDetail'])
                 ->whereIn('status' , ['Accepted','Started'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }else if ( $status == 'old' ){
                 $trips = $captain->trips()
                 ->whereNotIn('status', ['Accepted', 'Pending'])
-                ->with(['customer','captain'])
+                ->with(['customer','captain','captain.captainCarDetail'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }
@@ -161,7 +161,7 @@ class TripController extends Controller
 
             if ( $status == 'new' ) {
                 $trips = $customer->trips()
-                ->with(['customer','captain'])->with('offers' , function ($q){
+                ->with(['customer','captain','captain.captainCarDetail'])->with('offers' , function ($q){
                     $q->where('accepted' ,1);
                 })
                 ->whereIn('status' , ['Accepted' ,'Pending' ,'Started'])
@@ -170,7 +170,7 @@ class TripController extends Controller
             }else if ( $status == 'old' ){
                 $trips = $customer->trips()
                 ->whereNotIn('status', ['Accepted', 'Pending'])
-                ->with(['customer','captain'])
+                ->with(['customer','captain','captain.captainCarDetail'])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($perPage);
             }

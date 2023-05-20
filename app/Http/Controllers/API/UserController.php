@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
+use App\Models\CaptainCarDetail;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
 use Illuminate\Validation\Rule;
@@ -49,6 +50,10 @@ class UserController extends Controller
 
             $documents = $request->file('documents', []);
             $this->captainDocuments(  $documents, $user );
+
+            $cardetails = $request['car-plate'];
+            $this->captainCardetails(  $cardetails, $user );
+
         }else{
 
             if( $request->file('profile') ){
@@ -85,6 +90,7 @@ class UserController extends Controller
             'l_name' => 'string|max:255',
             'service_id' => 'in:1,2,3,4,5',
             'documents.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'car-plate.*' => 'string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -128,6 +134,20 @@ class UserController extends Controller
                 ]);
             }
         }
+    }
+
+    public function captainCardetails( $requestCarDetails, $user )
+    {
+        $carDetails = $user->captainCarDetail;
+
+        if ( $carDetails ) {
+
+            $carDetails->update($requestCarDetails);
+        } else {
+            $requestCarDetails['captain_id'] = $user->id;
+            CaptainCarDetail::create($requestCarDetails);
+        }
+
     }
 
     public function customerDocuments( $document, $user )

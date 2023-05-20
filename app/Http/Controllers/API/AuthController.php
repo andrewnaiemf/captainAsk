@@ -129,6 +129,7 @@ class AuthController extends Controller
         if (auth()->user()->account_type == 'captain') {
             $user = Captain::find($user->id);
             $user->load('captainDetail');
+            $user->load('captainCarDetail');
             $user->load('documents');
         }else{
             $trip = auth()->user()->trips()->whereIn('status', ['Accepted' ,'Pending','Started'])
@@ -154,6 +155,7 @@ class AuthController extends Controller
         if ( $user_type == 'captain' ) {
             $user = Captain::find(auth()->user()->id);
             $user->load('captainDetail' );
+            $user->load('captainCarDetail');
             $user->load('documents');
 
             $msg = $user->status == 'Pending' ? "dataIsPending" : "dataIsRejected";

@@ -110,7 +110,7 @@ class CaptainDocument extends Resource {
                 ->make(__('dash.Documents'),'path')
                 ->path(function ($model)
                 {
-                    return 'captainDocument/'.$model->captain_id;
+                    return 'storage/captainDocument/'.$model->captain_id;
                 })
                 ->accept('image/*')
                 ->rule('required','image'),

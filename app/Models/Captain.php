@@ -48,7 +48,7 @@ class Captain extends Authenticatable  implements JWTSubject{
           return $userArray;
       }
 
-    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService','device_token'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService','device_token','captainCarDetail'];
 
 	protected $deleted_at = 'deleted_at';
 
@@ -195,6 +195,10 @@ class Captain extends Authenticatable  implements JWTSubject{
 
     public function documents(){
         return $this->hasMany(CaptainDocument::class);
+    }
+
+    public function captainCarDetail(){
+        return $this->hasOne(captainCarDetail::class);
     }
 
     public function cards()

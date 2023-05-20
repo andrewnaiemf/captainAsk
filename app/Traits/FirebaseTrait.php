@@ -82,6 +82,8 @@ trait FirebaseTrait
 
         }else{//create offer
 
+            $carDetals = $captain->captainCarDetail;
+
             $newDocRef = $docRef->collection('captains')->add([
                 'id' => $captain->id,
                 'status' => 'Pending',
@@ -96,7 +98,13 @@ trait FirebaseTrait
                 'phne' => $captain->phone,
                 'lat' => $offerData['lat'],
                 'lng' => $offerData['lng'],
-                'is_tracking' =>false
+                'is_tracking' => false,
+                'car_color' =>  $carDetals->color,
+                'car_model' =>  $carDetals->model,
+                'car_arabic_number' =>  $carDetals->arabic_number,
+                'car_arabic_letters' =>  $carDetals->arabic_letters,
+                'car_english_number' =>  $carDetals->english_number,
+                'car_english_letters' =>  $carDetals->english_letters,
             ]);
 
             $newDocId = $newDocRef->id();
