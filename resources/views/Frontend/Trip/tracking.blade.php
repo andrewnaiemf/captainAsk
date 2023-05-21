@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>captain ask tracking</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVe0Ej8NKkTMLYIF_J0iz0Ci8kwFAUG9g&callback=initMap"  defer></script>
 
         <style>
             html, body {
@@ -61,6 +62,7 @@
                 }
             }
         </style>
+
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -83,7 +85,7 @@
                     <img src="{{ asset('Frontend/images/right-arrow.png') }}" width="40" alt="" >
                     <p class="mt-2" style="color: #1F1F1F; font-size: 18px; font-weight: 700; ">The trip is <span id="Trip_status">Finished</span>.</p>
                     <a href="#" style="justify-content: center; display: flex;text-decoration: none;">
-                        <div style="background: #20BF55; color: #FFFFFF; width: fit-content; padding: 5px 14px; margin: 0; border-radius: 13px; box-shadow: 1px 2px #655757;">
+                        <div style="background: #20BF55; color: #FFFFFF; width: fit-content; padding: 5px 14px; margin: 0; border-radius: 13px;">
                             <p class="m-0"> Get Captain ASK</p>
                         </div>
                     </a>
@@ -94,11 +96,11 @@
 
          <header class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand m-0" href="#">
-                <img src="{{ asset('Frontend/images/Option-2.png') }}" alt="Logo" height="80" width="80">
+                <img src="{{ asset('Frontend/images/Option-2.png') }}" alt="Logo" height="150" width="150">
             </a>
             <div class="ml-auto">
-                <a href="#"><img src="{{ asset('Frontend/images/google.png') }}" alt="Google App" height="40"></a>
-                <a href="#"><img src="{{ asset('Frontend/images/app-store.png') }}" alt="Apple App" height="40"></a>
+                <a href="#"><img src="{{ asset('Frontend/images/google.png') }}" alt="Google App" height="70"></a>
+                <a href="#"><img src="{{ asset('Frontend/images/app-store.png') }}" alt="Apple App" height="70"></a>
             </div>
         </header>
 
@@ -110,7 +112,7 @@
                     <div class="col-lg-6  col-md-6 col-sm-12 p-3" style="    padding-bottom: 0 !important;">
                         <div class="row m-0" style="flex-wrap: nowrap">
                             <div class="col-sm-3 p-0 profile">
-                                <img id="captain_image" style="border-radius: 50%; height: 50px; width:50px" src="https://greatives.eu/themes/osmosis/wp-content/uploads/2014/11/Businessman-pointing-copy-space.jpg"  alt="">
+                                <img id="captain_image" style="border-radius: 50%; height: 50px; width:50px" src="https://captainask.com/storage/default/default.png"  alt="">
                             </div>
                             <div class="col-md-9 col-sm-9 p-0">
                                 <div class="row m-0" style="flex-wrap: nowrap" >
@@ -137,7 +139,7 @@
 
                                         <li>
                                             <span class="points"> B </span>
-                                            <span id="to-address"> zamalek </span>
+                                            <span id="to_address"> zamalek </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -161,19 +163,21 @@
             </div>
         </footer>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVe0Ej8NKkTMLYIF_J0iz0Ci8kwFAUG9g&callback=initMap"></script>
         <script>
-                var trip = <?php echo json_encode($tripData); ?>;
-                $('#from_address').html(trip.start_address)
-                $('#from_address').html(trip.end_address)
 
-                $(window).load(function() {
-                    // Hide the spinner
-                    $('#spinner').hide();
+            var trip = <?php echo json_encode($tripData); ?>;
 
-                    // Show the page content
-                    $('#pageContent').show();
-                });
+            $('#from_address').html(trip.start_address)
+            $('#from_address').html(trip.end_address)
+
+            $(window).load(function() {
+                // Hide the spinner
+                $('#spinner').hide();
+
+                // Show the page content
+                $('#pageContent').show();
+            });
+
         </script>
 
         <script src="{{asset('Frontend/Js/Tracking/firebase.js')}}"></script>

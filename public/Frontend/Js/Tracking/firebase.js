@@ -5,9 +5,7 @@ var tripId = segments[segments.length - 1];
 var map;
 var marker
 
-initMap();
 
-// Google Maps API initialization
 function initMap() {
 
     var startPoint = { lat: Number(trip.start_lat), lng:  Number(trip.start_lng) };
@@ -83,7 +81,7 @@ function initializeMap(firestore) {
 
 function getTripData(firestore, map) {
 
-    if(trip.status == 'Finished'){
+    if(trip.status != 'Finished'){
 
         var tripRef = firestore.collection('trips').doc(tripId);
         var captainsRef = tripRef.collection('captains');
@@ -111,6 +109,8 @@ function getTripData(firestore, map) {
                 $('#cptain_name').html(captainData.name)
                 $('#rating').html(captainData.rate)
                 $('#captain_image').attr('src','http://captainask.com/storage/'+captainData.image_url)
+                $('#from_address').html(trip.start_address)
+                $('#to_address').html(trip.end_address)
                 setCaptainCarIcon(firestore, captainData.id ,map);
                 listenForCaptainLocation(firestore, captainData.id, map);
 
@@ -119,6 +119,9 @@ function getTripData(firestore, map) {
             console.log('Error getting captains collection:', error);
         });
 
+    }else{
+        $('#Trip_status').html('Finished')
+        $('#statusModal').modal('show');
     }
 }
 
