@@ -111,10 +111,10 @@
                 <div class="card row pl-3 ">
                     <div class="col-lg-6  col-md-6 col-sm-12 p-3" style="    padding-bottom: 0 !important;">
                         <div class="row m-0" style="flex-wrap: nowrap">
-                            <div class="col-sm-3 p-0 profile">
+                            <div class="col-sm-2 p-0 profile">
                                 <img id="captain_image" style="border-radius: 50%; height: 50px; width:50px" src="https://captainask.com/storage/default/default.png"  alt="">
                             </div>
-                            <div class="col-md-9 col-sm-9 p-0">
+                            <div class="col-md-10 col-sm-9 p-0">
                                 <div class="row m-0" style="flex-wrap: nowrap" >
                                     <div class="captain_detais m-0">
                                         <p class="name" id="cptain_name"> captain name </p>
@@ -126,8 +126,24 @@
                                 </div>
                                 <div class="row  m-0 mt-2"  >
                                     <div class="car_detais m-0">
-                                        <p class="m-0"> Black BYD F3 </p>
-                                        <p>  <span style="margin-right: 20px"> 3491 A H J </span>    <span> ح هـ ا ٣٤٩١ </span> </p>
+                                        <p class="m-0" id="car_model">
+                                            <span  id="car_color">Black</span>
+                                            <span id="car_model"> BYD F3</span>
+                                        </p>
+                                        <p>
+                                            <span  id="car_english_number">
+                                                3491
+                                            </span>
+                                            <span  class="mr-2" id="car_english_letters">
+                                                A H J
+                                            </span>
+                                            <span  id="car_arabic_number">
+                                                 ٣٤٩١
+                                            </span>
+                                            <span class="mr-1" id="car_arabic_letters">
+                                                ا ح هـ
+                                            </span>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row  m-0 ">

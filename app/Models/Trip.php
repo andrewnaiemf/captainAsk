@@ -68,7 +68,7 @@ class Trip extends Model
             return $this->captain->documents()->where('name' , 'Profile')->first()->path;
         }
 
-        return "captainDocument/default/default.png";
+        return "default/default.png";
     }
 
 
@@ -78,7 +78,7 @@ class Trip extends Model
             return $this->customer->customerDetail->profile_picture;
         }
 
-        return "customer/default/default.png";
+        return "default/default.png";
     }
 
     public function rating()

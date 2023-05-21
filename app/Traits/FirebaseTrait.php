@@ -25,6 +25,8 @@ trait FirebaseTrait
         $docId = $docRef->id();
 
         $docRef->set($data);
+        $url = 'https://captainask.com/tracking/'.$docId;
+        $docRef->update( [['path' => 'url', 'operator' => '=', 'value' => $url]]);
         return $docId;
     }
 
@@ -90,7 +92,6 @@ trait FirebaseTrait
                 'name' => $captain->name,
                 'image_url' => $captain->captain_profile,
                 'rate' => $captain->rating,
-                'car_number' => '111111',
                 'amount' => $offerData['amount'],
                 'arrival_time' => ceil($location['duration'] / 60),//per minutes
                 'distance' =>ceil($location['distanceInKilometers']),

@@ -107,6 +107,12 @@ function getTripData(firestore, map) {
                 // Access individual captain document data
                 var captainData = doc.data();
                 $('#cptain_name').html(captainData.name)
+                $('#car_color').html(captainData.car_color)
+                $('#car_model').html(captainData.car_model)
+                $('#car_english_number').html(captainData.car_english_number)
+                $('#car_english_letters').html(captainData.car_english_letters)
+                $('#car_arabic_number').html(captainData.car_arabic_number)
+                $('#car_arabic_letters').html(captainData.car_arabic_letters)
                 $('#rating').html(captainData.rate)
                 $('#captain_image').attr('src','http://captainask.com/storage/'+captainData.image_url)
                 $('#from_address').html(trip.start_address)
