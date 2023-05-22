@@ -59,7 +59,7 @@ class AuthController extends Controller
                 'service_id' => 0
             ]);
 
-            $documents = ['Profile','Car_form','Car_license_front','Car_license_back','Captain_license','Insurance_documentation'];
+            $documents = ['Profile','Car_form','Car_license_front','Car_license_back','Captain_license','Insurance_documentation','personal_id_front','personal_id_back'];
             foreach ( $documents as $document ) {
                 CaptainDocument::create([
                     'captain_id' => $user->id,
