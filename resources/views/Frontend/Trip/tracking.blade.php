@@ -61,6 +61,24 @@
                     margin: 1.75rem auto;
                 }
             }
+            .store_icons a img{
+                max-width: 150px !important;
+            }
+            @media (max-width: 576px){
+
+                .store_icons a img{
+                    max-width: 120px !important;
+                }
+                .navbar-brand img{
+                    width: 115px !important;
+
+                }
+
+                .captain .card {
+                    margin: 20px ;
+                }
+            }
+
         </style>
 
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -96,11 +114,11 @@
 
          <header class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand m-0" href="#">
-                <img src="{{ asset('Frontend/images/Option-2.png') }}" alt="Logo" height="150" width="150">
+                <img src="{{ asset('Frontend/images/Option-2.png') }}" alt="Logo" width="150">
             </a>
-            <div class="ml-auto">
-                <a href="#"><img src="{{ asset('Frontend/images/google.png') }}" alt="Google App" height="70"></a>
-                <a href="#"><img src="{{ asset('Frontend/images/app-store.png') }}" alt="Apple App" height="70"></a>
+            <div class="store_icons ml-auto d-flex justify-content-between">
+                <a href="#"><img src="{{ asset('Frontend/images/google.png') }}" alt="Google App" ></a>
+                <a href="#"><img src="{{ asset('Frontend/images/app-store.png') }}" alt="Apple App"  ></a>
             </div>
         </header>
 
@@ -111,10 +129,10 @@
                 <div class="card row pl-3 ">
                     <div class="col-lg-6  col-md-6 col-sm-12 p-3" style="    padding-bottom: 0 !important;">
                         <div class="row m-0" style="flex-wrap: nowrap">
-                            <div class="col-sm-2 p-0 profile">
+                            <div class="col-md-2 col-2 p-0 profile mr-4">
                                 <img id="captain_image" style="border-radius: 50%; height: 50px; width:50px" src="https://captainask.com/storage/default/default.png"  alt="">
                             </div>
-                            <div class="col-md-10 col-sm-9 p-0">
+                            <div class="col-md-10 col-10 p-0">
                                 <div class="row m-0" style="flex-wrap: nowrap" >
                                     <div class="captain_detais m-0">
                                         <p class="name" id="cptain_name"> captain name </p>
