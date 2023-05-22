@@ -5,6 +5,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>captain ask tracking</title>
+
+        <link rel="icon" href="{{ asset('Frontend/images/Option-2.png') }}" type="image/png">
+        <!-- Add the following meta tags for the website icon and other Open Graph properties -->
+        <meta property="og:title" content="captain ask">
+        <meta property="og:description" content="captain ask for trips">
+        <meta property="og:image" content="{{ asset('Frontend/images/Option-2.png') }}">
+        {{--  <meta property="og:url" content="http://www.yourwebsite.com">  --}}
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVe0Ej8NKkTMLYIF_J0iz0Ci8kwFAUG9g&callback=initMap"  defer></script>
 
