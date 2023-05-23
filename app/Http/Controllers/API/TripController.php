@@ -291,22 +291,20 @@ class TripController extends Controller
             $this->updateTrip($trip , $request->all());
 
 
+
+            $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
+                $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
+            })->where('status','Accepted')->pluck('device_token');
+
+
             if ($request->status == 'Pending') {
 
-                $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
-                    $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
-                })->where('status','Accepted')->pluck('device_token');
-
-
-            }
-            if ($request->status == 'Pending') {
-
-                $message = "There is a new trip";
+                $message = "new_trip";
                 $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
 
             }elseif ($request->status == 'canceled') {
 
-                $message = "The trip is canceled";
+                $message = "canceled_trip";
                 $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
 
             }
@@ -337,7 +335,12 @@ class TripController extends Controller
         if ($trip && $trip->status == 'Accepted') {
             $customer = User::find($trip->customer_id);
             if (!$trip->user_notified) {
-                $result = PushNotification::send([$customer->device_token] ,'arrival_message');
+                $captainFirebaseId = $trip->offers()->where('accepted',1)->firebaseId;
+
+                $trip['$captainFirebaseId'] = $$captainFirebaseId;
+                $notification_data['trip'] = $trip;
+
+                $result = PushNotification::send([$customer->device_token] ,'arrival_message',$notification_data);
                 $trip->update(['user_notified' => true]);
                 $this->updateTrip($trip ,['arrive_soon' => true]);
                 return $this->returnSuccessMessage( trans("api.customerNotifiedSuccessfully") );

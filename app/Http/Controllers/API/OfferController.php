@@ -108,8 +108,9 @@ class OfferController extends Controller
 
         }
 
+        $notification_data['trip'] = $trip ;
         $customer = User::find($trip->customer_id);
-        $result = PushNotification::send([$customer->device_token] ,'new_offer');
+        $result = PushNotification::send([$customer->device_token] ,'new_offer' , $notification_data);
 
         return $this->returnSuccessMessage( $message  );
     }

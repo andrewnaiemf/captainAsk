@@ -16,11 +16,6 @@ class PushNotification
                 $screen  = 'home_screen';
                 break;
 
-            case 'request':
-                $message = 'You have an new trip';
-                $screen  = 'request';
-                break;
-
             case 'new_trip':
                 $message = 'There is a new trip';
                 $screen  = 'new_request';
@@ -28,7 +23,7 @@ class PushNotification
 
             case 'arrival_message':
                 $message = 'the captain will arrive after 5 mins';
-                $screen  = 'arrival_message';
+                $screen  = 'track_screen';
                 break;
 
             case 'new_offer':
@@ -36,6 +31,7 @@ class PushNotification
                 $screen  = 'new_offer';
 
             default:
+                $screen  = 'home_screen';//for captain app
                 break;
         }
 

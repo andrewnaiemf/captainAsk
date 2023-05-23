@@ -52,7 +52,10 @@ class UserController extends Controller
             $this->captainDocuments(  $documents, $user );
 
             $cardetails = $request['car-plate'];
-            $this->captainCardetails(  $cardetails, $user );
+
+            if ( isset($cardetails) ) {
+                $this->captainCardetails(  $cardetails, $user );
+            }
 
         }else{
 
@@ -119,7 +122,7 @@ class UserController extends Controller
                         'status' => 'Pending'
                     ]);
                 }
-            }elseif (empty($document->path)) {
+            }elseif ( isset($document) && empty($document->path)) {
 
                 $imageName = $doc->hashName();
                 $doc->storeAs($path,$imageName);
