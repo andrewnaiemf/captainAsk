@@ -1,6 +1,7 @@
 <?php
 use Dash\Controllers\Authentication;
 use Dash\Controllers\Dashboard;
+use Dash\Controllers\ResetPassword;
 use Dash\Controllers\DashboardTools;
 use Dash\Controllers\SearchableInResouces;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,14 @@ Route::group(['middleware' => ['web']],
 
 				class, 'index'])->middleware('dash.guest');
 		Route::post('login', [Authentication::class, 'loggedin'])->name($DASHBOARD_PATH . '.login')->middleware('dash.guest');
-		Route::any('logout', [Authentication::class, 'logout'])->name($DASHBOARD_PATH . '.logout')->middleware('dash.auth');
+
+
+        Route::any('forgetpassword', [ResetPassword::class, 'forgetpassword'])->name($DASHBOARD_PATH . '.forgetpassword')->middleware('dash.guest');
+        Route::get('/reset-password/{token}', [ResetPassword::class, 'showResetForm'])->name('captainAsk.resetPassword')->middleware('dash.guest');
+        Route::post('/reset-password',  [ResetPassword::class, 'submitResetPasswordForm'])->name('captainAsk.submitResetPasswordForm')->middleware('dash.guest');
+
+
+        Route::any('logout', [Authentication::class, 'logout'])->name($DASHBOARD_PATH . '.logout')->middleware('dash.auth');
 		/////////////////////////// Guest Loggedin ////////////////////
 
 		Route::get('change/language/{lang}', [Dashboard::class, 'changeLanguage']);

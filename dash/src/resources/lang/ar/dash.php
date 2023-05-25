@@ -1,8 +1,13 @@
 <?php
 return [
+    'reset_password_box_title_btn'            => 'اضغط هنا لاعادة تعيين كلمة المرور',
+    'reset_password_box_title'            => 'اعادة تعيين كلمة المرور',
+    'send-email'                          => ' ارسال بريد الكتروني',
+    'forgetpassword'                      => 'نسيت كلمة المرور',
 	'login'                               => 'دخول لوحة القيادة',
 	'email'                               => 'البريد الالكتروني',
 	'password'                            => 'كلمة المرور',
+	'password_confirm'                     => 'تاكيد كلمة المرور',
 	'signin'                              => 'دخول',
 	'remember_me'                         => 'تذكرني',
 	'failed_login_msg'                    => 'الحساب غير موجود فى سجلاتنا',
