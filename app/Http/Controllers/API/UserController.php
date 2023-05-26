@@ -129,6 +129,13 @@ class UserController extends Controller
                 $full_path = $path.$imageName;
                 $document->update(['path'=> $full_path]);
 
+                if( $document->status == 'New'){
+                    $document->update([
+                        'status' => 'Pending'
+                    ]);
+                }
+
+
             } else {
                 $imageName = $doc->hashName();
                 $doc->storeAs($path,$imageName);
