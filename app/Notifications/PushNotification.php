@@ -41,7 +41,7 @@ class PushNotification
         $devices = $tokens;
         foreach ($devices as $tokens) {
             if( $tokens){
-                foreach (json_decode($tokens) as $token){
+                foreach ($tokens as $token){
                     array_push($devs, $token);
                 }
             }

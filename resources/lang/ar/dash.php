@@ -1,6 +1,7 @@
 <?php
 return [
 	'users' => 'المستخدمين',
+    'Trips' =>'الرحلات',
 	'admin_groups' => 'مجموعات المشرفين',
 	'admin_group_roles' => 'صلاحيات المجموعات',
     'Advertisements'=> 'الاعلانات',

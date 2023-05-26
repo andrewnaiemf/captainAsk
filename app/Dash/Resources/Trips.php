@@ -74,7 +74,7 @@ class Trips extends Resource {
 	 * @return string
 	 */
 	public static function customName() {
-		return 'Trips';
+		return __('dash.Trips');
 	}
 
 	/**
