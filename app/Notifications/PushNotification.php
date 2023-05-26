@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class PushNotification
 {
     public static function send($tokens ,$message)
-    {dd($message);
+    {
         $screen = '';
         switch ($message) {
             case 'accepted_offer':
