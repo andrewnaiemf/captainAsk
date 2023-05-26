@@ -10,6 +10,7 @@ use App\Dash\Resources\Advertisements;
 use App\Dash\Resources\Generalization;
 use App\Dash\Resources\Captains;
 use App\Dash\Resources\CaptainDocument;
+use App\Dash\Resources\Trips;
 use Dash\DashServiceProviderInit;
 
 class DashServiceProvider extends DashServiceProviderInit {
@@ -33,6 +34,7 @@ class DashServiceProvider extends DashServiceProviderInit {
 			Users::class,
             Captains::class,
             Advertisements::class,
+            Trips::class,
             Generalization::class,
             CaptainDocument::class,
 			// Admins::class,

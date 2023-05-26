@@ -24,7 +24,6 @@ class Trip extends Model
         'end_lat',
         'end_address',
         'cost',
-        'paymentMethod',
         'firebaseId',
         'distance',
         'user_notified',

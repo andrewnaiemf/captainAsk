@@ -28,4 +28,16 @@ return [
         'content' => 'المحتوي'
     ],
     'Documents' => 'المستندات',
+    'trip' => [
+        'customer' =>'العميل',
+        'captain' =>'الكابتن',
+        'service' =>'الخدمة',
+        'paymentMethod' =>'طريقة الدفع',
+        'start_address' =>'نقطة التحرك',
+        'end_address' =>'نقطة الوصول',
+        'cost' =>'التكلفة',
+        'distance' =>'المسافة',
+        'url' =>'رابط الرحلة',
+        'notes' =>'الملاحظات',
+    ]
 ];
