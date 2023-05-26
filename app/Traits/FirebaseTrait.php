@@ -38,6 +38,10 @@ trait FirebaseTrait
 
         $updateData = [];
 
+        if($trip->cost){
+            $updated_data['created_at'] = date("Y-m-d H:i:s");
+        }
+
         foreach ($updated_data as $key => $value) {
             $updateData[] = ['path' => $key, 'operator' => '=', 'value' => $value];
         }

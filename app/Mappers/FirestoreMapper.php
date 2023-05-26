@@ -29,7 +29,8 @@ class FirestoreMapper
             'min_cost' => $trip->min_cost,
             'arrive_soon' => false,
             'url' => '',
-            'is_rate' =>false
+            'is_rate' => false,
+            'created_at' => null,
         ];
     }
 }

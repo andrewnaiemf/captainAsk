@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class PushNotification
 {
     public static function send($tokens ,$message)
-    {
+    {dd($message);
         $screen = '';
         switch ($message) {
             case 'accepted_offer':
@@ -21,6 +21,11 @@ class PushNotification
                 $screen  = 'new_request';
                 break;
 
+            case 'canceled_trip':
+                $message = 'The trip is canceled';
+                $screen  = 'home_screen';
+                break;
+
             case 'arrival_message':
                 $message = 'the captain will arrive after 5 mins';
                 $screen  = 'track_screen';
@@ -29,6 +34,7 @@ class PushNotification
             case 'new_offer':
                 $message = 'You have new offer';
                 $screen  = 'new_offer';
+                break;
 
             default:
                 $screen  = 'home_screen';//for captain app
