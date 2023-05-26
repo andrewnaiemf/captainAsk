@@ -38,7 +38,7 @@ trait FirebaseTrait
 
         $updateData = [];
 
-        if($trip->cost){
+        if( $updated_data['cost'] ){
             $updated_data['created_at'] = date("Y-m-d H:i:s");
         }
 
