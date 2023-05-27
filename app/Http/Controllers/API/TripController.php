@@ -236,7 +236,7 @@ class TripController extends Controller
 
                     }
                     else{
-                        $message = trans("api.InvalidRequest") ;
+                        return $this->returnError( trans("api.InvalidRequest"));
                     }
 
                     if( $trip->status == 'Accepted' &&  in_array($request->status , ['Rejected','Started']) ||
