@@ -31,6 +31,16 @@ class PushNotification
                 $screen  = 'track_screen';
                 break;
 
+            case 'trip_finished':
+                $message = 'the trip is completed successfully';
+                $screen  = 'track_screen';
+                break;
+
+            case 'trip_startedd':
+                $message = 'the trip is started successfully';
+                $screen  = 'track_screen';
+                break;
+
             case 'new_offer':
                 $message = 'You have new offer';
                 $screen  = 'new_offer';

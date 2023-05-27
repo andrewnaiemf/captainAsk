@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Captain;
 use App\Models\CaptainService;
+use App\Models\Offer;
 use App\Traits\FirebaseTrait;
 use Illuminate\Http\Request;
 use App\Traits\GeneralTrait;
@@ -211,7 +212,7 @@ class TripController extends Controller
 
             $trip = Trip::find($id);
             $captain = Captain::find(auth()->user()->id) ;
-
+            $firebaseMessage = '';
             if ( $trip &&  !in_array($trip->status , ['Finished','Rejected'])  && $captain->account_type == 'captain') {
 
                 if ( $trip->captain_id == $captain->id ) {
@@ -225,7 +226,7 @@ class TripController extends Controller
                         }
 
                         $message = trans("api.tripFinishedSuccessfully") ;
-
+                        $firebaseMessage = 'trip_finished';
                     }else if ( $request->status == 'Rejected'  &&  $trip->status == 'Accepted' ) {
 
                         $message = trans("api.tripRejectedSuccessfully") ;
@@ -233,6 +234,7 @@ class TripController extends Controller
                     }else if ( $request->status == 'Started'  &&  $trip->status == 'Accepted' ) {
 
                         $message = trans("api.tripStartedSuccessfully") ;
+                        $firebaseMessage = 'trip_startedd';
 
                     }
                     else{
@@ -254,8 +256,14 @@ class TripController extends Controller
 
                     $trip->update(['status' => $request->status , 'captain_id' => $captain->id]);
                     $message = trans("api.tripAcceptedSuccessfully") ;
-
+                    $firebaseMessage = 'trip_startedd';
                 }
+
+                $offer = Offer::where(['firebaseId' => $id ,'captain_id' =>$request->captain_id, 'status' => 1 ])->first();
+                $captainFirebaseId = $offer->firebaseId;
+                $trip['captainFirebaseId'] = $captainFirebaseId;
+
+                $notifyDevices = PushNotification::send([$captain->device_token] , $firebaseMessage, $trip);
 
                 return $this->returnSuccessMessage( $message  );
 
