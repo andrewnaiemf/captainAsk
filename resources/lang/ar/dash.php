@@ -26,7 +26,8 @@ return [
     ],
     'Generalization' => 'رسائل التعميم',
     'generalization' => [
-        'content' => 'المحتوي'
+        'content' => 'المحتوي',
+        'send' => 'ارسال',
     ],
     'Documents' => 'المستندات',
     'trip' => [

@@ -1,5 +1,7 @@
 <?php
 namespace App\Dash\Resources;
+
+use App\Dash\Actions\NotifyGeneralization;
 use Dash\Resource;
 
 class Generalization extends Resource {
@@ -51,7 +53,7 @@ class Generalization extends Resource {
 	 * @param static property array
 	 */
 	public static $search = [
-		'id','content','title'
+		'id','content','title','status'
 	];
 
 	/**
@@ -89,7 +91,15 @@ class Generalization extends Resource {
                 ->make(__('dash.title'), 'title')
                 ->ruleWhenCreate(['string','required'])
                 ->ruleWhenUpdate(['string','required']),
-			ckeditor()->make(__('dash.generalization.content'), 'content'),
+
+
+            ckeditor()->make(__('dash.generalization.content'), 'content'),
+
+            select()
+                ->make(__('dash.status'),'status')
+                ->options([
+                    '1'=>__('dash.generalization.send'),
+                ])->hideInIndex(),
 		];
 	}
 
@@ -99,8 +109,10 @@ class Generalization extends Resource {
 	 * @return array
 	 */
 	public function actions() {
-		return [];
-	}
+		return [
+            NotifyGeneralization::class
+        ];
+    }
 
 	/**
 	 * define the filters To Using in Resource (index)
