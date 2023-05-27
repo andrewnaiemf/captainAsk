@@ -66,7 +66,7 @@ class PushNotification
             ],
             "data" => [
                 'screen' => $screen,
-                'notification_data' => $notification_data
+                'notification_data' => (array)$notification_data
             ]
         ];
 
