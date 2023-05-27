@@ -332,7 +332,7 @@ class TripController extends Controller
 
         $trip = Trip::find($id);
 
-        if ($trip && $trip->status == 'Started') {
+        if ($trip && $trip->status == 'Accepted') {
             $customer = User::find($trip->customer_id);
             if (!$trip->user_notified) {
                 $captainFirebaseId = $trip->offers()->where('accepted',1)->first()->firebaseId;
