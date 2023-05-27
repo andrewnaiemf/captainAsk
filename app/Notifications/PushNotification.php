@@ -66,7 +66,7 @@ class PushNotification
             ],
             "data" => [
                 'screen' => $screen,
-                'notification_data' => json_decode($notification_data)
+                'notification_data' => json_encode($notification_data)
             ]
         ];
 
