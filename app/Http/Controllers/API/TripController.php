@@ -259,7 +259,7 @@ class TripController extends Controller
                     $firebaseMessage = 'trip_startedd';
                 }
 
-                $offer = Offer::where(['trip_id' => $id ,'captain_id' => $trip->captain_id, 'status' => 1 ])->first();
+                $offer = Offer::where(['trip_id' => $id ,'captain_id' => $trip->captain_id, 'accepted' => 1 ])->first();
                 $captainFirebaseId = $offer->firebaseId;
                 $trip['captainFirebaseId'] = $captainFirebaseId;
 
