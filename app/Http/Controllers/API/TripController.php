@@ -300,12 +300,12 @@ class TripController extends Controller
             if ($request->status == 'Pending') {
 
                 $message = "new_trip";
-                $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+                $notifyDevices = PushNotification::send($captains_deviceTokens , $message, $trip);
 
             }elseif ($request->status == 'canceled') {
 
                 $message = "canceled_trip";
-                $notifyDevices = PushNotification::send($captains_deviceTokens , $message);
+                $notifyDevices = PushNotification::send($captains_deviceTokens, $message, $trip);
 
             }
 
@@ -332,16 +332,18 @@ class TripController extends Controller
 
         $trip = Trip::find($id);
 
-        if ($trip && $trip->status == 'Accepted') {
+        if ($trip && $trip->status == 'Started') {
             $customer = User::find($trip->customer_id);
             if (!$trip->user_notified) {
-                $captainFirebaseId = $trip->offers()->where('accepted',1)->firebaseId;
+                $captainFirebaseId = $trip->offers()->where('accepted',1)->first()->firebaseId;
 
-                $trip['$captainFirebaseId'] = $$captainFirebaseId;
-                $notification_data['trip'] = $trip;
+                $trip['captainFirebaseId'] = $captainFirebaseId;
 
-                $result = PushNotification::send([$customer->device_token] ,'arrival_message',$notification_data);
+                $result = PushNotification::send([$customer->device_token], 'arrival_message', $trip);
+
+                unset($trip['captainFirebaseId']);
                 $trip->update(['user_notified' => true]);
+
                 $this->updateTrip($trip ,['arrive_soon' => true]);
                 return $this->returnSuccessMessage( trans("api.customerNotifiedSuccessfully") );
             }

@@ -34,7 +34,7 @@ class DashServiceProvider extends DashServiceProviderInit {
 			Users::class,
             Captains::class,
             Advertisements::class,
-            // Trips::class,
+            Trips::class,
             Generalization::class,
             CaptainDocument::class,
 			// Admins::class,

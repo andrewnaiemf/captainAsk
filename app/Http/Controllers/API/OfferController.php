@@ -108,9 +108,8 @@ class OfferController extends Controller
 
         }
 
-        $notification_data['trip'] = $trip ;
         $customer = User::find($trip->customer_id);
-        $result = PushNotification::send([$customer->device_token] ,'new_offer' , $notification_data);
+        $result = PushNotification::send([$customer->device_token] ,'new_offer' , $trip);
 
         return $this->returnSuccessMessage( $message  );
     }
@@ -172,9 +171,12 @@ class OfferController extends Controller
                     'captain_id' => $request->captain_id
                 ]);
 
+                $captainFirebaseId = $offer->firebaseId;
+                $trip['captainFirebaseId'] = $captainFirebaseId;
+
                 $captain = User::find($request->captain_id);
                 //notify the captain that his offer is accepted
-                $result = PushNotification::send([$captain->device_token] ,'accepted_offer');
+                $result = PushNotification::send([$captain->device_token] ,'accepted_offer' , $trip);
             }
             $offer->update(['accepted' => $status]);
 

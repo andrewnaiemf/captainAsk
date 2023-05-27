@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Generalization;
 use App\Traits\GeneralTrait;
+use App\Notifications\PushNotification;
+use App\Models\Captain;
 
 class GeneralizationController extends Controller
 {
@@ -21,6 +23,11 @@ class GeneralizationController extends Controller
         $perPage = $request->header('per_page', 10);
         $generalizations = Generalization::getIdAndTitle();
         $generalizations =  $generalizations->simplePaginate($perPage);
+
+        // $captains_deviceTokens = Captain::whereHas('captainDetail')
+        //                                 ->where('status','Accepted')->pluck('device_token');
+        // $message = 'generalization';
+        // $notifyDevices = PushNotification::send($captains_deviceTokens, $message);
 
         return $this->returnData ( ['generalizations' => $generalizations] );
     }

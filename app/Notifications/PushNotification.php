@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class PushNotification
 {
-    public static function send($tokens ,$message)
+    public static function send($tokens ,$message, $notification_data = null)
     {
         $screen = '';
         switch ($message) {
@@ -36,6 +36,10 @@ class PushNotification
                 $screen  = 'new_offer';
                 break;
 
+            case 'generalization':
+                $message = 'You have generalization message';
+                $screen  = 'generalization';
+
             default:
                 $screen  = 'home_screen';//for captain app
                 break;
@@ -61,9 +65,11 @@ class PushNotification
                 "sound" => "notify.mp3",
             ],
             "data" => [
-                'screen' => $screen
+                'screen' => $screen,
+                'notification_data' => $notification_data
             ]
         ];
+
         $encodedData = json_encode($data);
 
         $headers = [
