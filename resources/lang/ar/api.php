@@ -28,7 +28,7 @@ return [
     'customerNotifiedSuccessfully' => 'تم اشعار العميل بنجاح',
     'Costshouldover' => 'يجب ان تكون التكلفة اكبر من ',
     'cannotstarttripnow' => 'لا يمكنك بدأ رحلة جديدة الان',
-
+    'Password_is_incorrect' => 'رقم المرور غير صحيح',
 
 
 ];

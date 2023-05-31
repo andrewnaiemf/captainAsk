@@ -108,7 +108,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|numeric',
+            'phone' => 'required|numeric|exists:users,phone',
             'password' => 'required|string|min:6',
         ]);
 
@@ -119,7 +119,8 @@ class AuthController extends Controller
         $credentials = request(['phone', 'password']);
 
         if (! $token = JWTAuth::attempt($credentials)) {
-            return $this->unauthorized();
+
+            return $this->returnError( trans("api.Password_is_incorrect"));
         }
 
         $user = auth()->user();

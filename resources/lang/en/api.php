@@ -28,4 +28,6 @@ return [
     'customerNotifiedSuccessfully' => 'The customer notified successfully',
     'Costshouldover' => 'Cost should be over ',
     'cannotstarttripnow' => 'You can not start a new trip now',
+    'Password_is_incorrect' => 'Password is incorrect',
+
 ];
