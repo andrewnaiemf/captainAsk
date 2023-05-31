@@ -236,6 +236,8 @@ class TripController extends Controller
                         $message = trans("api.tripStartedSuccessfully") ;
                         $firebaseMessage = 'trip_startedd';
 
+                        $customer_device_token = User::find( $trip->customer_id )->device_token;
+                        $devices_token =array_merge($captain->device_token, $customer_device_token);
                     }
                     else{
                         return $this->returnError( trans("api.InvalidRequest"));
@@ -263,7 +265,7 @@ class TripController extends Controller
                 $captainFirebaseId = $offer->firebaseId;
                 $trip['captainFirebaseId'] = $captainFirebaseId;
 
-                $notifyDevices = PushNotification::send([$captain->device_token] , $firebaseMessage, $trip);
+                $notifyDevices = PushNotification::send([$devices_token ?? $captain->device_token] , $firebaseMessage, $trip);
 
                 return $this->returnSuccessMessage( $message  );
 
