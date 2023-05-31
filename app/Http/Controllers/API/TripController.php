@@ -302,9 +302,10 @@ class TripController extends Controller
 
 
 
-            $captains_deviceTokens = Captain::whereHas('captainDetail', function ($query) use ($trip){
+            $captains_deviceTokens = Captain::where(['status'=>'Accepted', 'online' => true])
+            ->whereHas('captainDetail', function ($query) use ($trip){
                 $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
-            })->where('status','Accepted')->pluck('device_token');
+            })->pluck('device_token');
 
 
             if ($request->status == 'Pending') {
