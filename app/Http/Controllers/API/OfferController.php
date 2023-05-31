@@ -161,8 +161,11 @@ class OfferController extends Controller
             $trip = Trip::find($offer->trip_id);
             $this->offerFirebase($id ,$trip ,['status' => $request->status,'captain_id' => $request->captain_id]);
 
+            $captain = User::find($request->captain_id);
+
             if ($request->status == 'Decline'){
                 $status = 0;
+                $result = PushNotification::send([$captain->device_token] ,'decline_offer' , $trip);
 
             }else{
                 $status = 1;
@@ -174,7 +177,6 @@ class OfferController extends Controller
                 $captainFirebaseId = $offer->firebaseId;
                 $trip['captainFirebaseId'] = $captainFirebaseId;
 
-                $captain = User::find($request->captain_id);
                 //notify the captain that his offer is accepted
                 $result = PushNotification::send([$captain->device_token] ,'accepted_offer' , $trip);
             }

@@ -21,6 +21,11 @@ class PushNotification
                 $screen  = 'new_request';
                 break;
 
+            case 'decline_offer':
+                $message = 'There customer declined your offer';
+                $screen  = 'new_request';
+                break;
+
             case 'canceled_trip':
                 $message = 'The trip is canceled';
                 $screen  = 'home_screen';
