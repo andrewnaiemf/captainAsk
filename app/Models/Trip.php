@@ -49,7 +49,7 @@ class Trip extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->format('d/m/Y h:i A');
+        return \Carbon\Carbon::parse($value)->timezone('Asia/Riyadh')->format('d/m/Y h:i A');
     }
 
     public function getServiceNameAttribute()
