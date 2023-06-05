@@ -36,6 +36,7 @@ class Captain extends Authenticatable  implements JWTSubject{
 		'created_at',
 		'updated_at',
 		'deleted_at',
+        'agreed_terms'
 	];
 
     protected $appends = ['name' ,'captain_profile', 'rating'];
@@ -48,7 +49,7 @@ class Captain extends Authenticatable  implements JWTSubject{
           return $userArray;
       }
 
-    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService','device_token','captainCarDetail'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'name','status', 'verified', 'online' ,'phone', 'captain_profile', 'rating', 'captainDetail','documents','captainService','device_token','captainCarDetail','agreed_terms'];
 
 	protected $deleted_at = 'deleted_at';
 
@@ -166,7 +167,7 @@ class Captain extends Authenticatable  implements JWTSubject{
         $status = 'Pending' ;
 
 
-        if (   $acceptedCount == 8 && $rejectedCount == 0 ) {
+        if (  $acceptedCount == 8 && $rejectedCount == 0 ) {
             $status = 'Accepted' ;
         }
         elseif ( $rejectedCount == 8 )

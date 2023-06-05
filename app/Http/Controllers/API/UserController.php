@@ -34,6 +34,7 @@ class UserController extends Controller
 
         $user = User::find(auth()->user()->id);
         $user->update([
+            'agreed_terms' => intval(filter_var($request['agree'], FILTER_VALIDATE_BOOLEAN) ?? $user->agree),
             'online' => intval(filter_var($request['is_online'], FILTER_VALIDATE_BOOLEAN) ?? $user->online),
             'verified' => intval(filter_var($request['verified'], FILTER_VALIDATE_BOOLEAN) ?? $user->verified),
         ] + $request->except(['online', 'verified']));

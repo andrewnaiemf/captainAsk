@@ -29,6 +29,8 @@ return [
     'Costshouldover' => 'يجب ان تكون التكلفة اكبر من ',
     'cannotstarttripnow' => 'لا يمكنك بدأ رحلة جديدة الان',
     'Password_is_incorrect' => 'رقم المرور غير صحيح',
-
+    'validPhone' => 'رقم الهاتف صحيح',
+    'cantloginascaptain' => 'لا تستطيع الدخول بهذه البايانات ككابتن',
+    'cantloginasuser' => 'لا تستطيع الدخزل بهذه البيانات كعميل',
 
 ];

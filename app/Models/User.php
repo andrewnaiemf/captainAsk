@@ -35,9 +35,11 @@ class User extends Authenticatable implements JWTSubject{
 		'created_at',
 		'updated_at',
 		'deleted_at',
+        'agreed_terms'
+
 	];
 
-    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'fullname', 'verified', 'online' ,'phone' ,'customer_profile' ,'rating' ,'trip' ,'device_token'];
+    protected $visible = ['id', 'uuid', 'f_name', 'l_name', 'fullname', 'verified', 'online' ,'phone' ,'customer_profile' ,'rating' ,'trip' ,'device_token', 'agreed_terms'];
 
 
 	protected $deleted_at = 'deleted_at';

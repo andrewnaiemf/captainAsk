@@ -29,5 +29,7 @@ return [
     'Costshouldover' => 'Cost should be over ',
     'cannotstarttripnow' => 'You can not start a new trip now',
     'Password_is_incorrect' => 'Password is incorrect',
-
+    'validPhone' => 'Your phone is valid',
+    'cantloginascaptain' => 'You can not login as a captain',
+    'cantloginasuser' => 'You can not login as a user',
 ];

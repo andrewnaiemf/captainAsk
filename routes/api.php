@@ -38,6 +38,7 @@ Route::group([
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('validate_phone', [AuthController::class, 'validate_phone']);
 
 Route::post('reset_password', [AuthController::class, 'reset']);
 

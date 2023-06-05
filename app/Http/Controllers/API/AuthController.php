@@ -127,21 +127,39 @@ class AuthController extends Controller
 
         $this->device_token($request->device_token);
 
-        if (auth()->user()->account_type == 'captain') {
+        if (auth()->user()->account_type == 'captain' && $request->type == 'captain') {
             $user = Captain::find($user->id);
             $user->load('captainDetail');
             $user->load('captainCarDetail');
             $user->load('documents');
-        }else{
+        }
+        elseif(auth()->user()->account_type == 'user' && $request->type == 'user'){
             $trip = auth()->user()->trips()->whereIn('status', ['Accepted' ,'Pending','Started'])
             ->with('offers' , function ($q){
                 $q->where('accepted' ,1);
             })
             ->first();
             $user['trip'] = $trip;
+        }else{
+
+            return $this->returnError( trans("api.cantloginas".$request->type));
+
         }
 
         return $this->respondWithToken($token ,$user );
+    }
+
+    public function validate_phone(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|numeric|unique:users',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+        return $this->returnSuccessMessage( trans("api.validPhone") );
+
     }
 
     /**
@@ -159,8 +177,21 @@ class AuthController extends Controller
             $user->load('captainCarDetail');
             $user->load('documents');
 
-            $msg = $user->status == 'Pending' ? "dataIsPending" : "dataIsRejected";
-            return $this->returnData(['user' => $user ] ,trans("api.". $msg));
+            $msg =$user->status == 'Pending' ? "api.dataIsPending" : "api.dataIsRejected";
+
+            $areAllDocumentsNew = true;
+            foreach ($user->documents as $document) {
+                if ($document->status != 'New') {
+                    $areAllDocumentsNew = false;
+                    break;
+                }
+            }
+
+            if (empty($user->captain_car_detail) && $areAllDocumentsNew) {
+                $msg = "";
+            }
+
+            return $this->returnData(['user' => $user ] ,trans($msg));
         }else{
             $user = User::find(auth()->user()->id);
             return $this->returnData(['user' => $user ]);

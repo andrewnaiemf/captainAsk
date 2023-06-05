@@ -21,13 +21,8 @@ class GeneralizationController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->header('per_page', 10);
-        $generalizations = Generalization::getIdAndTitle();
+        $generalizations = Generalization::getData();
         $generalizations =  $generalizations->simplePaginate($perPage);
-
-        // $captains_deviceTokens = Captain::whereHas('captainDetail')
-        //                                 ->where('status','Accepted')->pluck('device_token');
-        // $message = 'generalization';
-        // $notifyDevices = PushNotification::send($captains_deviceTokens, $message);
 
         return $this->returnData ( ['generalizations' => $generalizations] );
     }
@@ -61,7 +56,7 @@ class GeneralizationController extends Controller
      */
     public function show($id)
     {
-        $generalization = Generalization::find($id);
+        $generalization = Generalization::getDataById($id);
 
         return $this->returnData ( ['generalization' => $generalization] );
     }
