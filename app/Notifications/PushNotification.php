@@ -54,7 +54,7 @@ class PushNotification
             case 'generalization':
                 $message = 'You have generalization message';
                 $screen  = 'generalization';
-
+                break;
             default:
                 $screen  = 'home_screen';//for captain app
                 break;
