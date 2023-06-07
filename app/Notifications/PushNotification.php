@@ -55,6 +55,12 @@ class PushNotification
                 $message = 'You have generalization message';
                 $screen  = 'generalization';
                 break;
+
+            case 'rating':
+                $message = 'Thank you for your rating';
+                $screen  = 'home_screen';
+                break;
+
             default:
                 $screen  = 'home_screen';//for captain app
                 break;
@@ -78,6 +84,7 @@ class PushNotification
                 "body" => $message,
                 "title" => 'Captain ask',
                 "sound" => "notify.mp3",
+                "tag" => "notification"
             ],
             "data" => [
                 'screen' => $screen,

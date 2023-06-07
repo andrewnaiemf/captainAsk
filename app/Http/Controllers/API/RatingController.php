@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Rating;
 use App\Models\Trip;
+use App\Notifications\PushNotification;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -66,6 +67,8 @@ class RatingController extends Controller
                 'feedback' => $request->feedback,
                 'rated_by_customer_id' => $user->id
             ]);
+
+            PushNotification::send([$devices_token ?? $user->device_token] ,'rating');
 
             return $this->returnSuccessMessage( trans("api.ratingSetSuccessfully") );
 
