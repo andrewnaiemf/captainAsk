@@ -58,6 +58,7 @@ class RatingController extends Controller
         $rate = Rating::where(['trip_id' => $request->trip_id , 'user_id' =>  $user_id])->first();
 
 
+
         if( ! isset($rate)) {
 
             Rating::create([
