@@ -38,7 +38,7 @@ class PushNotification
 
             case 'trip_finished':
                 $message = 'the trip is completed successfully';
-                $screen  = 'track_screen';
+                $screen  = 'rate_screen';
                 break;
 
             case 'trip_startedd':
