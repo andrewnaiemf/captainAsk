@@ -12,52 +12,52 @@ class PushNotification
         $screen = '';
         switch ($message) {
             case 'accepted_offer':
-                $message = trans('Your_offer_is_accepted');
+                $message = trans('api.Your_offer_is_accepted');
                 $screen  = 'home_screen';
                 break;
 
             case 'new_trip':
-                $message = trans('There_is_a_new_trip');
+                $message = trans('api.There_is_a_new_trip');
                 $screen  = 'new_request';
                 break;
 
             case 'decline_offer':
-                $message = trans('There_customer_declined_your_offer');
+                $message = trans('api.There_customer_declined_your_offer');
                 $screen  = 'new_request';
                 break;
 
             case 'canceled_trip':
-                $message = trans('The_trip_is_canceled');
+                $message = trans('api.The_trip_is_canceled');
                 $screen  = 'home_screen';
                 break;
 
             case 'arrival_message':
-                $message = trans('the_captain_will_arrive_after_5_mins');
+                $message = trans('api.the_captain_will_arrive_after_5_mins');
                 $screen  = 'track_screen';
                 break;
 
             case 'trip_finished':
-                $message = trans('the_trip_is_completed_successfully');
+                $message = trans('api.the_trip_is_completed_successfully');
                 $screen  = 'rate_screen';
                 break;
 
             case 'trip_startedd':
-                $message = trans('the_trip_is_started_successfully');
+                $message = trans('api.the_trip_is_started_successfully');
                 $screen  = 'track_screen';
                 break;
 
             case 'new_offer':
-                $message = trans('You_have_new_offer');
+                $message = trans('api.You_have_new_offer');
                 $screen  = 'new_offer';
                 break;
 
             case 'generalization':
-                $message = trans('You_have_generalization_message');
+                $message = trans('api.You_have_generalization_message');
                 $screen  = 'generalization';
                 break;
 
             case 'rating':
-                $message = trans('Thank_you_for_your_rating');
+                $message = trans('api.Thank_you_for_your_rating');
                 $screen  = 'home_screen';
                 break;
 
