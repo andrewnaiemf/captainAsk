@@ -13,6 +13,8 @@ use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\TripController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\RatingController;
+use Illuminate\Http\Response;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,9 +48,9 @@ Route::get('app/status', function ()  {
 
     $lunched = false;
 
-    return [
+    return response()->json([
         'lunched' => $lunched
-    ];
+    ], Response::HTTP_OK);
 
 });
 
