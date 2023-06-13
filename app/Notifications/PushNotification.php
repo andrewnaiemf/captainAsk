@@ -12,52 +12,52 @@ class PushNotification
         $screen = '';
         switch ($message) {
             case 'accepted_offer':
-                $message = 'Your offer is accepted';
+                $message = trans('Your_offer_is_accepted');
                 $screen  = 'home_screen';
                 break;
 
             case 'new_trip':
-                $message = 'There is a new trip';
+                $message = trans('There_is_a_new_trip');
                 $screen  = 'new_request';
                 break;
 
             case 'decline_offer':
-                $message = 'There customer declined your offer';
+                $message = trans('There_customer_declined_your_offer');
                 $screen  = 'new_request';
                 break;
 
             case 'canceled_trip':
-                $message = 'The trip is canceled';
+                $message = trans('The_trip_is_canceled');
                 $screen  = 'home_screen';
                 break;
 
             case 'arrival_message':
-                $message = 'the captain will arrive after 5 mins';
+                $message = trans('the_captain_will_arrive_after_5_mins');
                 $screen  = 'track_screen';
                 break;
 
             case 'trip_finished':
-                $message = 'the trip is completed successfully';
+                $message = trans('the_trip_is_completed_successfully');
                 $screen  = 'rate_screen';
                 break;
 
             case 'trip_startedd':
-                $message = 'the trip is started successfully';
+                $message = trans('the_trip_is_started_successfully');
                 $screen  = 'track_screen';
                 break;
 
             case 'new_offer':
-                $message = 'You have new offer';
+                $message = trans('You_have_new_offer');
                 $screen  = 'new_offer';
                 break;
 
             case 'generalization':
-                $message = 'You have generalization message';
+                $message = trans('You_have_generalization_message');
                 $screen  = 'generalization';
                 break;
 
             case 'rating':
-                $message = 'Thank you for your rating';
+                $message = trans('Thank_you_for_your_rating');
                 $screen  = 'home_screen';
                 break;
 

@@ -32,5 +32,14 @@ return [
     'validPhone' => 'رقم الهاتف صحيح',
     'cantloginascaptain' => 'لا تستطيع الدخول بهذه البايانات ككابتن',
     'cantloginasuser' => 'لا تستطيع الدخزل بهذه البيانات كعميل',
-
+    'Your_offer_is_accepted' => 'Your_offer_is_accepted',
+    'There_is_a_new_trip' => 'There_is_a_new_trip',
+    'There_customer_declined_your_offer' => 'لقد رفض العميل العرض',
+    'The_trip_is_canceled' => 'تم الغاء الرحلة',
+    'the_captain_will_arrive_after_5_mins' => 'سوف يصل الكابتن بعد خمس دقائق',
+    'the_trip_is_completed_successfully' => 'تم انهاء الرحلة بنجاح',
+    'the_trip_is_started_successfully' => 'تم بدأ الرحلة بنجاح',
+    'You_have_new_offer' => 'لديك عرض جديد',
+    'You_have_generalization_message' => 'لديك رسالة تعميم جديدة',
+    'Thank_you_for_your_rating' => 'شكرا لك على تقييمك'
 ];

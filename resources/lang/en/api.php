@@ -32,4 +32,14 @@ return [
     'validPhone' => 'Your phone is valid',
     'cantloginascaptain' => 'You can not login as a captain',
     'cantloginasuser' => 'You can not login as a user',
+    'Your_offer_is_accepted' => 'Your offer is accepted',
+    'There_is_a_new_trip' => 'There is a new trip',
+    'There_customer_declined_your_offer' => 'There customer declined your offer',
+    'The_trip_is_canceled' => 'The trip is canceled',
+    'the_captain_will_arrive_after_5_mins' => 'the captain will arrive after 5 mins',
+    'the_trip_is_completed_successfully' => 'the trip is completed successfully',
+    'the_trip_is_started_successfully' => 'the trip is started successfully',
+    'You_have_new_offer' => 'You have new offer',
+    'You_have_generalization_message' => 'You have generalization message',
+    'Thank_you_for_your_rating' => 'Thank you for your rating'
 ];
