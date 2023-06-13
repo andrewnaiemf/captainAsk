@@ -42,6 +42,16 @@ Route::post('validate_phone', [AuthController::class, 'validate_phone']);
 
 Route::post('reset_password', [AuthController::class, 'reset']);
 
+Route::get('app/status', function ()  {
+
+    $lunched = false;
+
+    return [
+        'lunched' => $lunched
+    ];
+
+});
+
 });
 
 
@@ -86,16 +96,5 @@ Route::group([
 
 
     Route::get('trip/notify/{id}', [TripController::class, 'notify']);
-
-
-    Route::get('app/status', function ()  {
-
-        $lunched = false;
-
-        return [
-            'lunched' => $lunched
-        ];
-
-    });
 
 });
