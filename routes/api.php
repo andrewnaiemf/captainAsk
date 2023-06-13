@@ -87,4 +87,15 @@ Route::group([
 
     Route::get('trip/notify/{id}', [TripController::class, 'notify']);
 
+
+    Route::get('app/status', function ()  {
+
+        $lunched = false;
+
+        return [
+            'lunched' => $lunched
+        ];
+
+    });
+
 });
