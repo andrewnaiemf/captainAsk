@@ -291,6 +291,7 @@ class TripController extends Controller
                 return $this->returnError( trans("api.Costshouldover") . $trip->min_cost);
             }
 
+            $trip->status = $trip->status ?? 'Pending';
             $trip->update([
                 'paymentMethod' => $request->paymentMethod,
                 'cost' => $request->cost,
