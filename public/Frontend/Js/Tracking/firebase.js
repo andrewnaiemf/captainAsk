@@ -5,6 +5,94 @@ var tripId = segments[segments.length - 1];
 var map;
 var marker
 
+var customMapStyle =[
+    {
+      "featureType": "administrative",
+      "stylers": [
+        {
+          "color": "#ebebeb"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#ebebeb"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#ebebeb"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.country",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#ebebeb"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.country",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#ebebeb"
+        }
+      ]
+    },
+    {
+      "featureType": "road.arterial",
+      "stylers": [
+        {
+          "color": "#ffffff"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "stylers": [
+        {
+          "color": "#ffffff"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway.controlled_access",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#c0c0c0"
+        }
+      ]
+    },
+    {
+      "featureType": "road.local",
+      "stylers": [
+        {
+          "color": "#ffffff"
+        }
+      ]
+    },
+    {
+      "featureType": "transit",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#ebebeb"
+        }
+      ]
+    }
+  ] ;
 
 function initMap() {
 
@@ -13,7 +101,9 @@ function initMap() {
 
     var mapOptions = {
         center: startPoint, // Default map center
-        zoom: 15 // Default zoom level
+        zoom: 15, // Default zoom level
+        styles: customMapStyle
+
     };
 
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
