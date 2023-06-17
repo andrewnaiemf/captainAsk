@@ -108,9 +108,43 @@ function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
+
+       // Create custom marker icons
+       var startIcon = {
+        url: '../../../Frontend/images/A.png', // Replace with the path to your start marker image
+        scaledSize: new google.maps.Size(35, 35), // Adjust the size of the image as needed
+        anchor: new google.maps.Point(17.5, 20) // Adjust the anchor point to position the image correctly
+
+    };
+
+    var endIcon = {
+        url: '../../../Frontend/images/B.png', // Replace with the path to your end marker image
+        scaledSize: new google.maps.Size(35, 35), // Adjust the size of the image as needed
+        anchor: new google.maps.Point(17.5, 20) // Adjust the anchor point to position the image correctly
+
+    };
+
+
+
+    // Create start and end markers
+    var startMarker = new google.maps.Marker({
+        position: startPoint,
+        map: map,
+        icon: startIcon
+    });
+
+    var endMarker = new google.maps.Marker({
+        position: endPoint,
+        map: map,
+        icon: endIcon
+    });
+
+
+
     // Draw route between start and end points
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
+
 
     var routeOptions = {
         origin: startPoint,
@@ -121,6 +155,12 @@ function initMap() {
     directionsService.route(routeOptions, function(result, status) {
         if (status === 'OK') {
         directionsDisplay.setDirections(result);
+        directionsDisplay.setOptions({
+            polylineOptions: {
+            strokeColor: '#000000'
+            },
+            suppressMarkers: true,
+        });
         }
     });
 
