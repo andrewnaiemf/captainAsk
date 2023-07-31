@@ -49,7 +49,7 @@ Route::get('app/status', function ()  {
     $lunched = false;
 
     return response()->json([
-        'lunched' => $lunched
+        'lunched' => true
     ], Response::HTTP_OK);
 
 });
