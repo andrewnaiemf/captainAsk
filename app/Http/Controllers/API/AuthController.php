@@ -48,7 +48,8 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'status' => 'New',
                 'online' => 1,
-                'verified' => 0
+                'verified' => 0,
+                "device_token"=> $request->device_token
             ]);
 
             $user->update(['account_type'=>'captain' ]);
@@ -65,7 +66,7 @@ class AuthController extends Controller
                     'captain_id' => $user->id,
                     'name' => $document,
                     'type' => $document,
-                    'path' => '',
+                    'path' => $document == 'Profile' ? 'default/default.png'  : '',
                     'status' => 'New'
                 ]);
             }
