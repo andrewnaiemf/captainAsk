@@ -104,12 +104,12 @@ trait FirebaseTrait
                 'lat' => $offerData['lat'],
                 'lng' => $offerData['lng'],
                 'is_tracking' => false,
-                'car_color' =>  $carDetals->color,
-                'car_model' =>  $carDetals->model,
-                'car_arabic_number' =>  $carDetals->arabic_number,
-                'car_arabic_letters' =>  $carDetals->arabic_letters,
-                'car_english_number' =>  $carDetals->english_number,
-                'car_english_letters' =>  $carDetals->english_letters,
+                'car_color' =>  $carDetals->color ?? '',
+                'car_model' =>  $carDetals->model ?? '',
+                'car_arabic_number' =>  $carDetals->arabic_number ?? '',
+                'car_arabic_letters' =>  $carDetals->arabic_letters ?? '',
+                'car_english_number' =>  $carDetals->english_number ?? '',
+                'car_english_letters' =>  $carDetals->english_letters ?? '',
                 'locale' => $captain->locale,
                 'device_token' => $captain->device_token
             ]);

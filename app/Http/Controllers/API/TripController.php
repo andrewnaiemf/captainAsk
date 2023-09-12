@@ -234,10 +234,12 @@ class TripController extends Controller
                     }else if ( $request->status == 'Started'  &&  $trip->status == 'Accepted' ) {
 
                         $message = trans("api.tripStartedSuccessfully") ;
-                        $firebaseMessage = 'trip_startedd';
+                        $firebaseMessage = 'trip_started';
 
                         $customer_device_token = User::find( $trip->customer_id )->device_token;
-                        $devices_token =array_merge($captain->device_token, $customer_device_token);
+                        $customer = User::find( $trip->customer_id );
+                        // $devices_token =array_merge($captain->device_token, $customer_device_token);
+                        $users =array_merge($captain, $customer);
                     }
                     else{
                         return $this->returnError( trans("api.InvalidRequest"));
@@ -258,14 +260,15 @@ class TripController extends Controller
 
                     $trip->update(['status' => $request->status , 'captain_id' => $captain->id]);
                     $message = trans("api.tripAcceptedSuccessfully") ;
-                    $firebaseMessage = 'trip_startedd';
+                    $firebaseMessage = 'trip_started';
                 }
 
                 $offer = Offer::where(['trip_id' => $id ,'captain_id' => $trip->captain_id, 'accepted' => 1 ])->first();
                 $captainFirebaseId = $offer->firebaseId;
                 $trip['captainFirebaseId'] = $captainFirebaseId;
 
-                $notifyDevices = PushNotification::send([$devices_token ?? $captain->device_token] , $firebaseMessage, $trip);
+                // $notifyDevices = PushNotification::send([$devices_token ?? $captain->device_token] , $firebaseMessage, $trip);
+                $this->sendTripNotification($users ?? [$captain],  $firebaseMessage, $trip);
 
                 return $this->returnSuccessMessage( $message  );
 
@@ -277,7 +280,7 @@ class TripController extends Controller
             $validator=Validator::make($request->all(), [
                 'paymentMethod' => 'required|in:cash,card',
                 'cost' => 'required|numeric|between:0,999999',
-                'status' => 'nullable|in:canceled'
+                'status' => 'nullable|in:canceled,Pending'
             ]);
 
             if ($validator->fails()) {
@@ -312,29 +315,70 @@ class TripController extends Controller
 
 
 
-            $captains_deviceTokens = Captain::where(['status'=>'Accepted', 'online' => true])
+            // $captains_deviceTokens = Captain::where(['status'=>'Accepted', 'online' => true])
+            // ->whereHas('captainDetail', function ($query) use ($trip){
+            //     $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
+            // })->pluck('device_token');
+
+            $captains = Captain::where(['status'=>'Accepted', 'online' => true])
             ->whereHas('captainDetail', function ($query) use ($trip){
                 $query->where(['service_id'=> $trip->service_id , 'is_busy' => false]);
-            })->pluck('device_token');
+            })->get();
 
 
             if ($request->status == 'Pending') {
 
-                $message = "new_trip";
-                $notifyDevices = PushNotification::send($captains_deviceTokens , $message, $trip);
-
+                // $message = "new_trip";
+                $screen = "new_trip";
+                // $notifyDevices = PushNotification::send($captains_deviceTokens , $message, $trip);
+                $this->sendTripNotification($captains,  $screen, $trip);
             }elseif ($request->status == 'canceled') {
 
-                $message = "canceled_trip";
-                $notifyDevices = PushNotification::send($captains_deviceTokens, $message, $trip);
+                // $message = "canceled_trip";
+                $screen = "canceled_trip";
+                // $notifyDevices = PushNotification::send($captains_deviceTokens, $message, $trip);
+                $this->sendTripNotification($captains,  $screen, $trip);
 
             }
-
 
             return $this->returnData($trip);
         }
 
+    }
 
+    private function sendTripNotification($recievers, $screen, $trip)
+    {
+        $msg = '';
+        foreach ($recievers as $i => $reciever) {
+            $user = User::findOrFail($reciever->id);
+            app()->setLocale($user->locale);
+
+            switch ($screen) {
+                case 'new_trip':
+
+                    $msg = trans('api.There_is_a_new_trip');
+                    $screen = 'new_request';
+                    break;
+                case 'canceled_trip':
+                    $msg = trans('api.The_trip_is_canceled');
+                    $screen = 'home_screen';
+                    break;
+                case 'arrival_message':
+                    $msg = trans('api.the_captain_will_arrive_after_5_mins');
+                    $screen = 'track_screen';
+                    break;
+                case 'trip_started':
+                    $msg = trans('api.the_trip_is_started_successfully');
+                    $screen = 'track_screen';
+                    break;
+                case 'trip_finished':
+                    $msg = trans('api.the_trip_is_completed_successfully');
+                    $screen = 'rate_screen';
+                    break;
+            }
+            // dd($user, $screen, $msg, $trip);
+            PushNotification::sendNew($user, $screen, $msg, $trip);
+        }
 
     }
     /**
@@ -360,7 +404,8 @@ class TripController extends Controller
 
                 $trip['captainFirebaseId'] = $captainFirebaseId;
 
-                $result = PushNotification::send([$customer->device_token], 'arrival_message', $trip);
+                // $result = PushNotification::send([$customer->device_token], 'arrival_message', $trip);
+                $this->sendTripNotification([$customer],  'arrival_message', $trip);
 
                 unset($trip['captainFirebaseId']);
                 $trip->update(['user_notified' => true]);

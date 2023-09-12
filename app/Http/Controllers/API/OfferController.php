@@ -109,9 +109,39 @@ class OfferController extends Controller
         }
 
         $customer = User::find($trip->customer_id);
-        $result = PushNotification::send([$customer->device_token] ,'new_offer' , $trip);
+        // $result = PushNotification::send([$customer->device_token] ,'new_offer' , $trip);
+        $this->sendOfferNotification([$customer], 'new_offer', $trip);
 
         return $this->returnSuccessMessage( $message  );
+    }
+
+    private function sendOfferNotification($recievers, $screen, $trip)
+    {
+        $msg = '';
+        foreach ($recievers as $reciever) {
+            $user = User::findOrFail($reciever->id);
+            app()->setLocale($user->locale);
+
+            switch ($screen) {
+                case 'new_offer':
+                    $msg = trans('api.You_have_new_offer');
+                    $screen = 'new_offer';
+                    break;
+
+                case 'accepted_offer':
+                    $msg = trans('api.Your_offer_is_accepted');
+                    $screen = 'home_screen';
+                    break;
+
+                case 'decline_offer':
+                    $msg = trans('api.There_customer_declined_your_offer');
+                    $screen = 'new_request';
+                    break;
+            }
+
+            PushNotification::sendNew($user, $screen, $msg, $trip);
+        }
+
     }
 
     /**
@@ -165,7 +195,8 @@ class OfferController extends Controller
 
             if ($request->status == 'Decline'){
                 $status = 0;
-                $result = PushNotification::send([$captain->device_token] ,'decline_offer' , $trip);
+                // $result = PushNotification::send([$captain->device_token] ,'decline_offer' , $trip);
+                $this->sendOfferNotification([$captain], 'decline_offer', $trip);
 
             }else{
                 $status = 1;
@@ -178,7 +209,9 @@ class OfferController extends Controller
                 $trip['captainFirebaseId'] = $captainFirebaseId;
 
                 //notify the captain that his offer is accepted
-                $result = PushNotification::send([$captain->device_token] ,'accepted_offer' , $trip);
+                // $result = PushNotification::send([$captain->device_token] ,'accepted_offer' , $trip);
+                $this->sendOfferNotification([$captain], 'accepted_offer', $trip);
+
             }
             $offer->update(['accepted' => $status]);
 
