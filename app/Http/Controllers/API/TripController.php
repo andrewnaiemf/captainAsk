@@ -239,7 +239,7 @@ class TripController extends Controller
                         $customer_device_token = User::find( $trip->customer_id )->device_token;
                         $customer = User::find( $trip->customer_id );
                         // $devices_token =array_merge($captain->device_token, $customer_device_token);
-                        $users =array_merge($captain, $customer);
+                        $users = [$captain, $customer];
                     }
                     else{
                         return $this->returnError( trans("api.InvalidRequest"));
