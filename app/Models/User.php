@@ -139,7 +139,7 @@ class User extends Authenticatable implements JWTSubject{
             return $this->customerDetail->profile_picture;
         }
 
-        return "storage/default/default.png";
+        return "default/default.png";
     }
 
     public function getRatingAttribute()
