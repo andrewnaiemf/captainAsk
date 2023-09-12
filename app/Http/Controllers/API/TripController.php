@@ -290,7 +290,7 @@ class TripController extends Controller
 
             $trip = Trip::find($id);
 
-            if($request->cost <  $trip->min_cost){
+            if( !isset($request->status) && ($request->cost <  $trip->min_cost)){
                 return $this->returnError( trans("api.Costshouldover") . $trip->min_cost);
             }
 
