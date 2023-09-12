@@ -27,6 +27,7 @@ return [
     'You_do_not_have_enough_points_balance_in_your_wallet' => 'ليس لديك رصيد كافي من النقاط في محفظتك',
     'customerNotifiedSuccessfully' => 'تم اشعار العميل بنجاح',
     'Costshouldover' => 'يجب ان تكون التكلفة اكبر من ',
+    'HaveNotEnoughWallet' => 'ليس لديك مال كاف في المحفظة',
     'cannotstarttripnow' => 'لا يمكنك بدأ رحلة جديدة الان',
     'Password_is_incorrect' => 'رقم المرور غير صحيح',
     'validPhone' => 'رقم الهاتف صحيح',

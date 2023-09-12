@@ -27,6 +27,7 @@ return [
     'You_do_not_have_enough_points_balance_in_your_wallet' => 'You do not have enough points balance in your wallet',
     'customerNotifiedSuccessfully' => 'The customer notified successfully',
     'Costshouldover' => 'Cost should be over ',
+    'HaveNotEnoughWallet' => 'You have not enough money on Wallet',
     'cannotstarttripnow' => 'You can not start a new trip now',
     'Password_is_incorrect' => 'Password is incorrect',
     'validPhone' => 'Your phone is valid',

@@ -291,6 +291,15 @@ class TripController extends Controller
                 return $this->returnError( trans("api.Costshouldover") . $trip->min_cost);
             }
 
+            $customer = User::find(auth()->user()->id);
+            if($request->paymentMethod == 'card'){
+
+                if (!isset($customer->customerDetail) || $request->cost >  $customer->customerDetail->wallet) {
+                    return $this->returnError( trans("api.HaveNotEnoughWallet") );
+                }
+
+            }
+
             $trip->status = $trip->status ?? 'Pending';
             $trip->update([
                 'paymentMethod' => $request->paymentMethod,
