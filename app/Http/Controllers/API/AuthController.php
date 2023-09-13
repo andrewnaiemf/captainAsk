@@ -49,7 +49,8 @@ class AuthController extends Controller
                 'status' => 'New',
                 'online' => 1,
                 'verified' => 0,
-                "device_token"=> $request->device_token
+                "device_token"=> $request->device_token,
+                'locale' => $request->header('locale', 'ar')
             ]);
 
             $user->update(['account_type'=>'captain' ]);
@@ -84,7 +85,8 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'online' => 1,
                 'verified' => 0,
-                'device_token' => $request->device_token
+                'device_token' => $request->device_token,
+                'locale' => $request->header('locale', 'ar')
             ]);
 
         }
@@ -125,6 +127,7 @@ class AuthController extends Controller
         }
 
         $user = auth()->user();
+        $user->update(['locale' => $request->header('locale', 'ar')]);
 
         $this->device_token($request->device_token);
 
