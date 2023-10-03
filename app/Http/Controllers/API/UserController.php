@@ -113,8 +113,8 @@ class UserController extends Controller
             // ->where('path' ,'!=', '' )
             ->first();
 
-            if ( !empty($document->path) ) {
-                $segments = explode('/', $document->path);
+            $segments = explode('/', $document->path);
+            if ( !empty($document->path) && isset($segments[2])) {
                 $imageName = $segments[2];
                 $doc->storeAs($path,$imageName);
 
@@ -123,7 +123,7 @@ class UserController extends Controller
                         'status' => 'Pending'
                     ]);
                 }
-            }elseif ( isset($document) && empty($document->path)) {
+            }elseif ( isset($document) && (empty($document->path) || $segments[0] == 'default')) {
 
                 $imageName = $doc->hashName();
                 $doc->storeAs($path,$imageName);
