@@ -376,7 +376,7 @@ class TripController extends Controller
                     $screen = 'rate_screen';
                     break;
             }
-            // dd($user, $screen, $msg, $trip);
+
             PushNotification::sendNew($user, $screen, $msg, $trip);
         }
 
