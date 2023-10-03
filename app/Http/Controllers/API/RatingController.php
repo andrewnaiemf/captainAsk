@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Rating;
 use App\Models\Trip;
+use App\Models\User;
 use App\Notifications\PushNotification;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
@@ -57,6 +58,11 @@ class RatingController extends Controller
         $user_id = $user->account_type == 'captain' ? $trip->customer_id : $trip->captain_id ;
         $rate = Rating::where(['trip_id' => $request->trip_id , 'user_id' =>  $user_id])->first();
 
+        if ($user->account_type == 'captain') {
+            $reciever = User::find($trip->captain_id);
+        }else{
+            $reciever = User::find($trip->customer_id);
+        }
 
 
         if( ! isset($rate)) {
@@ -69,7 +75,9 @@ class RatingController extends Controller
                 'rated_by_customer_id' => $user->id
             ]);
 
-            PushNotification::send([$devices_token ?? $user->device_token] ,'rating');
+            $message = trans('api.Thank_you_for_your_rating');
+            $screen  = 'home_screen';
+            PushNotification::sendNew($reciever, $screen, $message, $trip);
 
             return $this->returnSuccessMessage( trans("api.ratingSetSuccessfully") );
 
