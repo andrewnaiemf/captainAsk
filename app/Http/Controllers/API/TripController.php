@@ -417,4 +417,86 @@ class TripController extends Controller
         return $this->returnError( trans("api.InvalidRequest"));
 
     }
+
+    public function third_party_trip(Request $request){
+        $validator=Validator::make($request->all(), [
+            'service_id' => 'required|in:3',
+            'start_address' => 'required',
+            'start_lat' => 'required',
+            'start_lng' => 'required',
+            'end_address' => 'required',
+            'end_lat' => 'required',
+            'end_lng' => 'required',
+            'notes' => 'required',
+            'paymentMethod' => 'required|in:cash',
+            'cost' => 'required|numeric|between:0,999999',
+            'user_wallet' => 'required',
+            'app_name' => 'required',
+            'customer_profile' => 'required',
+            'name' => 'required',
+            'rate' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->returnValidationError(401,$validator->errors()->all());
+        }
+        $isThirdParty = $request->has('app_name');
+
+        $order = $this->storeTrip($request, $request->user_wallet, $isThirdParty);
+        return $order;
+    }
+
+    public function storeTrip($request, $user_wallet, $isThirdParty)
+    {
+        $data = [];
+        $origin = $request->start_lat .', ' .$request->start_lng;
+        $destination = $request->end_lat .', ' .$request->end_lng;
+        $location = $this->getDistance($origin, $destination);
+        $distance = $location['distanceInKilometers'];
+
+        if ($isThirdParty) {//third party logic
+            $min_cost = $cost = $request->cost;
+        }else{//captain ask logic
+
+            if ($distance){
+                $cost = ceil($distance * 10) ; // 10 SAR per 1 kilo
+                $min_cost = $cost - 5 ;
+
+            }else{
+                return $this->returnError( trans("api.InvalidRequest"));
+            }
+        }
+
+        $data['wallet'] = $user_wallet;
+        $data['can_pay'] = false;
+        $data['min_cost'] = $min_cost;
+        $data['cost'] = $cost;
+
+        if ($user_wallet > $min_cost)
+        {
+            $data['can_pay'] = true;
+        }
+        $request['distance'] = $distance;
+        $request['notes'] = $request->notes ?? null;
+        $request['min_cost'] = $min_cost;
+        $trip = Trip::create($request->all());
+        $data['trip'] = $trip;
+
+        if ($isThirdParty) {
+            $trip->customer_profile = $request->customer_profile;
+            $trip->name = $request->name;
+            $trip->rate = $request->rate;
+        }
+
+        $docId = $this->addNewTrip($trip);//pass the trip to firebase trait and return its id
+
+        if ($isThirdParty) {//third party logic
+            unset( $trip->customer_profile, $trip->name, $trip->rate);
+        }
+
+        $trip->update(['firebaseId' => $docId]);
+
+        return $this->returnData($data);
+
+    }
 }
