@@ -15,7 +15,7 @@ class CreateTripsTable extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('captain_id')->nullable();
             $table->string('start_address')->nullable();
             $table->decimal('start_lat', 10, 8)->nullable();
