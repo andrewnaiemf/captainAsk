@@ -31,6 +31,7 @@ class FirestoreMapper
             'url' => '',
             'is_rate' => false,
             'created_at' => null,
+            'app_name' => $trip->app_name ?? 'captainAsk',
         ];
     }
 }

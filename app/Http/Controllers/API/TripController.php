@@ -486,12 +486,13 @@ class TripController extends Controller
             $trip->customer_profile = $request->customer_profile;
             $trip->name = $request->name;
             $trip->rate = $request->rate;
+            $trip->app_name = $request->app_name;
         }
 
         $docId = $this->addNewTrip($trip);//pass the trip to firebase trait and return its id
 
         if ($isThirdParty) {//third party logic
-            unset( $trip->customer_profile, $trip->name, $trip->rate);
+            unset( $trip->customer_profile, $trip->name, $trip->rate, $trip->app_name);
         }
 
         $trip->update(['firebaseId' => $docId]);
