@@ -22,7 +22,7 @@ class FirestoreMapper
             'paymentMethod' => $trip->paymentMethod,
             'cost' => $trip->cost,
             'status' => $trip->status,
-            'customer_picture' => $trip->customer_profile ?? (auth()->user()->account_type == 'user' ? auth()->user()->customer_profile : ''),
+            'customer_picture' => $trip->customer_picture ?? (auth()->user()->account_type == 'user' ? auth()->user()->customer_profile : ''),
             'name' => $trip->name ?? auth()->user()->fullname,
             'rate' => $trip->rate ?? auth()->user()->rating,
             'notes' => $trip->notes ?? null,
