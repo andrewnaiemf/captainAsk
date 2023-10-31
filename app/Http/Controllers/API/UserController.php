@@ -93,7 +93,7 @@ class UserController extends Controller
             'f_name' => 'string|max:255',
             'l_name' => 'string|max:255',
             'service_id' => 'in:1,2,3,4,5',
-            'documents.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'documents.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20048',
             'car-plate.*' => 'string|max:255',
         ]);
 
