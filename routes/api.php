@@ -49,7 +49,7 @@ Route::group([
             $lunched = false;
 
             return response()->json([
-                'lunched' => false
+                'lunched' => true
             ], Response::HTTP_OK);
 
         });
