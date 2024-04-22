@@ -49,11 +49,11 @@ Route::group([
             $lunched = false;
 
             return response()->json([
-                'lunched' => true
+                'lunched' => false
             ], Response::HTTP_OK);
 
         });
-        
+
         Route::post('third_party_trip', [TripController::class, 'third_party_trip']);
     });
 
