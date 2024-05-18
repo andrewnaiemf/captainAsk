@@ -46,7 +46,7 @@ Route::group([
 
         Route::get('app/status', function ()  {
 
-            $status = true;
+            $status = false;
 
             return response()->json([
                 'lunched' => $status
